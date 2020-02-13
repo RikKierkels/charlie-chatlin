@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node",
-    "validate": "node"
+    "start": "echo start",
+    "validate": "echo validate"
   }
 }

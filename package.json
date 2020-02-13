@@ -8,9 +8,9 @@
     }
   },
   "scripts": {
-    "install": "run-p install:client install:server",
-    "install:client": "cd client && npm i",
-    "install:server": "cd server && npm i",
+    "setup": "run-p setup:client setup:server",
+    "setup:client": "cd client && npm i",
+    "setup:server": "cd server && npm i",
     "start": "run-p start:client start:server",
     "start:client": "cd client && npm run start",
     "start:server": "cd server && npm run start",
