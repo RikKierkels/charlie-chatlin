@@ -1,0 +1,47 @@
+{
+  "name": "charlie-chatlin",
+  "version": "0.1.0",
+  "description": "Chat application for the Mediaan Masterclass.",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run validate"
+    }
+  },
+  "scripts": {
+    "install": "run-p install:client install:server",
+    "install:client": "cd client && npm i",
+    "install:server": "cd server && npm i",
+    "start": "run-p start:client start:server",
+    "start:client": "cd client && npm run start",
+    "start:server": "cd server && npm run start",
+    "build": "run-p build:client",
+    "build:client": "cd client && npm run build --prod",
+    "validate": "run-p validate:client validate:server",
+    "validate:client": "cd client && npm run validate",
+    "validate:server": "cd server && npm run validate"
+  },
+  "contributors": [
+    {
+      "name": "Ceriel Posthumus"
+    },
+    {
+      "name": "Ricardo Kloth"
+    },
+    {
+      "name": "Rik Kierkels"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RikKierkels/charlie-chatlin"
+  },
+  "bugs": {
+    "url": "https://github.com/RikKierkels/charlie-chatlin/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/RikKierkels/charlie-chatlin",
+  "devDependencies": {
+    "husky": "4.2.0",
+    "npm-run-all": "4.1.5"
+  }
+}
