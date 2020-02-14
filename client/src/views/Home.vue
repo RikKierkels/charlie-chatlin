@@ -1,18 +1,30 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <p>sup this is doggydizzydog</p>
+    <button @click="handleClick">hello</button>
+    <connection-status-bar />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import Chat from '@/utils/chat';
+import ConnectionStatusBar from '@/components/connection-status-bar';
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    ConnectionStatusBar
+  },
+  mounted() {},
+  methods: {
+    handleClick() {
+      Chat.sayHello();
+    }
+  },
+  computed: {
+    ...mapGetters(['connectionStatus'])
   }
 };
 </script>
