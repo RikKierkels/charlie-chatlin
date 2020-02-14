@@ -1,22 +1,22 @@
-import chalk from "chalk";
-import io from "socket.io";
-import * as http from "http";
-import UserService from "./user";
+import chalk from 'chalk';
+import io from 'socket.io';
+import * as http from 'http';
+import UserService from './user';
 
 const log = console.log;
 const server = http.createServer();
 const socket = io(server);
 
-socket.on("connection", client => {
+socket.on('connection', client => {
   log(`client connected... ${chalk.red(client.id)}`);
 
-  client.on("register", UserService.register);
+  client.on('register', (user, callback) => UserService.register(user, client.id, callback));
 
-  client.on("disconnect", () => {
+  client.on('disconnect', () => {
     log(`client disconnected... ${chalk.red(client.id)}`);
   });
 
-  client.on("error", error => {
+  client.on('error', error => {
     log(`client threw error: ${chalk.red(client.id)}`);
     log(error);
   });
@@ -24,5 +24,5 @@ socket.on("connection", client => {
 
 server.listen(3000, error => {
   if (error) throw error;
-  log(chalk.blue("listening on port: 3000"));
+  log(chalk.blue('listening on port: 3000'));
 });
