@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "echo start",
-    "validate": "npx semistandard"
+    "start": "node -r esm server.js"
+  },
+  "dependencies": {
+    "socket.io": "2.3.0",
+    "esm": "3.2.25",
+    "chalk": "3.0.0"
   },
   "devDependencies": {
-    "semistandard": "14.2.0"
+    "prettier": "1.19.1"
   }
 }

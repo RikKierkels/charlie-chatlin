@@ -16,9 +16,8 @@
     "start:server": "cd server && npm run start",
     "build": "run-p build:client",
     "build:client": "cd client && npm run build --prod",
-    "validate": "run-p validate:client validate:server",
-    "validate:client": "cd client && npm run validate",
-    "validate:server": "cd server && npm run validate"
+    "validate": "run-p validate:client",
+    "validate:client": "cd client && npm run validate"
   },
   "contributors": [
     {
