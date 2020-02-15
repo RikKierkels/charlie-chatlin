@@ -1,8 +1,9 @@
 'use strict';
+
 import chalk from 'chalk';
 import io from 'socket.io';
 import * as http from 'http';
-import UserService from './user';
+import { handleRegister, handleDisconnect } from './handlers';
 
 const log = console.log;
 const server = http.createServer();
@@ -12,10 +13,11 @@ socket.on('connection', client => {
   log(`client connected... ${chalk.red(client.id)}`);
 
   client.on('register', (user, callback) =>
-    UserService.register(user, client.id, callback)
+    handleRegister(user, client.id, callback)
   );
 
   client.on('disconnect', () => {
+    handleDisconnect(client.id);
     log(`client disconnected... ${chalk.red(client.id)}`);
   });
 
