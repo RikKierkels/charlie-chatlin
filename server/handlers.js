@@ -1,21 +1,29 @@
 'use strict';
-import UserService from './user-service';
+import ClientService from './client-service';
+import MessageService from './message-service';
 
 export function makeHandlers(client) {
   function handleRegister(user, callback) {
     try {
-      callback(null, UserService.register(user, client.id));
+      callback(null, ClientService.register(user, client));
     } catch (e) {
       callback(e.message);
     }
   }
 
   function handleMessage(message, callback) {
-    console.log(message);
+    try {
+      const user = ClientService.getUserByClientId(client.id);
+      message = MessageService.saveMessage(message, user);
+      ClientService.broadcastMessage(message);
+      callback(null);
+    } catch (e) {
+      callback(e.message);
+    }
   }
 
   function handleDisconnect() {
-    UserService.unregister(client.id);
+    ClientService.unregister(client.id);
   }
 
   return {

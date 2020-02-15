@@ -2,6 +2,7 @@
   <div>
     <p>sup this is doggydizzydog</p>
     <button @click="handleClick">hello</button>
+    <button @click="handleRegister">register</button>
     <connection-status-bar />
   </div>
 </template>
@@ -20,6 +21,9 @@ export default {
   methods: {
     handleClick() {
       Chat.sayHello();
+    },
+    handleRegister() {
+      Chat.register();
     }
   },
   computed: {
