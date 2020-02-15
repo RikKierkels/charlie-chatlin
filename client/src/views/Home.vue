@@ -23,7 +23,9 @@ export default {
       Chat.sayHello();
     },
     handleRegister() {
-      Chat.register();
+      const username = `KlothieMcTothie-${Date.now()}`;
+      const avatarId = `KlothieMcTothie-${Date.now()}`;
+      Chat.register(username, avatarId);
     }
   },
   computed: {

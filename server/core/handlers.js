@@ -1,11 +1,15 @@
 'use strict';
-import ClientService from './client-service';
-import MessageService from './message-service';
+import ClientService from '../services/client-service';
+import MessageService from '../services/message-service';
 
 export function makeHandlers(client) {
   function handleRegister(user, callback) {
     try {
-      callback(null, ClientService.register(user, client));
+      const response = {
+        user: ClientService.register(user, client),
+        chatHistory: MessageService.getChatHistory()
+      };
+      callback(null, response);
     } catch (e) {
       callback(e.message);
     }

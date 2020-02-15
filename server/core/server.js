@@ -4,6 +4,7 @@ import io from 'socket.io';
 import * as http from 'http';
 import { makeHandlers } from './handlers';
 
+const PORT = 3000;
 const log = console.log;
 const server = http.createServer();
 const socket = io(server);
@@ -30,7 +31,7 @@ socket.on('connection', client => {
   });
 });
 
-server.listen(3000, error => {
+server.listen(PORT, error => {
   if (error) throw error;
-  log(chalk.blue('listening on port: 3000'));
+  log(chalk.blue(`listening on port: ${PORT}`));
 });

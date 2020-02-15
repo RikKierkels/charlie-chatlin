@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node -r esm server.js"
+    "start": "node -r esm core/server.js"
   },
   "dependencies": {
     "socket.io": "2.3.0",
