@@ -16,12 +16,29 @@ socket.on('disconnect', () => {
   );
 });
 
+socket.on('message', message => {
+  console.log(message);
+});
+
 socket.on('error', error => {
   console.error('! Error on socket: ', error);
 });
 
+function register(username, avatarId) {
+  socket.emit('register', { username, avatarId }, (error, success) => {
+    console.log('error', error);
+    console.log('success', success);
+  });
+}
+
+function sayHello() {
+  socket.emit('message', `hi this is dog! ${Date.now()}`, (error, success) => {
+    console.log('error', error);
+    console.log('success', success);
+  });
+}
+
 export default {
-  sayHello() {
-    socket.emit('hello', 'hi this is dog!');
-  }
+  register,
+  sayHello
 };
