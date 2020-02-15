@@ -9,7 +9,6 @@
 <script>
 import Chat from '@/utils/chat';
 import ConnectionStatusBar from '@/components/connection-status-bar';
-
 import { mapGetters } from 'vuex';
 
 export default {
