@@ -17,7 +17,11 @@ socket.on('disconnect', () => {
 });
 
 socket.on('message', message => {
-  console.log(message);
+  console.log('message', message);
+});
+
+socket.on('user-joined', user => {
+  console.log('user-joined', user);
 });
 
 socket.on('error', error => {

@@ -1,5 +1,7 @@
 'use strict';
 
+import { getCurrentDate } from '../utils/utils';
+
 const clients = new Map();
 
 function register(user, client) {
@@ -33,9 +35,19 @@ function broadcastMessage(message) {
     .forEach(client => client.emit('message', message));
 }
 
+function broadcastUser(clientId, user) {
+  [...clients.values()]
+    .map(c => c.client)
+    .filter(client => client.id !== clientId)
+    .forEach(client => {
+      client.emit('user-joined', { ...user, joinedOn: getCurrentDate() });
+    });
+}
+
 export default {
   register,
   unregister,
   getUserByClientId,
-  broadcastMessage
+  broadcastMessage,
+  broadcastUser
 };
