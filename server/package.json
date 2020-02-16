@@ -6,9 +6,10 @@
     "start": "node -r esm core/server.js"
   },
   "dependencies": {
-    "socket.io": "2.3.0",
+    "chalk": "3.0.0",
     "esm": "3.2.25",
-    "chalk": "3.0.0"
+    "express": "4.17.1",
+    "socket.io": "2.3.0"
   },
   "devDependencies": {
     "prettier": "1.19.1"
