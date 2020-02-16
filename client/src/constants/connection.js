@@ -3,7 +3,7 @@ const Actions = {
 };
 
 const Mutations = {
-  SET_STATUS: 'connection.set-status'
+  SET_STATE: 'connection.set-state'
 };
 
 export default {

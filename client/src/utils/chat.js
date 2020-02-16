@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import store from '@/store';
+
 import Connection from '@/constants/connection';
 import ConnectionStates from '@/constants/connection-states';
 

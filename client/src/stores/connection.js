@@ -10,12 +10,12 @@ const getters = {
 
 const actions = {
   [Connection.Actions.STATE_CHANGED]({ commit }, data) {
-    commit(Connection.Mutations.SET_STATUS, data);
+    commit(Connection.Mutations.SET_STATE, data);
   }
 };
 
 const mutations = {
-  [Connection.Mutations.SET_STATUS](state, payload) {
+  [Connection.Mutations.SET_STATE](state, payload) {
     state.connectionStatus = payload;
   }
 };
