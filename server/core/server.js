@@ -4,10 +4,11 @@ import * as http from 'http';
 import io from 'socket.io';
 import webPush from 'web-push';
 import chalk from 'chalk';
+import cors from 'cors';
 import { makeHandlers } from './handlers';
 
 const log = console.log;
-const app = express();
+const app = express().use(cors());
 const server = http.createServer(app);
 const socket = io(server);
 
