@@ -5,12 +5,15 @@
       <!--<register-background /> -->
       <!-- <h1>Select your avatar</h1> -->
       <select-avatar />
-      <button>Register and enter chatroom</button>
+      <button :disabled="!isAbleToRegister" @click="handleRegister">
+        Register and enter chatroom
+      </button>
     </div>
   </Container>
 </template>
 
 <script>
+import Chat from '@/utils/chat';
 import Container from '@/components/container';
 import SelectAvatar from '@/components/register/select-avatar';
 //import RegisterBackground from '@/components/design/register-background.vue';
@@ -21,6 +24,19 @@ export default {
     SelectAvatar,
     Container
     //RegisterBackground
+  },
+  computed: {
+    selectedAvatar() {
+      return this.$store.getters.selectedAvatar;
+    },
+    isAbleToRegister() {
+      return this.selectedAvatar != null;
+    }
+  },
+  methods: {
+    handleRegister() {
+      Chat.register(this.selectedAvatar);
+    }
   }
 };
 </script>
@@ -73,6 +89,10 @@ export default {
       margin: 70px auto;
       text-align: center;
       display: block;
+
+      &:disabled {
+        opacity: 0.7;
+      }
     }
   }
 }

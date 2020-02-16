@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import SelectAvatarItem from '@/components/register/select-avatar-item';
 
 export default {
@@ -24,7 +23,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['avatars'])
+    avatars() {
+      return this.$store.getters.avatars;
+    }
   }
 };
 </script>

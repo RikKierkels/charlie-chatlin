@@ -3,9 +3,12 @@
     class="item"
     @click="handleSelect"
     :style="getBackgroundImage()"
-    :class="{ selected: isSelected }"
+    :class="{
+      'selected': avatar.isSelected,
+      'not-available': !avatar.isAvailable
+    }"
   >
-    <div class="check-icon-container" :class="{ selected: isSelected }">
+    <div class="check-icon-container" :class="{ selected: avatar.isSelected }">
       <font-awesome-icon class="icon" :icon="['fas', 'check']" />
     </div>
 
@@ -15,7 +18,10 @@
 </template>
 
 <script>
-import Register from '@/constants/register';
+/* TO-DO:
+  some serious huge refactor
+  */
+import Actions from '@/constants/actions';
 
 export default {
   name: 'SelectAvatarItem',
@@ -30,19 +36,7 @@ export default {
       return `background-image: url(${this.avatar.image})`;
     },
     handleSelect() {
-      this.$store.dispatch(Register.Actions.SELECT_AVATAR, this.avatar);
-    }
-  },
-  computed: {
-    selectedAvatar() {
-      return this.$store.getters.selectedAvatar;
-    },
-    isSelected() {
-      if (this.selectedAvatar) {
-        return this.selectedAvatar.id === this.avatar.id;
-      } else {
-        return null;
-      }
+      this.$store.dispatch(Actions.SELECT_AVATAR, this.avatar);
     }
   }
 };
@@ -76,13 +70,18 @@ export default {
     position: absolute;
     bottom: 0px;
     padding: 20px;
-    color: darken($spindle, 8%);
+    color: $spindle;
     font-weight: 600;
     line-height: 1.6em;
     transition: all 200ms cubic-bezier(0.2, 0.81, 0.4, 0.85);
     font-size: 0.9em;
 
     opacity: 1;
+  }
+
+  &.not-available {
+    opacity: 0.5;
+    transform: scale(0.8);
   }
 
   .check-icon-container {
