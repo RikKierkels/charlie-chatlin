@@ -1,5 +1,9 @@
 <template>
-  <div class="avatar" :class="{ large: large, medium: medium, small: small }">
+  <div
+    class="avatar"
+    v-if="avatar"
+    :class="{ large: large, medium: medium, small: small }"
+  >
     <img :src="avatar.image" />
   </div>
 </template>
@@ -8,8 +12,8 @@
 export default {
   name: 'Avatar',
   props: {
-    avatar: {
-      type: Object,
+    avatarId: {
+      type: String,
       required: true
     },
     large: {
@@ -23,6 +27,11 @@ export default {
     small: {
       type: Boolean,
       required: false
+    }
+  },
+  computed: {
+    avatar() {
+      return this.$store.getters.avatars.find(a => a.id === this.avatarId);
     }
   }
 };
