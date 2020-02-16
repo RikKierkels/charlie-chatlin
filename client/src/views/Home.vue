@@ -3,6 +3,7 @@
     <p>sup this is doggydizzydog</p>
     <button @click="handleClick">hello</button>
     <button @click="handleRegister">register</button>
+    <button @click="logAva">ava</button>
     <connection-status-bar />
   </div>
 </template>
@@ -26,10 +27,16 @@ export default {
       const username = `KlothieMcTothie-${Date.now()}`;
       const avatarId = `KlothieMcTothie-${Date.now()}`;
       Chat.register(username, avatarId);
+    },
+    logAva() {
+      console.log('avatars', this.avatars);
     }
   },
   computed: {
-    ...mapGetters(['connectionStatus'])
+    ...mapGetters(['connectionStatus', 'avatars']),
+    isRegistered() {
+      return false;
+    }
   }
 };
 </script>

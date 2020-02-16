@@ -1,38 +1,49 @@
 import io from 'socket.io-client';
 import store from '@/store';
-import Connection from '@/constants/connection';
+
+import Actions from '@/constants/actions';
+
 import ConnectionStates from '@/constants/connection-states';
 
 let socket = io.connect('http://localhost:3000');
 
 socket.on('connect', () => {
-  store.dispatch(Connection.Actions.STATE_CHANGED, ConnectionStates.CONNECTED);
+  store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
 });
 
 socket.on('disconnect', () => {
   store.dispatch(
-    Connection.Actions.STATE_CHANGED,
+    Actions.CONNECTION_STATE_CHANGED,
     ConnectionStates.DISCONNECTED
   );
 });
 
 socket.on('message', message => {
-  console.log('message', message);
+  store.dispatch(Actions.MESSAGE_RECEIVED, message);
 });
 
 socket.on('user-joined', user => {
-  console.log('user-joined', user);
+  store.dispatch(Actions.USER_JOINED, user);
 });
 
 socket.on('error', error => {
   console.error('! Error on socket: ', error);
 });
 
-function register(username, avatarId) {
-  socket.emit('register', { username, avatarId }, (error, success) => {
-    console.log('error', error);
-    console.log('success', success);
-  });
+function register(avatar) {
+  socket.emit(
+    'register',
+    { username: avatar.username, avatarId: avatar.id },
+    (error, success) => {
+      if (success != null) {
+        store.dispatch(Actions.REGISTER_SUCCESS, success.user);
+        store.dispatch(Actions.CHATHISTORY_RECEIVED, success.chatHistory);
+      } else if (error != null) {
+        // store.dispatch(Actions.REGISTER_FAILED, error);
+        console.log('regsitertion failed error', error);
+      }
+    }
+  );
 }
 
 function sayHello() {

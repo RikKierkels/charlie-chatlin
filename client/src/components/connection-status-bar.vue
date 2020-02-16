@@ -16,9 +16,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/variables';
+
 .connection-status-bar {
   display: block;
+  position: fixed;
+  bottom: 0px;
   width: 100%;
+  width: fit-content;
   height: 50px;
 
   color: white;
@@ -35,15 +40,15 @@ export default {
   }
 
   &.connecting {
-    background-color: rgb(255, 174, 0);
+    background-color: $yellow-sea;
   }
 
   &.connected {
-    background-color: rgb(137, 212, 23);
+    background-color: $lima;
   }
 
   &.disconnected {
-    background-color: rgb(255, 0, 98);
+    background-color: $rose;
   }
 }
 </style>

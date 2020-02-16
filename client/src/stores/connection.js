@@ -1,4 +1,5 @@
-import Connection from '@/constants/connection';
+import Actions from '@/constants/actions';
+import Mutations from '@/constants/mutations';
 
 const state = {
   connectionStatus: null
@@ -9,13 +10,13 @@ const getters = {
 };
 
 const actions = {
-  [Connection.Actions.STATE_CHANGED]({ commit }, data) {
-    commit(Connection.Mutations.SET_STATUS, data);
+  [Actions.CONNECTION_STATE_CHANGED]({ commit }, data) {
+    commit(Mutations.SET_CONNECTION_STATE, data);
   }
 };
 
 const mutations = {
-  [Connection.Mutations.SET_STATUS](state, payload) {
+  [Mutations.SET_CONNECTION_STATE](state, payload) {
     state.connectionStatus = payload;
   }
 };
