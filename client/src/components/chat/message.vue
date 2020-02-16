@@ -1,7 +1,8 @@
 <template>
   <div class="message" v-if="message">
-    <avatar small :avatarId="message.avatarId" />
-    <p>{{ message.text }}</p>
+    <avatar small :avatarId="message.sender.avatarId" />
+    <p style="margin: 0px 20px;">{{ message.text }}</p>
+    <p>{{ message.sentOn }}</p>
   </div>
 </template>
 
