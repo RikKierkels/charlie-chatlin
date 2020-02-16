@@ -1,11 +1,18 @@
 'use strict';
+import { generateId, getCurrentDate } from '../utils/utils';
 
 let chatHistory = [];
 
 function saveMessage(message, user) {
-  message = { message, user, timestamp: Date.now() };
-  chatHistory = [...chatHistory, message];
-  return message;
+  const chatMessage = {
+    id: generateId(),
+    text: message,
+    sentOn: getCurrentDate(),
+    sender: user
+  };
+
+  chatHistory = [...chatHistory, chatMessage];
+  return chatMessage;
 }
 
 function getChatHistory() {
