@@ -27,6 +27,15 @@ export function makeHandlers(client) {
     }
   }
 
+  function handlePushSubscription(subscription, callback) {
+    try {
+      ClientService.saveSubscription(client.id, subscription);
+      callback(null);
+    } catch (e) {
+      callback(e);
+    }
+  }
+
   function handleDisconnect() {
     ClientService.unregister(client.id);
   }
@@ -34,6 +43,7 @@ export function makeHandlers(client) {
   return {
     handleRegister,
     handleMessage,
+    handlePushSubscription,
     handleDisconnect
   };
 }

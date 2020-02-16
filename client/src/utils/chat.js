@@ -42,7 +42,15 @@ function sayHello() {
   });
 }
 
+function pushSubscription(subscription) {
+  socket.emit('push-subscription', subscription, (error, success) => {
+    console.log('error', error);
+    console.log('success', success);
+  });
+}
+
 export default {
   register,
-  sayHello
+  sayHello,
+  pushSubscription
 };

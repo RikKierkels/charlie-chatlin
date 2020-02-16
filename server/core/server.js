@@ -25,13 +25,18 @@ app.get('/vapid', (req, res) => {
 socket.on('connection', client => {
   log(`client connected... ${chalk.red(client.id)}`);
 
-  const { handleRegister, handleMessage, handleDisconnect } = makeHandlers(
-    client
-  );
+  const {
+    handleRegister,
+    handleMessage,
+    handlePushSubscription,
+    handleDisconnect
+  } = makeHandlers(client);
 
   client.on('register', handleRegister);
 
   client.on('message', handleMessage);
+
+  client.on('push-subscription', handlePushSubscription);
 
   client.on('disconnect', () => {
     log(`client disconnected... ${chalk.red(client.id)}`);

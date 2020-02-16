@@ -24,9 +24,11 @@ function unregister(clientId) {
 }
 
 function getUserByClientId(id) {
-  if (!clients.has(id)) throw new Error('Client does not exist.');
+  const client = clients.get(id);
 
-  return clients.get(id).user;
+  if (!client) throw new Error('Client does not exist.');
+
+  return client.user;
 }
 
 function broadcastMessage(message) {
@@ -44,10 +46,19 @@ function broadcastUser(clientId, user) {
     });
 }
 
+function saveSubscription(clientId, subscription) {
+  const client = clients.get(clientId);
+
+  if (!client) throw new Error('Client does not exist.');
+
+  clients.set(clientId, { ...client, subscription });
+}
+
 export default {
   register,
   unregister,
   getUserByClientId,
   broadcastMessage,
-  broadcastUser
+  broadcastUser,
+  saveSubscription
 };
