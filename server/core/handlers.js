@@ -9,6 +9,7 @@ export function makeHandlers(client) {
         user: ClientService.register(user, client),
         chatHistory: MessageService.getChatHistory()
       };
+      ClientService.broadcastUser(client.id, response.user);
       callback(null, response);
     } catch (e) {
       callback(e.message);
