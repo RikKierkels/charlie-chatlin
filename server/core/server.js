@@ -2,17 +2,23 @@
 import express from 'express';
 import * as http from 'http';
 import io from 'socket.io';
+import webPush from 'web-push';
 import chalk from 'chalk';
 import { makeHandlers } from './handlers';
 
-const PORT = 3000;
 const log = console.log;
 const app = express();
 const server = http.createServer(app);
 const socket = io(server);
 
+webPush.setVapidDetails(
+  'https://www.charlie-chatlin.com',
+  process.env.VAPID_KEY_PUBLIC,
+  process.env.VAPID_KEY_PRIVATE
+);
+
 app.get('/vapid', (req, res) => {
-  res.send('working');
+  res.json({ key: process.env.VAPID_KEY_PUBLIC });
 });
 
 socket.on('connection', client => {
@@ -37,7 +43,7 @@ socket.on('connection', client => {
   });
 });
 
-server.listen(PORT, error => {
+server.listen(process.env.PORT, error => {
   if (error) throw error;
-  log(chalk.blue(`listening on port: ${PORT}`));
+  log(chalk.blue(`listening on port: ${process.env.PORT}`));
 });
