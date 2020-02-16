@@ -46,6 +46,13 @@ function register(avatar) {
   );
 }
 
+function sendMessage(m) {
+  socket.emit('message', m, (error, success) => {
+    console.log('error', error);
+    console.log('success', success);
+  });
+}
+
 function sayHello() {
   socket.emit('message', `hi this is dog! ${Date.now()}`, (error, success) => {
     console.log('error', error);
@@ -55,5 +62,6 @@ function sayHello() {
 
 export default {
   register,
-  sayHello
+  sayHello,
+  sendMessage
 };

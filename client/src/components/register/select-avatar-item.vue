@@ -36,7 +36,9 @@ export default {
       return `background-image: url(${this.avatar.image})`;
     },
     handleSelect() {
-      this.$store.dispatch(Actions.SELECT_AVATAR, this.avatar);
+      if (this.avatar.isAvailable) {
+        this.$store.dispatch(Actions.SELECT_AVATAR, this.avatar);
+      }
     }
   }
 };
