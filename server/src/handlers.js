@@ -1,15 +1,17 @@
 'use strict';
-import ClientService from '../services/client-service';
-import MessageService from '../services/message-service';
-
-export function makeHandlers(client) {
+module.exports = function makeHandlers(
+  client,
+  clientService,
+  messageService,
+  pushService
+) {
   function handleRegister(user, callback) {
     try {
       const response = {
-        user: ClientService.register(user, client),
-        chatHistory: MessageService.getChatHistory()
+        user: clientService.register(user, client),
+        chatHistory: messageService.getChatHistory()
       };
-      ClientService.broadcastUser(client.id, response.user);
+      clientService.broadcastUser(client.id, response.user);
       callback(null, response);
     } catch (e) {
       callback(e.message);
@@ -18,9 +20,9 @@ export function makeHandlers(client) {
 
   function handleMessage(message, callback) {
     try {
-      const user = ClientService.getUserByClientId(client.id);
-      message = MessageService.saveMessage(message, user);
-      ClientService.broadcastMessage(message);
+      const user = clientService.getUserByClientId(client.id);
+      message = messageService.saveMessage(message, user);
+      clientService.broadcastMessage(message);
       callback(null);
     } catch (e) {
       callback(e.message);
@@ -29,7 +31,7 @@ export function makeHandlers(client) {
 
   function handlePushSubscription(subscription, callback) {
     try {
-      ClientService.saveSubscription(client.id, subscription);
+      clientService.saveSubscription(client.id, subscription);
       callback(null);
     } catch (e) {
       callback(e);
@@ -37,7 +39,7 @@ export function makeHandlers(client) {
   }
 
   function handleDisconnect() {
-    ClientService.unregister(client.id);
+    clientService.unregister(client.id);
   }
 
   return {
@@ -46,4 +48,4 @@ export function makeHandlers(client) {
     handlePushSubscription,
     handleDisconnect
   };
-}
+};

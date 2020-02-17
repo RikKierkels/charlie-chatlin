@@ -1,4 +1,6 @@
-export function generateId() {
+'use strict';
+
+function generateId() {
   return (
     '_' +
     Math.random()
@@ -7,6 +9,11 @@ export function generateId() {
   );
 }
 
-export function getCurrentDate() {
+function getCurrentDate() {
   return new Date().toISOString();
 }
+
+module.exports = {
+  generateId,
+  getCurrentDate
+};

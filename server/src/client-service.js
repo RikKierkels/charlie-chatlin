@@ -1,7 +1,6 @@
 'use strict';
 
-import { getCurrentDate } from '../utils/utils';
-
+const { getCurrentDate } = require('./utils');
 const clients = new Map();
 
 function register(user, client) {
@@ -54,7 +53,7 @@ function saveSubscription(clientId, subscription) {
   clients.set(clientId, { ...client, subscription });
 }
 
-export default {
+module.exports = {
   register,
   unregister,
   getUserByClientId,

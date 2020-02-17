@@ -1,28 +1,26 @@
 'use strict';
-import express from 'express';
-import * as http from 'http';
-import io from 'socket.io';
-import webPush from 'web-push';
-import chalk from 'chalk';
-import cors from 'cors';
-import { makeHandlers } from './handlers';
 
 const log = console.log;
-const app = express().use(cors());
-const server = http.createServer(app);
-const socket = io(server);
+const chalk = require('chalk');
+const webPush = require('web-push');
 
-webPush.setVapidDetails(
-  'https://www.charlie-chatlin.com',
-  process.env.VAPID_KEY_PUBLIC,
-  process.env.VAPID_KEY_PRIVATE
-);
+const cors = require('cors');
+const app = require('express')();
+app.use(cors());
+
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+const makeHandlers = require('./handlers');
+const clientService = require('./client-service');
+const messageService = require('./message-service');
+const pushService = require('./push-service')(webPush);
 
 app.get('/vapid', (req, res) => {
   res.json({ key: process.env.VAPID_KEY_PUBLIC });
 });
 
-socket.on('connection', client => {
+io.on('connection', client => {
   log(`client connected... ${chalk.red(client.id)}`);
 
   const {
@@ -30,7 +28,7 @@ socket.on('connection', client => {
     handleMessage,
     handlePushSubscription,
     handleDisconnect
-  } = makeHandlers(client);
+  } = makeHandlers(client, clientService, messageService, pushService);
 
   client.on('register', handleRegister);
 

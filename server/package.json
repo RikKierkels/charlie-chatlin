@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config -r esm core/server.js"
+    "start": "node -r dotenv/config src/server.js"
   },
   "dependencies": {
     "chalk": "3.0.0",
     "cors": "2.8.5",
     "dotenv": "8.2.0",
-    "esm": "3.2.25",
     "express": "4.17.1",
     "socket.io": "2.3.0",
     "web-push": "3.4.3"
