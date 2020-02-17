@@ -1,6 +1,6 @@
 'use strict';
-import { generateId, getCurrentDate } from '../utils/utils';
 
+const { generateId, getCurrentDate } = require('./utils');
 let chatHistory = [];
 
 function saveMessage(message, user) {
@@ -19,7 +19,7 @@ function getChatHistory() {
   return [...chatHistory];
 }
 
-export default {
+module.exports = {
   saveMessage,
   getChatHistory
 };
