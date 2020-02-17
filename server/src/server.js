@@ -2,7 +2,6 @@
 
 const log = console.log;
 const chalk = require('chalk');
-const webPush = require('web-push');
 
 const cors = require('cors');
 const app = require('express')();
@@ -14,7 +13,7 @@ const io = require('socket.io')(server);
 const makeHandlers = require('./handlers');
 const clientService = require('./client-service');
 const messageService = require('./message-service');
-const pushService = require('./push-service')(webPush);
+const pushService = require('./push-service')();
 
 app.get('/vapid', (req, res) => {
   res.json({ key: process.env.VAPID_KEY_PUBLIC });

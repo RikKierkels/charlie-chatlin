@@ -55,6 +55,7 @@ export default {
             .then(async function(subscription) {
               // If a subscription was found, return it.
               if (subscription) {
+                console.log(subscription);
                 return subscription;
               }
 
