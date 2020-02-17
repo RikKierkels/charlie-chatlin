@@ -4,7 +4,7 @@ const { getCurrentDate } = require('./utils');
 const clients = new Map();
 
 function register(user, client) {
-  const users = [...clients.values()].map(c => c.user);
+  const users = getUsers();
 
   if (users.some(u => u.username === user.username)) {
     throw new Error('Username is already taken.');
@@ -16,6 +16,10 @@ function register(user, client) {
 
   clients.set(client.id, { client, user });
   return user;
+}
+
+function getUsers() {
+  return [...clients.values()].map(c => c.user);
 }
 
 function unregister(clientId) {
@@ -53,6 +57,7 @@ function getClients() {
 module.exports = {
   register,
   unregister,
+  getUsers,
   getUserByClientId,
   broadcastMessage,
   broadcastUserJoined,

@@ -30,6 +30,13 @@ socket.on('error', error => {
   console.error('! Error on socket: ', error);
 });
 
+function getRegisteredUsers() {
+  socket.emit('registered-users', null, (error, success) => {
+    console.log(error);
+    console.log(success);
+  });
+}
+
 function register(avatar) {
   socket.emit(
     'register',
@@ -68,6 +75,7 @@ function pushSubscription(subscription) {
 }
 
 export default {
+  getRegisteredUsers,
   register,
   sayHello,
   pushSubscription,
