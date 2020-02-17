@@ -38,6 +38,10 @@ module.exports = function makeHandlers(
     pushService.saveSubscription(client.id, subscription);
   }
 
+  function handleGetRegisteredUsers(_, callback) {
+    callback(null, clientService.getUsers());
+  }
+
   function handleDisconnect() {
     clientService.unregister(client.id);
     pushService.removeSubscription(client.id);
@@ -47,6 +51,7 @@ module.exports = function makeHandlers(
     handleRegister,
     handleMessage,
     handlePushSubscription,
+    handleGetRegisteredUsers,
     handleDisconnect
   };
 };
