@@ -3,30 +3,45 @@ const log = console.log;
 const chalk = require('chalk');
 const webPush = require('web-push');
 
-module.exports = function(notificationTimeToLive = 5) {
+module.exports = function({ timeToLive } = { timeToLive: 5 }) {
+  const subscriptions = new Map();
   const options = {
-    TTL: notificationTimeToLive
+    TTL: timeToLive
   };
 
   webPush.setVapidDetails(
-    'https://www.charlie-chatlin.com',
+    process.env.URL,
     process.env.VAPID_KEY_PUBLIC,
     process.env.VAPID_KEY_PRIVATE
   );
 
-  async function sendNotifications(payload, subscriptions) {
-    const notifications = subscriptions.map(subscription =>
-      webPush.sendNotification(subscription, payload, options).catch(error => {
-        log(
-          chalk.red(`error sending notification to: ${subscription.endpoint}`)
-        );
-      })
+  function saveSubscription(clientId, subscription) {
+    subscriptions.set(clientId, subscription);
+  }
+
+  function removeSubscription(clientId) {
+    subscriptions.delete(clientId);
+  }
+
+  async function sendNotifications(payload) {
+    const notifications = Array.from(subscriptions).map(
+      ([clientId, subscription]) => {
+        return webPush
+          .sendNotification(subscription, payload, options)
+          .catch(e => {
+            // prettier-ignore
+            log(`error sending notification to client with id: ${chalk.red(clientId)}`);
+            log(e);
+          });
+      }
     );
 
     return Promise.all(notifications);
   }
 
   return {
+    saveSubscription,
+    removeSubscription,
     sendNotifications
   };
 };

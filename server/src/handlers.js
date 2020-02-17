@@ -11,35 +11,36 @@ module.exports = function makeHandlers(
         user: clientService.register(user, client),
         chatHistory: messageService.getChatHistory()
       };
-      clientService.broadcastUser(client.id, response.user);
+      clientService.broadcastUserJoined(response.user);
       callback(null, response);
     } catch (e) {
       callback(e.message);
     }
   }
 
-  function handleMessage(message, callback) {
+  async function handleMessage(message, callback) {
     try {
       const user = clientService.getUserByClientId(client.id);
       message = messageService.saveMessage(message, user);
+
       clientService.broadcastMessage(message);
+      await pushService.sendNotifications(
+        `${message.sender.username} - ${message.text}`
+      );
+
       callback(null);
     } catch (e) {
       callback(e.message);
     }
   }
 
-  function handlePushSubscription(subscription, callback) {
-    try {
-      clientService.saveSubscription(client.id, subscription);
-      callback(null);
-    } catch (e) {
-      callback(e);
-    }
+  function handlePushSubscription(subscription) {
+    pushService.saveSubscription(client.id, subscription);
   }
 
   function handleDisconnect() {
     clientService.unregister(client.id);
+    pushService.removeSubscription(client.id);
   }
 
   return {

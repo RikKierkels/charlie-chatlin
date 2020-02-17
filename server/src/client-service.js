@@ -31,26 +31,23 @@ function getUserByClientId(id) {
 }
 
 function broadcastMessage(message) {
-  [...clients.values()]
-    .map(c => c.client)
-    .forEach(client => client.emit('message', message));
+  getClients().forEach(client => client.emit('message', message));
 }
 
-function broadcastUser(clientId, user) {
-  [...clients.values()]
-    .map(c => c.client)
-    .filter(client => client.id !== clientId)
-    .forEach(client => {
-      client.emit('user-joined', { ...user, joinedOn: getCurrentDate() });
-    });
+function broadcastUserJoined(user) {
+  getClients().forEach(client => {
+    client.emit('user-joined', { ...user, joinedOn: getCurrentDate() });
+  });
 }
 
-function saveSubscription(clientId, subscription) {
-  const client = clients.get(clientId);
+function broadcastUserLeft(user) {
+  getClients().forEach(client => {
+    client.emit('user-left', { ...user, leftOn: getCurrentDate() });
+  });
+}
 
-  if (!client) throw new Error('Client does not exist.');
-
-  clients.set(clientId, { ...client, subscription });
+function getClients() {
+  return [...clients.values()].map(c => c.client);
 }
 
 module.exports = {
@@ -58,6 +55,6 @@ module.exports = {
   unregister,
   getUserByClientId,
   broadcastMessage,
-  broadcastUser,
-  saveSubscription
+  broadcastUserJoined,
+  broadcastUserLeft
 };
