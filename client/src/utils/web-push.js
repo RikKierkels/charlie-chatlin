@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function register() {
   if (!isWorkerSupported()) return;
-  return navigator.serviceWorker.register('push-worker.js');
+  return navigator.serviceWorker.register('service-worker.js');
 }
 
 function isWorkerSupported() {
