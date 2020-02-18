@@ -1,37 +1,46 @@
 'use strict';
+
 module.exports = function makeHandlers(
   client,
   clientService,
   messageService,
   pushService
 ) {
-  function handleRegister(user, callback) {
-    try {
-      const response = {
-        user: clientService.register(user, client),
-        chatHistory: messageService.getChatHistory()
-      };
-      clientService.broadcastUserJoined(response.user);
-      callback(null, response);
-    } catch (e) {
-      callback(e.message);
+  const pushMessageTemplate = message =>
+    `${message.sender.username} - ${message.text}`;
+
+  function handleConnect() {
+    clientService.register(client);
+  }
+
+  function handleUserRegister(user, callback) {
+    if (!clientService.isUserAvailable(user)) {
+      callback('User is not available.');
     }
+
+    const response = {
+      user: clientService.setUserForClient(user, client.id),
+      chatHistory: messageService.getChatHistory()
+    };
+
+    clientService.broadcastUserJoined(response.user);
+    callback(null, response);
   }
 
   async function handleMessage(message, callback) {
-    try {
-      const user = clientService.getUserByClientId(client.id);
-      message = messageService.saveMessage(message, user);
+    const user = clientService.getUserByClientId(client.id);
 
-      clientService.broadcastMessage(message);
-      await pushService.sendNotifications(
-        `${message.sender.username} - ${message.text}`
-      );
+    if (!user) callback('No user registered for this client.');
 
-      callback(null);
-    } catch (e) {
-      callback(e.message);
-    }
+    message = messageService.saveMessage(message, user);
+    clientService.broadcastMessage(message);
+
+    await pushService.sendNotifications(
+      pushMessageTemplate(message),
+      client.id
+    );
+
+    callback(null);
   }
 
   function handlePushSubscription(subscription) {
@@ -43,12 +52,17 @@ module.exports = function makeHandlers(
   }
 
   function handleDisconnect() {
+    const user = clientService.getUserByClientId(client.id);
+
+    if (user) clientService.broadcastUserLeft(user);
+
     clientService.unregister(client.id);
     pushService.removeSubscription(client.id);
   }
 
   return {
-    handleRegister,
+    handleConnect,
+    handleUserRegister,
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,

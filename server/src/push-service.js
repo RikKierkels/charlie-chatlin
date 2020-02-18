@@ -23,9 +23,10 @@ module.exports = function({ timeToLive } = { timeToLive: 5 }) {
     subscriptions.delete(clientId);
   }
 
-  async function sendNotifications(payload) {
-    const notifications = Array.from(subscriptions).map(
-      ([clientId, subscription]) => {
+  async function sendNotifications(payload, ownClientId) {
+    const notifications = Array.from(subscriptions)
+      .filter(([clientId]) => clientId !== ownClientId)
+      .map(([clientId, subscription]) => {
         return webPush
           .sendNotification(subscription, payload, options)
           .catch(e => {
@@ -33,8 +34,7 @@ module.exports = function({ timeToLive } = { timeToLive: 5 }) {
             log(`error sending notification to client with id: ${chalk.red(clientId)}`);
             log(e);
           });
-      }
-    );
+      });
 
     return Promise.all(notifications);
   }

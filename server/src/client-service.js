@@ -3,39 +3,43 @@
 const { getCurrentDate } = require('./utils');
 const clients = new Map();
 
-function register(user, client) {
-  const users = getUsers();
-
-  if (users.some(u => u.username === user.username)) {
-    throw new Error('Username is already taken.');
-  }
-
-  if (users.some(u => u.avatarId === user.avatarId)) {
-    throw new Error('Avatar is already taken.');
-  }
-
-  clients.set(client.id, { client, user });
-  return user;
-}
-
-function getUsers() {
-  return [...clients.values()].map(c => c.user);
+function register(client) {
+  clients.set(client.id, { client });
 }
 
 function unregister(clientId) {
   clients.delete(clientId);
 }
 
+function isUserAvailable(user) {
+  const users = getUsers();
+
+  return (
+    users.every(u => u.username !== user.username) &&
+    users.every(u => u.avatarId !== user.avatarId)
+  );
+}
+
+function getUsers() {
+  return [...clients.values()].filter(c => c.user).map(c => c.user);
+}
+
+function setUserForClient(user, clientId) {
+  const client = clients.get(clientId);
+  clients.set(clientId, { ...client, user });
+  return user;
+}
+
 function getUserByClientId(id) {
   const client = clients.get(id);
-
-  if (!client) throw new Error('Client does not exist.');
-
-  return client.user;
+  return (client || {}).user;
 }
 
 function broadcastMessage(message) {
-  getClients().forEach(client => client.emit('message', message));
+  [...clients.values()]
+    .filter(c => c.user)
+    .map(c => c.client)
+    .forEach(client => client.emit('message', message));
 }
 
 function broadcastUserJoined(user) {
@@ -57,7 +61,9 @@ function getClients() {
 module.exports = {
   register,
   unregister,
+  isUserAvailable,
   getUsers,
+  setUserForClient,
   getUserByClientId,
   broadcastMessage,
   broadcastUserJoined,

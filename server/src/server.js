@@ -20,17 +20,19 @@ app.get('/vapid', (req, res) => {
 });
 
 io.on('connection', client => {
-  log(`client connected... ${chalk.red(client.id)}`);
-
   const {
-    handleRegister,
+    handleConnect,
+    handleUserRegister,
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,
     handleDisconnect
   } = makeHandlers(client, clientService, messageService, pushService);
 
-  client.on('register', handleRegister);
+  handleConnect();
+  log(`client connected... ${chalk.red(client.id)}`);
+
+  client.on('register', handleUserRegister);
 
   client.on('message', handleMessage);
 
@@ -39,8 +41,8 @@ io.on('connection', client => {
   client.on('registered-users', handleGetRegisteredUsers);
 
   client.on('disconnect', () => {
-    log(`client disconnected... ${chalk.red(client.id)}`);
     handleDisconnect();
+    log(`client disconnected... ${chalk.red(client.id)}`);
   });
 
   client.on('error', error => {
