@@ -73,7 +73,6 @@ function sayHello() {
 }
 
 function pushSubscription(subscription) {
-  console.log('pushing');
   socket.emit('push-subscription', subscription, (error, success) => {
     console.log('error', error);
     console.log('success', success);
