@@ -20,17 +20,19 @@ app.get('/vapid', (req, res) => {
 });
 
 io.on('connection', client => {
-  log(`client connected... ${chalk.red(client.id)}`);
-
   const {
-    handleRegister,
+    handleConnect,
+    handleUserRegister,
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,
     handleDisconnect
   } = makeHandlers(client, clientService, messageService, pushService);
 
-  client.on('register', handleRegister);
+  log(`client connected... ${chalk.red(client.id)}`);
+  handleConnect();
+
+  client.on('register', handleUserRegister);
 
   client.on('message', handleMessage);
 
