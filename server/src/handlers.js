@@ -6,6 +6,9 @@ module.exports = function makeHandlers(
   messageService,
   pushService
 ) {
+  const pushMessageTemplate = message =>
+    `${message.sender.username} - ${message.text}`;
+
   function handleConnect() {
     clientService.register(client);
   }
@@ -31,8 +34,10 @@ module.exports = function makeHandlers(
 
     message = messageService.saveMessage(message, user);
     clientService.broadcastMessage(message);
+
     await pushService.sendNotifications(
-      `${message.sender.username} - ${message.text}`
+      pushMessageTemplate(message),
+      client.id
     );
 
     callback(null);
@@ -49,9 +54,7 @@ module.exports = function makeHandlers(
   function handleDisconnect() {
     const user = clientService.getUserByClientId(client.id);
 
-    if (user) {
-      clientService.broadcastUserLeft(user);
-    }
+    if (user) clientService.broadcastUserLeft(user);
 
     clientService.unregister(client.id);
     pushService.removeSubscription(client.id);

@@ -29,8 +29,8 @@ io.on('connection', client => {
     handleDisconnect
   } = makeHandlers(client, clientService, messageService, pushService);
 
-  log(`client connected... ${chalk.red(client.id)}`);
   handleConnect();
+  log(`client connected... ${chalk.red(client.id)}`);
 
   client.on('register', handleUserRegister);
 
@@ -41,8 +41,8 @@ io.on('connection', client => {
   client.on('registered-users', handleGetRegisteredUsers);
 
   client.on('disconnect', () => {
-    log(`client disconnected... ${chalk.red(client.id)}`);
     handleDisconnect();
+    log(`client disconnected... ${chalk.red(client.id)}`);
   });
 
   client.on('error', error => {

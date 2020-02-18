@@ -20,14 +20,14 @@ function isUserAvailable(user) {
   );
 }
 
-function setUserForClient(user, clientId) {
-  const client = clients.get(clientId);
-  clients.set(clientId, { client, user });
-  return user;
+function getUsers() {
+  return [...clients.values()].filter(c => c.user).map(c => c.user);
 }
 
-function getUsers() {
-  return [...clients.values()].map(c => c.user);
+function setUserForClient(user, clientId) {
+  const client = clients.get(clientId);
+  clients.set(clientId, { ...client, user });
+  return user;
 }
 
 function getUserByClientId(id) {
@@ -61,9 +61,9 @@ function getClients() {
 module.exports = {
   register,
   unregister,
-  setUserForClient,
   isUserAvailable,
   getUsers,
+  setUserForClient,
   getUserByClientId,
   broadcastMessage,
   broadcastUserJoined,
