@@ -26,6 +26,11 @@ socket.on('user-joined', user => {
   store.dispatch(Actions.USER_JOINED, user);
 });
 
+// eslint-disable-next-line no-unused-vars
+socket.on('user-left', user => {
+  // TODO: Action
+});
+
 socket.on('error', error => {
   console.error('! Error on socket: ', error);
 });
