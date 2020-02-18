@@ -29,10 +29,10 @@ module.exports = function({ timeToLive } = { timeToLive: 5 }) {
       .map(([clientId, subscription]) => {
         return webPush
           .sendNotification(subscription, payload, options)
-          .catch(e => {
+          .catch(error => {
             // prettier-ignore
             log(`error sending notification to client with id: ${chalk.red(clientId)}`);
-            log(e);
+            log(error);
           });
       });
 
