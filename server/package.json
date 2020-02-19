@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config src/server.js"
+    "start": "node -r dotenv/config src/server.js",
+    "build": "npm run start"
   },
   "dependencies": {
     "chalk": "3.0.0",
