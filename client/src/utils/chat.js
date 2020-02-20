@@ -5,7 +5,7 @@ import Actions from '@/constants/actions';
 
 import ConnectionStates from '@/constants/connection-states';
 
-let socket = io.connect('http://localhost:3000');
+let socket = io.connect(process.env.VUE_APP_API_URL);
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);

@@ -50,7 +50,8 @@ io.on('connection', client => {
   });
 });
 
-server.listen(process.env.PORT, error => {
+const port = process.env.PORT || 3000;
+server.listen(port, error => {
   if (error) throw error;
-  log(chalk.blue(`listening on port: ${process.env.PORT}`));
+  log(chalk.blue(`listening on port: ${port}`));
 });

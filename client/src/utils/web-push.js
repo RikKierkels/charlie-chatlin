@@ -18,7 +18,7 @@ async function subscribe() {
   if (subscription) return subscription;
 
   // TODO: move url to global env.
-  const key = await axios.get('http://localhost:3000/vapid').then(
+  const key = await axios.get(`${process.env.VUE_APP_API_URL}/vapid`).then(
     response => response.data.key,
     () => null
   );
