@@ -1,1 +1,2 @@
-web: cd server && npm i && npm run start
+web: cd server && npm run start
+release: cd server && npm i

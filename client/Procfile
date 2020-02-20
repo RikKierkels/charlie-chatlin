@@ -1,1 +1,2 @@
-web: cd client && npm install && npm run build && npm run serve:dist
+web: cd client && npm run serve:dist
+release: cd client && npm install && npm run build
