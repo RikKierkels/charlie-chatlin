@@ -14,9 +14,12 @@
     "start": "run-p start:client start:server",
     "start:client": "cd client && npm run start",
     "start:server": "cd server && npm run start",
+    "build": "run-p build:client build:server",
+    "build:client": "setup client && npm run build",
+    "build:server": "npm run setup:server",
     "validate": "run-p validate:client",
     "validate:client": "cd client && npm run validate",
-    "heroku-postbuild": "cd client && npm i && npm run build && cd .. && cd server && npm i"
+    "heroku-postbuild": "./scripts/heroku.build"
   },
   "contributors": [
     {
