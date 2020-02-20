@@ -19,7 +19,7 @@
     "build:server": "npm run setup:server",
     "validate": "run-p validate:client",
     "validate:client": "cd client && npm run validate",
-    "heroku-postbuild": "./scripts/heroku.build.sh"
+    "heroku-postbuild": "bash scripts/heroku.build.sh"
   },
   "contributors": [
     {
