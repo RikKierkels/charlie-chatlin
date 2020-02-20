@@ -1,27 +1,15 @@
 {
   "name": "charlie-chatlin-client",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "vue-cli-service serve",
-    "validate": "vue-cli-service lint"
+    "validate": "npm run lint",
+    "serve": "npm run start",
+    "serve:dist": "node server.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.27",
-    "@fortawesome/free-solid-svg-icons": "5.12.1",
-    "@fortawesome/vue-fontawesome": "0.1.9",
-    "axios": "0.19.2",
-    "core-js": "3.6.4",
-    "register-service-worker": "1.6.2",
-    "socket.io-client": "2.3.0",
-    "vue": "2.6.11",
-    "vue-router": "3.1.5",
-    "vuex": "3.1.2"
-  },
-  "devDependencies": {
     "@vue/cli-plugin-babel": "4.2.0",
     "@vue/cli-plugin-eslint": "4.2.0",
     "@vue/cli-plugin-pwa": "4.2.0",
@@ -29,13 +17,25 @@
     "@vue/cli-plugin-vuex": "4.2.0",
     "@vue/cli-service": "4.2.0",
     "@vue/eslint-config-prettier": "6.0.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.27",
+    "@fortawesome/free-solid-svg-icons": "5.12.1",
+    "@fortawesome/vue-fontawesome": "0.1.9",
+    "axios": "0.19.2",
     "babel-eslint": "10.0.3",
+    "core-js": "3.6.4",
     "eslint": "6.7.2",
     "eslint-plugin-prettier": "3.1.1",
     "eslint-plugin-vue": "6.1.2",
+    "express": "4.17.1",
+    "vue": "2.6.11",
+    "vue-router": "3.1.5",
+    "vuex": "3.1.2",
     "node-sass": "4.12.0",
     "prettier": "1.19.1",
+    "register-service-worker": "1.6.2",
     "sass-loader": "8.0.2",
+    "socket.io-client": "2.3.0",
+    "serve-static": "1.14.1",
     "vue-template-compiler": "2.6.11"
   }
 }
