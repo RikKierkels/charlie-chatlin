@@ -17,7 +17,7 @@
     "build": "run-p build:client build:server",
     "build:client": "setup client && npm run build",
     "build:server": "npm run setup:server",
-    "validate": "run validate:client",
+    "validate": "npm run validate:client",
     "validate:client": "cd client && npm run validate",
     "heroku-postbuild": "bash scripts/heroku.build.sh"
   },
