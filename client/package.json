@@ -4,10 +4,9 @@
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve",
-    "validate": "npm run lint",
-    "serve": "npm run start",
-    "serve:dist": "node server.js"
+    "serve": "vue-cli-service serve",
+    "serve:prod": "vue-cli-service serve --mode production",
+    "start:node": "node server.js"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "4.2.0",
