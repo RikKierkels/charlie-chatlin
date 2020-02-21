@@ -1,13 +1,15 @@
 'use strict';
 const { getCurrentDate } = require('./utils');
-const clients = new Map();
+const sessions = new Map();
 
-function register(client) {
-  clients.set(client.id, { client });
+function register(sessionId, client) {
+  const session = sessions.get(sessionId);
+  sessions.set(sessionId, { ...session, client });
 }
 
+// IFFY, check what to do here.
 function unregister(clientId) {
-  clients.delete(clientId);
+  sessions.delete(clientId);
 }
 
 function isUserAvailable(user) {
@@ -20,22 +22,22 @@ function isUserAvailable(user) {
 }
 
 function getUsers() {
-  return [...clients.values()].filter(c => c.user).map(c => c.user);
+  return [...sessions.values()].filter(c => c.user).map(c => c.user);
 }
 
-function setUserForClient(user, clientId) {
-  const client = clients.get(clientId);
-  clients.set(clientId, { ...client, user });
+function setUserForSession(user, sessionId) {
+  const session = sessions.get(sessionId);
+  sessions.set(sessionId, { ...session, user });
   return user;
 }
 
-function getUserByClientId(id) {
-  const client = clients.get(id);
-  return (client || {}).user;
+function getUserBySessionId(id) {
+  const session = sessions.get(id);
+  return (session || {}).user;
 }
 
 function broadcastMessage(message) {
-  [...clients.values()]
+  [...sessions.values()]
     .filter(c => c.user)
     .map(c => c.client)
     .forEach(client => client.emit('message', message));
@@ -54,7 +56,7 @@ function broadcastUserLeft(user) {
 }
 
 function getClients() {
-  return [...clients.values()].map(c => c.client);
+  return [...sessions.values()].map(c => c.client);
 }
 
 module.exports = {
@@ -62,8 +64,8 @@ module.exports = {
   unregister,
   isUserAvailable,
   getUsers,
-  setUserForClient,
-  getUserByClientId,
+  setUserForSession,
+  getUserBySessionId,
   broadcastMessage,
   broadcastUserJoined,
   broadcastUserLeft

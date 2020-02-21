@@ -1,14 +1,23 @@
 import io from 'socket.io-client';
 import store from '@/store';
-
 import Actions from '@/constants/actions';
-
 import ConnectionStates from '@/constants/connection-states';
+
+let SESSION_ID = null;
 
 let socket = io.connect(process.env.VUE_APP_API_URL);
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
+});
+
+// TODO: SET IN STORE
+socket.on('handshake', sessionId => (SESSION_ID = sessionId));
+
+socket.on('reconnect_attempt', () => {
+  socket.io.opts.query = {
+    sessionId: SESSION_ID
+  };
 });
 
 socket.on('disconnect', () => {

@@ -10,7 +10,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 const makeHandlers = require('./handlers');
-const clientService = require('./client-service');
+const sessionService = require('./session-service');
 const messageService = require('./message-service');
 const pushService = require('./push-service')();
 
@@ -20,15 +20,13 @@ app.get('/vapid', (req, res) => {
 
 io.on('connection', client => {
   const {
-    handleConnect,
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,
     handleDisconnect
-  } = makeHandlers(client, clientService, messageService, pushService);
+  } = makeHandlers(client, sessionService, messageService, pushService);
 
-  handleConnect();
   log(`client connected... ${chalk.red(client.id)}`);
 
   client.on('register', handleUserRegister);
@@ -40,7 +38,7 @@ io.on('connection', client => {
   client.on('registered-users', handleGetRegisteredUsers);
 
   client.on('disconnect', () => {
-    handleDisconnect();
+    // handleDisconnect();
     log(`client disconnected... ${chalk.red(client.id)}`);
   });
 
