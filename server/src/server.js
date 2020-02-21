@@ -48,7 +48,7 @@ io.on('connection', client => {
   });
 });
 
-const port = process.env.PORT || 3000;
+const port = Number.parseInt(process.env.PORT) || 3000;
 server.listen(port, error => {
   if (error) throw error;
   log(chalk.blue(`listening on port: ${port}`));

@@ -2,6 +2,7 @@
 const { generateId } = require('./utils');
 const pushMessageTemplate = message =>
   `${message.sender.username} - ${message.text}`;
+const timeTillLogoff = Number.parseInt(process.env.LOG_OFF_TIMER);
 
 module.exports = function makeHandlers(
   client,
@@ -9,10 +10,10 @@ module.exports = function makeHandlers(
   messageService,
   pushService
 ) {
-  let logoffTimer = setTimeout(
-    () => handleUnregister(),
-    process.env.LOG_OFF_TIMER
-  );
+  let logoffTimer = setTimeout(() => {
+    handleUnregister();
+  }, timeTillLogoff);
+
   let { sessionId } = client.handshake.query;
 
   if (!sessionId) {
@@ -55,10 +56,7 @@ module.exports = function makeHandlers(
 
   function resetLogoffTimer() {
     clearTimeout(logoffTimer);
-    logoffTimer = setTimeout(
-      () => handleUnregister(),
-      process.env.LOG_OFF_TIMER
-    );
+    logoffTimer = setTimeout(() => handleUnregister(), timeTillLogoff);
   }
 
   function handlePushSubscription(subscription) {
