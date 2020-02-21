@@ -7,9 +7,8 @@ function register(sessionId, client) {
   sessions.set(sessionId, { ...session, client });
 }
 
-// IFFY, check what to do here.
-function unregister(clientId) {
-  sessions.delete(clientId);
+function unregister(sessionId) {
+  sessions.delete(sessionId);
 }
 
 function isUserAvailable(user) {

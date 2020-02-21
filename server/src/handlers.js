@@ -9,24 +9,18 @@ module.exports = function makeHandlers(
   messageService,
   pushService
 ) {
-  let sessionId = null;
+  let logoffTimer = setTimeout(
+    () => handleUnregister(),
+    process.env.LOG_OFF_TIMER
+  );
+  let { sessionId } = client.handshake.query;
 
-  if (client.handshake.query.sessionId) {
-    sessionId = client.handshake.query.sessionId;
-    handleReconnect();
-  } else {
+  if (!sessionId) {
     sessionId = generateId();
-    handleConnect();
-  }
-
-  function handleConnect() {
-    sessionService.register(sessionId, client);
     client.emit('handshake', sessionId);
   }
 
-  function handleReconnect() {
-    sessionService.register(sessionId, client);
-  }
+  sessionService.register(sessionId, client);
 
   function handleUserRegister(user, callback) {
     if (!sessionService.isUserAvailable(user)) {
@@ -47,6 +41,7 @@ module.exports = function makeHandlers(
 
     if (!user) callback('No user registered for this session.');
 
+    resetLogoffTimer();
     message = messageService.saveMessage(message, user);
     sessionService.broadcastMessage(message);
 
@@ -58,6 +53,14 @@ module.exports = function makeHandlers(
     callback(null);
   }
 
+  function resetLogoffTimer() {
+    clearTimeout(logoffTimer);
+    logoffTimer = setTimeout(
+      () => handleUnregister(),
+      process.env.LOG_OFF_TIMER
+    );
+  }
+
   function handlePushSubscription(subscription) {
     pushService.saveSubscription(sessionId, subscription);
   }
@@ -66,13 +69,13 @@ module.exports = function makeHandlers(
     callback(null, sessionService.getUsers());
   }
 
-  function handleDisconnect() {
+  function handleUnregister() {
     const user = sessionService.getUserBySessionId(sessionId);
 
     if (user) sessionService.broadcastUserLeft(user);
 
-    sessionService.unregister(client.id);
-    pushService.removeSubscription(client.id);
+    sessionService.unregister(sessionId);
+    pushService.removeSubscription(sessionId);
   }
 
   return {
@@ -80,6 +83,6 @@ module.exports = function makeHandlers(
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,
-    handleDisconnect
+    handleUnregister
   };
 };

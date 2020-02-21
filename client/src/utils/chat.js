@@ -11,6 +11,10 @@ socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
 });
 
+window.addEventListener('unload', () => {
+  socket.emit('un-register');
+});
+
 // TODO: SET IN STORE
 socket.on('handshake', sessionId => (SESSION_ID = sessionId));
 
