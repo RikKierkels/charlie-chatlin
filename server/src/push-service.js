@@ -15,23 +15,23 @@ module.exports = function({ timeToLive } = { timeToLive: 5 }) {
     process.env.VAPID_KEY_PRIVATE
   );
 
-  function saveSubscription(clientId, subscription) {
-    subscriptions.set(clientId, subscription);
+  function saveSubscription(sessionId, subscription) {
+    subscriptions.set(sessionId, subscription);
   }
 
-  function removeSubscription(clientId) {
-    subscriptions.delete(clientId);
+  function removeSubscription(sessionId) {
+    subscriptions.delete(sessionId);
   }
 
-  async function sendNotifications(payload, ownClientId) {
+  async function sendNotifications(payload, ownSessionId) {
     const notifications = Array.from(subscriptions)
-      .filter(([clientId]) => clientId !== ownClientId)
-      .map(([clientId, subscription]) => {
+      .filter(([sessionId]) => sessionId !== ownSessionId)
+      .map(([sessionId, subscription]) => {
         return webPush
           .sendNotification(subscription, payload, options)
           .catch(error => {
             // prettier-ignore
-            log(`error sending notification to client with id: ${chalk.red(clientId)}`);
+            log(`error sending notification to session: ${chalk.red(sessionId)}`);
             log(error);
           });
       });
