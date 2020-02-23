@@ -1,5 +1,4 @@
 'use strict';
-const { generateId } = require('./utils');
 const pushMessageTemplate = message =>
   `${message.sender.username} - ${message.text}`;
 const timeTillLogoff = Number.parseInt(process.env.LOG_OFF_TIMER);
@@ -10,31 +9,18 @@ module.exports = function makeHandlers(
   messageService,
   pushService
 ) {
-  let logoffTimer = setTimeout(() => {
-    handleUnregister();
-  }, timeTillLogoff);
-
-  let { sessionId } = client.handshake.query;
-
-  if (!sessionId) {
-    sessionId = generateId();
-    client.emit('handshake', sessionId);
-  }
-
-  sessionService.register(sessionId, client);
+  let logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
+  const sessionId = sessionService.register(client);
 
   function handleUserRegister(user, callback) {
-    if (!sessionService.isUserAvailable(user)) {
+    if (!sessionService.isUsernameAvailable(user)) {
       callback('User is not available.');
     }
 
-    const response = {
-      user: sessionService.setUserForSession(user, sessionId),
-      chatHistory: messageService.getChatHistory()
-    };
+    sessionService.setUserForSession(user, sessionId);
+    sessionService.broadcastUserJoined(user);
 
-    sessionService.broadcastUserJoined(response.user);
-    callback(null, response);
+    callback(null, { user, chatHistory: messageService.getChatHistory() });
   }
 
   async function handleMessage(message, callback) {
@@ -54,26 +40,32 @@ module.exports = function makeHandlers(
     callback(null);
   }
 
-  function resetLogoffTimer() {
-    clearTimeout(logoffTimer);
-    logoffTimer = setTimeout(() => handleUnregister(), timeTillLogoff);
-  }
-
   function handlePushSubscription(subscription) {
     pushService.saveSubscription(sessionId, subscription);
   }
 
   function handleGetRegisteredUsers(_, callback) {
-    callback(null, sessionService.getUsers());
+    callback(null, sessionService.getConnectedUsers());
   }
 
-  function handleUnregister() {
+  function handleDisconnect() {
     const user = sessionService.getUserBySessionId(sessionId);
 
-    if (user) sessionService.broadcastUserLeft(user);
+    if (user) {
+      sessionService.broadcastUserLeft(user);
+    }
 
-    sessionService.unregister(sessionId);
-    pushService.removeSubscription(sessionId);
+    sessionService.setDisconnectedTime(sessionId);
+  }
+
+  function logoff() {
+    client.disconnect();
+    handleDisconnect();
+  }
+
+  function resetLogoffTimer() {
+    clearTimeout(logoffTimer);
+    logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
   }
 
   return {
@@ -81,6 +73,6 @@ module.exports = function makeHandlers(
     handleMessage,
     handlePushSubscription,
     handleGetRegisteredUsers,
-    handleUnregister
+    handleDisconnect
   };
 };

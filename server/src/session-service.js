@@ -1,28 +1,40 @@
 'use strict';
-const { getCurrentDate } = require('./utils');
+const { generateId, getCurrentDate } = require('./utils');
 const sessions = new Map();
 
-function register(sessionId, client) {
+function register(client) {
+  let { sessionId } = client.handshake.query;
+
+  if (!sessionId) {
+    sessionId = generateId();
+    client.emit('handshake', sessionId);
+  }
+
   const session = sessions.get(sessionId);
   sessions.set(sessionId, { ...session, client });
+
+  return sessionId;
 }
 
 function unregister(sessionId) {
   sessions.delete(sessionId);
 }
 
-function isUserAvailable(user) {
-  return getUsers().every(u => u.username !== user.username);
+function isUsernameAvailable(user) {
+  return getUsers(s => s.user).every(u => u.username !== user.username);
 }
 
-function getUsers() {
-  return [...sessions.values()].filter(c => c.user).map(c => c.user);
+function getConnectedUsers() {
+  return getUsers(s => s.user && s.client.connected);
+}
+
+function getUsers(filterFn) {
+  return [...sessions.values()].filter(filterFn).map(s => s.user);
 }
 
 function setUserForSession(user, sessionId) {
   const session = sessions.get(sessionId);
   sessions.set(sessionId, { ...session, user });
-  return user;
 }
 
 function getUserBySessionId(id) {
@@ -31,36 +43,41 @@ function getUserBySessionId(id) {
 }
 
 function broadcastMessage(message) {
-  [...sessions.values()]
-    .filter(c => c.user)
-    .map(c => c.client)
-    .forEach(client => client.emit('message', message));
+  getClients(s => s.client && s.user).forEach(client => {
+    client.emit('message', message);
+  });
 }
 
 function broadcastUserJoined(user) {
-  getClients().forEach(client => {
-    client.emit('user-joined', { ...user, joinedOn: getCurrentDate() });
+  getClients(s => s.client).forEach(client => {
+    client.emit('user-joined', { ...user, leftOn: getCurrentDate() });
   });
 }
 
 function broadcastUserLeft(user) {
-  getClients().forEach(client => {
+  getClients(s => s.client).forEach(client => {
     client.emit('user-left', { ...user, leftOn: getCurrentDate() });
   });
 }
 
-function getClients() {
-  return [...sessions.values()].map(c => c.client);
+function getClients(filterFn) {
+  return [...sessions.values()].filter(filterFn).map(s => s.client);
+}
+
+function setDisconnectedTime(sessionId) {
+  const session = sessions.get(sessionId);
+  sessions.set(sessionId, { ...session, disconnectedAt: getCurrentDate() });
 }
 
 module.exports = {
   register,
   unregister,
-  isUserAvailable,
-  getUsers,
+  isUsernameAvailable,
+  getConnectedUsers,
   setUserForSession,
   getUserBySessionId,
   broadcastMessage,
   broadcastUserJoined,
-  broadcastUserLeft
+  broadcastUserLeft,
+  setDisconnectedTime
 };
