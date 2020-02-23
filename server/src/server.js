@@ -9,8 +9,9 @@ app.use(cors());
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+const { generateId } = require('./utils');
 const makeHandlers = require('./handlers');
-const sessionService = require('./session-service');
+const sessionManager = require('./session-manager');
 const messageService = require('./message-service');
 const pushService = require('./push-service')();
 
@@ -19,13 +20,29 @@ app.get('/vapid', (req, res) => {
 });
 
 io.on('connection', client => {
+  let { sessionId } = client.handshake.query;
+
+  if (!sessionId) {
+    sessionId = generateId();
+    client.emit('handshake', sessionId);
+  }
+
+  sessionManager.addSession(sessionId);
+
   const {
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
-    handleGetRegisteredUsers,
+    handleGetActiveUsers,
     handleDisconnect
-  } = makeHandlers(client, sessionService, messageService, pushService);
+  } = makeHandlers(
+    client,
+    sessionId,
+    io,
+    sessionManager,
+    messageService,
+    pushService
+  );
 
   log(`client connected... ${chalk.red(client.id)}`);
 
@@ -35,7 +52,7 @@ io.on('connection', client => {
 
   client.on('push-subscription', handlePushSubscription);
 
-  client.on('registered-users', handleGetRegisteredUsers);
+  client.on('active-users', handleGetActiveUsers);
 
   client.on('disconnect', () => {
     log(`client disconnected... ${chalk.red(client.id)}`);

@@ -1,78 +1,67 @@
 'use strict';
-const pushMessageTemplate = message =>
-  `${message.sender.username} - ${message.text}`;
-const timeTillLogoff = Number.parseInt(process.env.LOG_OFF_TIMER);
 
 module.exports = function makeHandlers(
   client,
-  sessionService,
+  sessionId,
+  io,
+  sessionManager,
   messageService,
   pushService
 ) {
-  let logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
-  const sessionId = sessionService.register(client);
-
   function handleUserRegister(user, callback) {
-    if (!sessionService.isUsernameAvailable(user)) {
+    if (!sessionManager.isUsernameAvailable(user)) {
       callback('User is not available.');
     }
 
-    sessionService.setUserForSession(user, sessionId);
-    sessionService.broadcastUserJoined(user);
+    const existingUser = sessionManager.getUserBySessionId(sessionId);
+    if (existingUser) io.emit('user-left', existingUser);
+
+    sessionManager.registerUser(user, sessionId);
+    client.join('chat room');
+    io.emit('user-joined', user);
 
     callback(null, { user, chatHistory: messageService.getChatHistory() });
   }
 
   async function handleMessage(message, callback) {
-    const user = sessionService.getUserBySessionId(sessionId);
+    const user = sessionManager.getUserBySessionId(sessionId);
 
     if (!user) callback('No user registered for this session.');
 
-    resetLogoffTimer();
     message = messageService.saveMessage(message, user);
-    sessionService.broadcastMessage(message);
+    io.to('chat room').emit('message', message);
 
     await pushService.sendNotifications(
-      pushMessageTemplate(message),
-      sessionId
+      sessionManager.getSubscriptions(),
+      `${message.sender.username} - ${message.text}`
     );
 
     callback(null);
   }
 
   function handlePushSubscription(subscription) {
-    pushService.saveSubscription(sessionId, subscription);
+    sessionManager.saveSubscription(sessionId, subscription);
   }
 
-  function handleGetRegisteredUsers(_, callback) {
-    callback(null, sessionService.getConnectedUsers());
+  function handleGetActiveUsers(_, callback) {
+    callback(null, sessionManager.getActiveUsers());
   }
 
   function handleDisconnect() {
-    const user = sessionService.getUserBySessionId(sessionId);
+    const user = sessionManager.getUserBySessionId(sessionId);
 
     if (user) {
-      sessionService.broadcastUserLeft(user);
+      io.emit('user-left', user);
     }
 
-    sessionService.setDisconnectedTime(sessionId);
-  }
-
-  function logoff() {
-    client.disconnect();
-    handleDisconnect();
-  }
-
-  function resetLogoffTimer() {
-    clearTimeout(logoffTimer);
-    logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
+    sessionManager.markSessionAsInactive(sessionId);
   }
 
   return {
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
-    handleGetRegisteredUsers,
+    handleGetActiveUsers,
     handleDisconnect
   };
 };
