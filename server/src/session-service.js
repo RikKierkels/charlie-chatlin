@@ -12,12 +12,7 @@ function unregister(sessionId) {
 }
 
 function isUserAvailable(user) {
-  const users = getUsers();
-
-  return (
-    users.every(u => u.username !== user.username) &&
-    users.every(u => u.avatarId !== user.avatarId)
-  );
+  return getUsers().every(u => u.username !== user.username);
 }
 
 function getUsers() {
