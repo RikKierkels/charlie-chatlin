@@ -1,78 +1,65 @@
 'use strict';
-const pushMessageTemplate = message =>
-  `${message.sender.username} - ${message.text}`;
-const timeTillLogoff = Number.parseInt(process.env.LOG_OFF_TIMER);
 
-module.exports = function makeHandlers(
-  client,
-  sessionService,
-  messageService,
-  pushService
-) {
-  let logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
-  const sessionId = sessionService.register(client);
+function handlerFactory(io, sessionManager, messageService, pushService) {
+  return function make(client) {
+    const { sessionId } = client;
 
-  function handleUserRegister(user, callback) {
-    if (!sessionService.isUsernameAvailable(user)) {
-      callback('User is not available.');
+    function handleUserRegister(user, callback) {
+      if (!sessionManager.isUsernameAvailable(user)) {
+        callback('User is not available.');
+      }
+
+      const existingUser = sessionManager.getUserBySessionId(sessionId);
+      if (existingUser) io.emit('user-left', existingUser);
+
+      sessionManager.registerUser(user, sessionId);
+      client.join('chat room');
+      io.emit('user-joined', user);
+
+      callback(null, { user, chatHistory: messageService.getChatHistory() });
     }
 
-    sessionService.setUserForSession(user, sessionId);
-    sessionService.broadcastUserJoined(user);
+    async function handleMessage(message, callback) {
+      const user = sessionManager.getUserBySessionId(sessionId);
 
-    callback(null, { user, chatHistory: messageService.getChatHistory() });
-  }
+      if (!user) callback('No user registered for this session.');
 
-  async function handleMessage(message, callback) {
-    const user = sessionService.getUserBySessionId(sessionId);
+      message = messageService.saveMessage(message, user);
+      io.to('chat room').emit('message', message);
 
-    if (!user) callback('No user registered for this session.');
+      await pushService.sendNotifications(
+        `${message.sender.username} - ${message.text}`
+      );
 
-    resetLogoffTimer();
-    message = messageService.saveMessage(message, user);
-    sessionService.broadcastMessage(message);
-
-    await pushService.sendNotifications(
-      pushMessageTemplate(message),
-      sessionId
-    );
-
-    callback(null);
-  }
-
-  function handlePushSubscription(subscription) {
-    pushService.saveSubscription(sessionId, subscription);
-  }
-
-  function handleGetRegisteredUsers(_, callback) {
-    callback(null, sessionService.getConnectedUsers());
-  }
-
-  function handleDisconnect() {
-    const user = sessionService.getUserBySessionId(sessionId);
-
-    if (user) {
-      sessionService.broadcastUserLeft(user);
+      callback(null);
     }
 
-    sessionService.setDisconnectedTime(sessionId);
-  }
+    function handlePushSubscription(subscription) {
+      pushService.saveSubscription(sessionId, subscription);
+    }
 
-  function logoff() {
-    client.disconnect();
-    handleDisconnect();
-  }
+    function handleGetActiveUsers(_, callback) {
+      callback(null, sessionManager.getActiveUsers());
+    }
 
-  function resetLogoffTimer() {
-    clearTimeout(logoffTimer);
-    logoffTimer = setTimeout(() => logoff(), timeTillLogoff);
-  }
+    function handleDisconnect() {
+      const user = sessionManager.getUserBySessionId(sessionId);
 
-  return {
-    handleUserRegister,
-    handleMessage,
-    handlePushSubscription,
-    handleGetRegisteredUsers,
-    handleDisconnect
+      if (user) {
+        io.emit('user-left', user);
+      }
+
+      sessionManager.markSessionAsInactive(sessionId);
+    }
+
+    return {
+      handleUserRegister,
+      handleMessage,
+      handlePushSubscription,
+      handleGetActiveUsers,
+      handleDisconnect
+    };
   };
-};
+}
+
+module.exports = handlerFactory;

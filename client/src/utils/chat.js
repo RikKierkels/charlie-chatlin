@@ -12,7 +12,10 @@ socket.on('connect', () => {
 });
 
 // TODO: SET IN STORE
-socket.on('handshake', sessionId => (SESSION_ID = sessionId));
+socket.on('handshake', sessionId => {
+  console.log(sessionId);
+  SESSION_ID = sessionId;
+});
 
 socket.on('reconnect_attempt', () => {
   socket.io.opts.query = {
