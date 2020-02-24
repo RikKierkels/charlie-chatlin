@@ -1,6 +1,6 @@
 'use strict';
 const { getCurrentDate } = require('./utils');
-const SESSION_EXPIRED_CHECK_INTERVAL = 60 * 1000;
+const CHECK_SESSION_EXPIRED_INTERVAL = 60 * 1000;
 const sessions = new Map();
 
 function addSession(sessionId) {
@@ -51,7 +51,7 @@ function onSessionExpired(callback) {
       .filter(([_, session]) => !session.isActive && session.disconnectedAt)
       .filter(([_, session]) => hasSessionExpired(session.disconnectedAt))
       .forEach(([id, _]) => callback(id));
-  }, SESSION_EXPIRED_CHECK_INTERVAL);
+  }, CHECK_SESSION_EXPIRED_INTERVAL);
 }
 
 function hasSessionExpired(disconnectedAt) {

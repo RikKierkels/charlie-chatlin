@@ -1,16 +1,27 @@
 'use strict';
+const validator = require('./validator');
 
 function handlerFactory(io, sessionManager, messageService, pushService) {
   return function make(client) {
     const { sessionId } = client;
+    const toPushMessage = message =>
+      `${message.sender.username} - ${message.text}`;
 
     function handleUserRegister(user, callback) {
+      const { error } = validator.userSchema.validate(user);
+
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
+
       if (!sessionManager.isUsernameAvailable(user)) {
-        callback('User is not available.');
+        return callback('Username is not available.');
       }
 
       const existingUser = sessionManager.getUserBySessionId(sessionId);
-      if (existingUser) io.emit('user-left', existingUser);
+      if (existingUser) {
+        io.emit('user-left', existingUser);
+      }
 
       sessionManager.registerUser(user, sessionId);
       client.join('chat room');
@@ -20,22 +31,33 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
     }
 
     async function handleMessage(message, callback) {
-      const user = sessionManager.getUserBySessionId(sessionId);
+      const { error } = validator.messageSchema.validate(message);
 
-      if (!user) callback('No user registered for this session.');
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
+
+      const user = sessionManager.getUserBySessionId(sessionId);
+      if (!user) {
+        return callback('No user registered for this session.');
+      }
 
       message = messageService.saveMessage(message, user);
       io.to('chat room').emit('message', message);
-
-      await pushService.sendNotifications(
-        `${message.sender.username} - ${message.text}`
-      );
+      await pushService.sendNotifications(toPushMessage(message));
 
       callback(null);
     }
 
-    function handlePushSubscription(subscription) {
+    function handlePushSubscription(subscription, callback) {
+      const { error } = validator.subscriptionSchema.validate(subscription);
+
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
+
       pushService.saveSubscription(sessionId, subscription);
+      callback(null);
     }
 
     function handleGetActiveUsers(_, callback) {
