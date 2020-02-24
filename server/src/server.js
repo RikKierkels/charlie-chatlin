@@ -1,21 +1,43 @@
 'use strict';
+const { generateId } = require('./utils');
 const log = console.log;
 const chalk = require('chalk');
 
 const cors = require('cors');
 const app = require('express')();
 app.use(cors());
-
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
-const makeHandlers = require('./handlers');
-const sessionService = require('./session-service');
+const io = require('socket.io')(server);
+const sessionManager = require('./session-manager');
 const messageService = require('./message-service');
 const pushService = require('./push-service')();
+const makeHandlers = require('./handlers')(
+  io,
+  sessionManager,
+  messageService,
+  pushService
+);
+
+sessionManager.onSessionExpired(sessionId => {
+  sessionManager.removeSession(sessionId);
+  pushService.removeSubscription(sessionId);
+});
 
 app.get('/vapid', (req, res) => {
   res.json({ key: process.env.VAPID_KEY_PUBLIC });
+});
+
+io.use((client, next) => {
+  let { sessionId } = client.handshake.query;
+
+  if (!sessionId) {
+    sessionId = generateId();
+    client.emit('handshake', sessionId);
+  }
+
+  client['sessionId'] = sessionId;
+  next();
 });
 
 io.on('connection', client => {
@@ -23,11 +45,12 @@ io.on('connection', client => {
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
-    handleGetRegisteredUsers,
-    handleUnregister
-  } = makeHandlers(client, sessionService, messageService, pushService);
+    handleGetActiveUsers,
+    handleDisconnect
+  } = makeHandlers(client);
 
   log(`client connected... ${chalk.red(client.id)}`);
+  sessionManager.addSession(client.sessionId);
 
   client.on('register', handleUserRegister);
 
@@ -35,11 +58,11 @@ io.on('connection', client => {
 
   client.on('push-subscription', handlePushSubscription);
 
-  client.on('registered-users', handleGetRegisteredUsers);
+  client.on('active-users', handleGetActiveUsers);
 
-  client.on('un-register', () => {
-    log(`client un-registered... ${chalk.red(client.id)}`);
-    handleUnregister();
+  client.on('disconnect', () => {
+    log(`client disconnected... ${chalk.red(client.id)}`);
+    handleDisconnect();
   });
 
   client.on('error', error => {

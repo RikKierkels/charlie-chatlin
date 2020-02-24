@@ -1,86 +1,87 @@
 'use strict';
-const { generateId } = require('./utils');
-const pushMessageTemplate = message =>
-  `${message.sender.username} - ${message.text}`;
-const timeTillLogoff = Number.parseInt(process.env.LOG_OFF_TIMER);
+const validator = require('./validator');
 
-module.exports = function makeHandlers(
-  client,
-  sessionService,
-  messageService,
-  pushService
-) {
-  let logoffTimer = setTimeout(() => {
-    handleUnregister();
-  }, timeTillLogoff);
+function handlerFactory(io, sessionManager, messageService, pushService) {
+  return function make(client) {
+    const { sessionId } = client;
+    const toPushMessage = message =>
+      `${message.sender.username} - ${message.text}`;
 
-  let { sessionId } = client.handshake.query;
+    function handleUserRegister(user, callback) {
+      const { error } = validator.userSchema.validate(user);
 
-  if (!sessionId) {
-    sessionId = generateId();
-    client.emit('handshake', sessionId);
-  }
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
 
-  sessionService.register(sessionId, client);
+      if (!sessionManager.isUsernameAvailable(user)) {
+        return callback('Username is not available.');
+      }
 
-  function handleUserRegister(user, callback) {
-    if (!sessionService.isUserAvailable(user)) {
-      callback('User is not available.');
+      const existingUser = sessionManager.getUserBySessionId(sessionId);
+      if (existingUser) {
+        io.emit('user-left', existingUser);
+      }
+
+      sessionManager.registerUser(user, sessionId);
+      client.join('chat room');
+      io.emit('user-joined', user);
+
+      callback(null, { user, chatHistory: messageService.getChatHistory() });
     }
 
-    const response = {
-      user: sessionService.setUserForSession(user, sessionId),
-      chatHistory: messageService.getChatHistory()
+    async function handleMessage(message, callback) {
+      const { error } = validator.messageSchema.validate(message);
+
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
+
+      const user = sessionManager.getUserBySessionId(sessionId);
+      if (!user) {
+        return callback('No user registered for this session.');
+      }
+
+      message = messageService.saveMessage(message, user);
+      io.to('chat room').emit('message', message);
+      await pushService.sendNotifications(toPushMessage(message));
+
+      callback(null);
+    }
+
+    function handlePushSubscription(subscription, callback) {
+      const { error } = validator.subscriptionSchema.validate(subscription);
+
+      if (error) {
+        return callback(validator.toErrorMessage(error));
+      }
+
+      pushService.saveSubscription(sessionId, subscription);
+      callback(null);
+    }
+
+    function handleGetActiveUsers(_, callback) {
+      callback(null, sessionManager.getActiveUsers());
+    }
+
+    function handleDisconnect() {
+      const user = sessionManager.getUserBySessionId(sessionId);
+
+      if (user) {
+        io.emit('user-left', user);
+      }
+
+      sessionManager.markSessionAsInactive(sessionId);
+    }
+
+    return {
+      handleUserRegister,
+      handleMessage,
+      handlePushSubscription,
+      handleGetActiveUsers,
+      handleDisconnect
     };
-
-    sessionService.broadcastUserJoined(response.user);
-    callback(null, response);
-  }
-
-  async function handleMessage(message, callback) {
-    const user = sessionService.getUserBySessionId(sessionId);
-
-    if (!user) callback('No user registered for this session.');
-
-    resetLogoffTimer();
-    message = messageService.saveMessage(message, user);
-    sessionService.broadcastMessage(message);
-
-    await pushService.sendNotifications(
-      pushMessageTemplate(message),
-      sessionId
-    );
-
-    callback(null);
-  }
-
-  function resetLogoffTimer() {
-    clearTimeout(logoffTimer);
-    logoffTimer = setTimeout(() => handleUnregister(), timeTillLogoff);
-  }
-
-  function handlePushSubscription(subscription) {
-    pushService.saveSubscription(sessionId, subscription);
-  }
-
-  function handleGetRegisteredUsers(_, callback) {
-    callback(null, sessionService.getUsers());
-  }
-
-  function handleUnregister() {
-    const user = sessionService.getUserBySessionId(sessionId);
-
-    if (user) sessionService.broadcastUserLeft(user);
-
-    sessionService.unregister(sessionId);
-    pushService.removeSubscription(sessionId);
-  }
-
-  return {
-    handleUserRegister,
-    handleMessage,
-    handlePushSubscription,
-    handleGetRegisteredUsers,
-    handleUnregister
   };
-};
+}
+
+module.exports = handlerFactory;
