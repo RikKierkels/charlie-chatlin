@@ -1,19 +1,7 @@
 'use strict';
 const { getCurrentDate } = require('./utils');
+const SESSION_EXPIRED_INTERVAL = 60 * 1000;
 const sessions = new Map();
-
-setInterval(() => {
-  [...sessions.values()]
-    .filter(s => !s.isActive && s.disconnectedAt)
-    .filter(s => hasSessionExpired(s))
-    .forEach(s => removeSession(s));
-}, 60 * 1000);
-
-function hasSessionExpired(session) {
-  const disconnectedAt = new Date(session.disconnectedAt);
-  const now = new Date();
-  return now - disconnectedAt > process.env.REMOVE_SESSION_TIMER;
-}
 
 function addSession(sessionId) {
   const session = sessions.get(sessionId);
@@ -24,16 +12,15 @@ function removeSession(sessionId) {
   sessions.delete(sessionId);
 }
 
-function isUsernameAvailable(user) {
-  return getUsers(s => s.user).every(u => u.username !== user.username);
+function getUserBySessionId(id) {
+  const session = sessions.get(id);
+  return (session || {}).user;
 }
 
 function getActiveUsers() {
-  return getUsers(s => s.user && s.isActive);
-}
-
-function getUsers(filterFn) {
-  return [...sessions.values()].filter(filterFn).map(s => s.user);
+  return [...sessions.values()]
+    .filter(s => s.user && s.isActive)
+    .map(s => s.user);
 }
 
 function registerUser(user, sessionId) {
@@ -41,9 +28,11 @@ function registerUser(user, sessionId) {
   sessions.set(sessionId, { ...session, user });
 }
 
-function getUserBySessionId(id) {
-  const session = sessions.get(id);
-  return (session || {}).user;
+function isUsernameAvailable(user) {
+  return [...sessions.values()]
+    .filter(s => s.user)
+    .map(s => s.user)
+    .every(u => u.username !== user.username);
 }
 
 function markSessionAsInactive(sessionId) {
@@ -56,24 +45,28 @@ function markSessionAsInactive(sessionId) {
   });
 }
 
-function getSubscriptions() {
-  return [...sessions.values()]
-    .filter(s => s.subscription)
-    .map(s => s.subscription);
+function onSessionExpired(callback) {
+  setInterval(() => {
+    Array.from(sessions)
+      .filter(([_, session]) => !session.isActive && session.disconnectedAt)
+      .filter(([_, session]) => hasSessionExpired(session.disconnectedAt))
+      .forEach(([id, _]) => callback(id));
+  }, SESSION_EXPIRED_INTERVAL);
 }
 
-function saveSubscription(sessionId, subscription) {
-  const session = sessions.get(sessionId);
-  sessions.set(sessionId, { ...session, subscription });
+function hasSessionExpired(disconnectedAt) {
+  const disconnectedAtDate = new Date(disconnectedAt);
+  const now = new Date();
+  return now - disconnectedAtDate > process.env.REMOVE_SESSION_TIMER;
 }
 
 module.exports = {
   addSession,
-  isUsernameAvailable,
+  removeSession,
+  getUserBySessionId,
   getActiveUsers,
   registerUser,
-  getUserBySessionId,
+  isUsernameAvailable,
   markSessionAsInactive,
-  getSubscriptions,
-  saveSubscription
+  onSessionExpired
 };

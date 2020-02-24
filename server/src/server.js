@@ -1,25 +1,35 @@
 'use strict';
+const { generateId } = require('./utils');
 const log = console.log;
 const chalk = require('chalk');
 
 const cors = require('cors');
 const app = require('express')();
+
 app.use(cors());
-
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
-const { generateId } = require('./utils');
-const makeHandlers = require('./handlers');
+const io = require('socket.io')(server);
 const sessionManager = require('./session-manager');
 const messageService = require('./message-service');
 const pushService = require('./push-service')();
+const makeHandlers = require('./handlers')(
+  io,
+  sessionManager,
+  messageService,
+  pushService
+);
+
+sessionManager.onSessionExpired(sessionId => {
+  sessionManager.removeSession(sessionId);
+  pushService.removeSubscription(sessionId);
+});
 
 app.get('/vapid', (req, res) => {
   res.json({ key: process.env.VAPID_KEY_PUBLIC });
 });
 
-io.on('connection', client => {
+io.use((client, next) => {
   let { sessionId } = client.handshake.query;
 
   if (!sessionId) {
@@ -27,24 +37,21 @@ io.on('connection', client => {
     client.emit('handshake', sessionId);
   }
 
-  sessionManager.addSession(sessionId);
+  client['sessionId'] = sessionId;
+  next();
+});
 
+io.on('connection', client => {
   const {
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
     handleGetActiveUsers,
     handleDisconnect
-  } = makeHandlers(
-    client,
-    sessionId,
-    io,
-    sessionManager,
-    messageService,
-    pushService
-  );
+  } = makeHandlers(client);
 
   log(`client connected... ${chalk.red(client.id)}`);
+  sessionManager.addSession(client.sessionId);
 
   client.on('register', handleUserRegister);
 
