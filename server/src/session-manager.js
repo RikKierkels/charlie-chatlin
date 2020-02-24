@@ -1,6 +1,6 @@
 'use strict';
 const { getCurrentDate } = require('./utils');
-const SESSION_EXPIRED_INTERVAL = 60 * 1000;
+const SESSION_EXPIRED_CHECK_INTERVAL = 60 * 1000;
 const sessions = new Map();
 
 function addSession(sessionId) {
@@ -51,13 +51,14 @@ function onSessionExpired(callback) {
       .filter(([_, session]) => !session.isActive && session.disconnectedAt)
       .filter(([_, session]) => hasSessionExpired(session.disconnectedAt))
       .forEach(([id, _]) => callback(id));
-  }, SESSION_EXPIRED_INTERVAL);
+  }, SESSION_EXPIRED_CHECK_INTERVAL);
 }
 
 function hasSessionExpired(disconnectedAt) {
-  const disconnectedAtDate = new Date(disconnectedAt);
-  const now = new Date();
-  return now - disconnectedAtDate > process.env.REMOVE_SESSION_TIMER;
+  const timeSinceDisconnect = new Date() - new Date(disconnectedAt);
+  const maxDisconnectTime = Number.parseInt(process.env.MAX_DISCONNECT_TIME);
+
+  return timeSinceDisconnect > maxDisconnectTime;
 }
 
 module.exports = {
