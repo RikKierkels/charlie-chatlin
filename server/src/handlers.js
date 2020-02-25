@@ -7,6 +7,27 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
     const toPushMessage = message =>
       `${message.sender.username} - ${message.text}`;
 
+    function handleConnect() {
+      console.log('connecting', sessionId);
+      sessionManager.startSession(sessionId);
+      client.emit('handshake', sessionId);
+    }
+
+    function handleReconnect() {
+      console.log('reconnecting', sessionId);
+      sessionManager.startSession(sessionId);
+
+      const user = sessionManager.getUserBySessionId(sessionId);
+      if (!user) {
+        return;
+      }
+
+      client.emit('registered', {
+        user,
+        chatHistory: messageService.getChatHistory()
+      });
+    }
+
     function handleUserRegister(user, callback) {
       const { error } = validator.userSchema.validate(user);
 
@@ -75,6 +96,8 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
     }
 
     return {
+      handleConnect,
+      handleReconnect,
       handleUserRegister,
       handleMessage,
       handlePushSubscription,

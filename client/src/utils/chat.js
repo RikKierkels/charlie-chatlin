@@ -3,23 +3,24 @@ import store from '@/store';
 import Actions from '@/constants/actions';
 import ConnectionStates from '@/constants/connection-states';
 
-let SESSION_ID = null;
+const storage = window.localStorage;
 
-let socket = io.connect(process.env.VUE_APP_API_URL);
+let socket = io.connect(process.env.VUE_APP_API_URL, {
+  query: { sessionId: storage.getItem('SESSION_ID') }
+});
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
 });
 
-// TODO: SET IN STORE
 socket.on('handshake', sessionId => {
-  console.log(sessionId);
-  SESSION_ID = sessionId;
+  console.log('handhskaing', sessionId);
+  storage.setItem('SESSION_ID', sessionId);
 });
 
 socket.on('reconnect_attempt', () => {
   socket.io.opts.query = {
-    sessionId: SESSION_ID
+    sessionId: storage.getItem('SESSION_ID')
   };
 });
 
@@ -28,6 +29,11 @@ socket.on('disconnect', () => {
     Actions.CONNECTION_STATE_CHANGED,
     ConnectionStates.DISCONNECTED
   );
+});
+
+socket.on('registered', response => {
+  store.dispatch(Actions.REGISTER_SUCCESS, response.user);
+  store.dispatch(Actions.CHATHISTORY_RECEIVED, response.chatHistory);
 });
 
 socket.on('message', message => {

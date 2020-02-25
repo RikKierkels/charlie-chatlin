@@ -20,7 +20,7 @@ const makeHandlers = require('./handlers')(
 );
 
 sessionManager.onSessionExpired(sessionId => {
-  sessionManager.removeSession(sessionId);
+  sessionManager.terminateSession(sessionId);
   pushService.removeSubscription(sessionId);
 });
 
@@ -31,9 +31,8 @@ app.get('/vapid', (req, res) => {
 io.use((client, next) => {
   let { sessionId } = client.handshake.query;
 
-  if (!sessionId) {
+  if (!sessionManager.hasSession(sessionId)) {
     sessionId = generateId();
-    client.emit('handshake', sessionId);
   }
 
   client['sessionId'] = sessionId;
@@ -42,6 +41,8 @@ io.use((client, next) => {
 
 io.on('connection', client => {
   const {
+    handleConnect,
+    handleReconnect,
     handleUserRegister,
     handleMessage,
     handlePushSubscription,
@@ -50,7 +51,10 @@ io.on('connection', client => {
   } = makeHandlers(client);
 
   log(`client connected... ${chalk.red(client.id)}`);
-  sessionManager.addSession(client.sessionId);
+
+  sessionManager.hasSession(client.sessionId)
+    ? handleReconnect()
+    : handleConnect();
 
   client.on('register', handleUserRegister);
 
