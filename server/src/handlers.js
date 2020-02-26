@@ -3,9 +3,30 @@ const validator = require('./validator');
 
 function handlerFactory(io, sessionManager, messageService, pushService) {
   return function make(client) {
-    const { sessionId } = client;
+    const { sessionId } = client.status;
     const toPushMessage = message =>
       `${message.sender.username} - ${message.text}`;
+
+    function handleConnect() {
+      sessionManager.startSession(sessionId);
+      client.emit('handshake', sessionId);
+    }
+
+    function handleReconnect() {
+      sessionManager.startSession(sessionId);
+
+      const user = sessionManager.getUserBySessionId(sessionId);
+      if (!user) {
+        return;
+      }
+
+      io.emit('user-joined', user);
+      client.join('chat room');
+      client.emit('registered', {
+        user,
+        chatHistory: messageService.getChatHistory()
+      });
+    }
 
     function handleUserRegister(user, callback) {
       const { error } = validator.userSchema.validate(user);
@@ -75,6 +96,8 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
     }
 
     return {
+      handleConnect,
+      handleReconnect,
       handleUserRegister,
       handleMessage,
       handlePushSubscription,
