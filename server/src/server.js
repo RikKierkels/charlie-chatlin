@@ -31,11 +31,12 @@ app.get('/vapid', (req, res) => {
 io.use((client, next) => {
   let { sessionId } = client.handshake.query;
 
-  if (!sessionManager.hasSession(sessionId)) {
-    sessionId = generateId();
+  if (sessionManager.hasSession(sessionId)) {
+    client['status'] = { sessionId, hasSession: true };
+  } else {
+    client['status'] = { sessionId: generateId(), hasSession: false };
   }
 
-  client['sessionId'] = sessionId;
   next();
 });
 
@@ -51,10 +52,7 @@ io.on('connection', client => {
   } = makeHandlers(client);
 
   log(`client connected... ${chalk.red(client.id)}`);
-
-  sessionManager.hasSession(client.sessionId)
-    ? handleReconnect()
-    : handleConnect();
+  client.status.hasSession ? handleReconnect() : handleConnect();
 
   client.on('register', handleUserRegister);
 

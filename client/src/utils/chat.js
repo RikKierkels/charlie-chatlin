@@ -32,6 +32,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('registered', response => {
+  console.log('regi');
   store.dispatch(Actions.REGISTER_SUCCESS, response.user);
   store.dispatch(Actions.CHATHISTORY_RECEIVED, response.chatHistory);
 });
