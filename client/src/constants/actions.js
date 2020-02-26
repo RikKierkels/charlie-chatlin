@@ -8,5 +8,6 @@ export default {
 
   CHATHISTORY_RECEIVED: 'actions.chat-history.received',
   MESSAGE_RECEIVED: 'actions.message.received',
-  USER_JOINED: 'actions.user-joined'
+  USER_JOINED: 'actions.user-joined',
+  USER_LEFT: 'actions.user-left'
 };

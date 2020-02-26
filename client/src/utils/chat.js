@@ -2,25 +2,20 @@ import io from 'socket.io-client';
 import store from '@/store';
 import Actions from '@/constants/actions';
 import ConnectionStates from '@/constants/connection-states';
+import * as Storage from '@/utils/storage';
 
-const storage = window.localStorage;
-
+const storageKey = 'APP_SESSION_ID';
 let socket = io.connect(process.env.VUE_APP_API_URL, {
-  query: { sessionId: storage.getItem('SESSION_ID') }
+  query: { sessionId: Storage.get(storageKey) }
 });
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
 });
 
-socket.on('handshake', sessionId => {
-  console.log('handhskaing', sessionId);
-  storage.setItem('SESSION_ID', sessionId);
-});
-
 socket.on('reconnect_attempt', () => {
   socket.io.opts.query = {
-    sessionId: storage.getItem('SESSION_ID')
+    sessionId: Storage.get(storageKey)
   };
 });
 
@@ -31,8 +26,9 @@ socket.on('disconnect', () => {
   );
 });
 
+socket.on('handshake', sessionId => Storage.set(storageKey, sessionId));
+
 socket.on('registered', response => {
-  console.log('regi');
   store.dispatch(Actions.REGISTER_SUCCESS, response.user);
   store.dispatch(Actions.CHATHISTORY_RECEIVED, response.chatHistory);
 });
@@ -45,9 +41,8 @@ socket.on('user-joined', user => {
   store.dispatch(Actions.USER_JOINED, user);
 });
 
-// eslint-disable-next-line no-unused-vars
 socket.on('user-left', user => {
-  // TODO: Action
+  store.dispatch(Actions.USER_LEFT, user);
 });
 
 socket.on('error', error => {
