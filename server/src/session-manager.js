@@ -3,12 +3,16 @@ const { getCurrentDate } = require('./utils');
 const CHECK_SESSION_EXPIRED_INTERVAL = 60 * 1000;
 const sessions = new Map();
 
-function addSession(sessionId) {
+function hasSession(sessionId) {
+  return sessions.has(sessionId);
+}
+
+function startSession(sessionId) {
   const session = sessions.get(sessionId);
   sessions.set(sessionId, { ...session, isActive: true });
 }
 
-function removeSession(sessionId) {
+function terminateSession(sessionId) {
   sessions.delete(sessionId);
 }
 
@@ -62,8 +66,9 @@ function hasSessionExpired(disconnectedAt) {
 }
 
 module.exports = {
-  addSession,
-  removeSession,
+  hasSession,
+  startSession,
+  terminateSession,
   getUserBySessionId,
   getActiveUsers,
   registerUser,
