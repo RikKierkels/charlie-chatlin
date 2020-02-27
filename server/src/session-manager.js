@@ -17,8 +17,7 @@ function terminateSession(sessionId) {
 }
 
 function getUserBySessionId(id) {
-  const session = sessions.get(id);
-  return (session || {}).user;
+  return (sessions.get(id) || {}).user;
 }
 
 function getActiveUsers() {
