@@ -29,12 +29,12 @@ app.get('/vapid', (req, res) => {
 });
 
 io.use((client, next) => {
-  let { sessionId } = client.handshake.query;
+  const { sessionId } = client.handshake.query;
 
   if (sessionManager.hasSession(sessionId)) {
-    client['status'] = { sessionId, hasSession: true };
+    client['status'] = { sessionId, isReconnected: true };
   } else {
-    client['status'] = { sessionId: generateId(), hasSession: false };
+    client['status'] = { sessionId: generateId(), isReconnected: false };
   }
 
   next();
@@ -52,7 +52,7 @@ io.on('connection', client => {
   } = makeHandlers(client);
 
   log(`client connected... ${chalk.red(client.id)}`);
-  client.status.hasSession ? handleReconnect() : handleConnect();
+  client.status.isReconnected ? handleReconnect() : handleConnect();
 
   client.on('register', handleUserRegister);
 

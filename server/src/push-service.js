@@ -12,7 +12,7 @@ module.exports = function(options = { TTL: 5 }) {
     process.env.VAPID_KEY_PRIVATE
   );
 
-  function saveSubscription(sessionId, subscription) {
+  function addSubscription(sessionId, subscription) {
     subscriptions.set(sessionId, subscription);
   }
 
@@ -27,7 +27,7 @@ module.exports = function(options = { TTL: 5 }) {
           .sendNotification(subscription, payload, options)
           .catch(error => {
             // prettier-ignore
-            log(`error sending notification for session: ${chalk.red(sessionId)}.`);
+            log(`error sending notification to session: ${chalk.red(sessionId)}.`);
             log(error);
           });
       }
@@ -37,7 +37,7 @@ module.exports = function(options = { TTL: 5 }) {
   }
 
   return {
-    saveSubscription,
+    addSubscription,
     removeSubscription,
     sendNotifications
   };

@@ -27,7 +27,7 @@ function getActiveUsers() {
     .map(s => s.user);
 }
 
-function registerUser(user, sessionId) {
+function registerUser(sessionId, user) {
   const session = sessions.get(sessionId);
   sessions.set(sessionId, { ...session, user });
 }
