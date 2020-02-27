@@ -2,16 +2,17 @@
 const { generateId, getCurrentDate } = require('./utils');
 let chatHistory = [];
 
-function saveMessage(message, user) {
-  const chatMessage = {
+function createMessage(text, user) {
+  return {
     id: generateId(),
-    text: message,
+    text,
     sentOn: getCurrentDate(),
     sender: user
   };
+}
 
-  chatHistory = [...chatHistory, chatMessage];
-  return chatMessage;
+function addMessage(message) {
+  chatHistory = [...chatHistory, message];
 }
 
 function getChatHistory() {
@@ -19,6 +20,7 @@ function getChatHistory() {
 }
 
 module.exports = {
-  saveMessage,
+  createMessage,
+  addMessage,
   getChatHistory
 };
