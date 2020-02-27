@@ -44,15 +44,15 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
         io.emit('user-left', existingUser);
       }
 
-      sessionManager.registerUser(user, sessionId);
+      sessionManager.registerUser(sessionId, user);
       client.join('chat room');
       io.emit('user-joined', user);
 
       callback(null, { user, chatHistory: messageService.getChatHistory() });
     }
 
-    async function handleMessage(message, callback) {
-      const { error } = validator.messageSchema.validate(message);
+    async function handleMessage(messageText, callback) {
+      const { error } = validator.messageSchema.validate(messageText);
 
       if (error) {
         return callback(validator.toErrorMessage(error));
@@ -63,7 +63,9 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
         return callback('No user registered for this session.');
       }
 
-      message = messageService.saveMessage(message, user);
+      const message = messageService.createMessage(messageText, user);
+      messageService.addMessage(message);
+
       io.to('chat room').emit('message', message);
       await pushService.sendNotifications(toPushMessage(message));
 
@@ -77,7 +79,7 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
         return callback(validator.toErrorMessage(error));
       }
 
-      pushService.saveSubscription(sessionId, subscription);
+      pushService.addSubscription(sessionId, subscription);
       callback(null);
     }
 
