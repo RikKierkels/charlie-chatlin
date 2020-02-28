@@ -28,10 +28,12 @@ socket.on('disconnect', () => {
 
 socket.on('handshake', sessionId => Storage.set(storageKey, sessionId));
 
-socket.on('registered', response => {
+socket.on('register-success', response => {
   store.dispatch(Actions.REGISTER_SUCCESS, response.user);
   store.dispatch(Actions.CHATHISTORY_RECEIVED, response.chatHistory);
 });
+
+socket.on('register-failed', error => console.log(error));
 
 socket.on('message', message => {
   store.dispatch(Actions.MESSAGE_RECEIVED, message);
@@ -57,19 +59,7 @@ function getRegisteredUsers() {
 }
 
 function register(avatar) {
-  socket.emit(
-    'register',
-    { username: avatar.username, avatarId: avatar.id },
-    (error, success) => {
-      if (success != null) {
-        store.dispatch(Actions.REGISTER_SUCCESS, success.user);
-        store.dispatch(Actions.CHATHISTORY_RECEIVED, success.chatHistory);
-      } else if (error != null) {
-        // store.dispatch(Actions.REGISTER_FAILED, error);
-        console.log('regsitertion failed error', error);
-      }
-    }
-  );
+  socket.emit('register', { username: avatar.username, avatarId: avatar.id });
 }
 
 function sendMessage(m) {
