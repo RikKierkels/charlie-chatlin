@@ -6,6 +6,7 @@ self.addEventListener('push', function(event) {
         type: 'window'
       })
       .then(function(clientList) {
+        console.log('clientList: ', clientList);
         if (clientList.every(client => client.visibilityState !== 'visible')) {
           event.waitUntil(
             self.registration.showNotification('Charlie Chatlin', {
