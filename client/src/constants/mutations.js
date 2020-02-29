@@ -4,5 +4,6 @@ export default {
   SET_SELECTED_AVATAR: 'mutations.set-selected-avatar',
 
   UPSERT_MESSAGE: 'mutations.upsert-message',
-  SET_UNAVAILABLE_AVATAR: 'mutations.set-avatar-unavailble'
+  SET_UNAVAILABLE_AVATAR: 'mutations.set-avatar-unavailble',
+  SET_CURRENT_VIEW: 'mutations.set-current-view'
 };

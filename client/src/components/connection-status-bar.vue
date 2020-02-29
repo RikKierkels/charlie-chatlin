@@ -1,6 +1,6 @@
 <template>
   <div class="connection-status-bar" :class="connectionStatus">
-    <p>{{ connectionStatus }}</p>
+    <!-- <p>{{ connectionStatus }}</p> -->
   </div>
 </template>
 
@@ -23,14 +23,14 @@ export default {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  width: fit-content;
-  height: 50px;
+  height: 10px;
+  z-index: 1;
 
   color: white;
   background-color: gray;
 
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1em;
   text-align: center;
 
   p {

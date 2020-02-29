@@ -6,7 +6,7 @@ const state = {
   avatars: theAvatars.map(a => {
     return {
       id: a.id,
-      image: `/img/avatars/${a.id}.png`,
+      image: `img/avatars/${a.id}.png`,
       username: a.username,
       isAvailable: true,
       isSelected: false
@@ -35,10 +35,12 @@ const mutations = {
     const a = state.avatars.find(a => a.id === payload.avatarId);
     if (a) a.isAvailable = false;
   },
+
   [Mutations.SET_SELECTED_AVATAR](state, payload) {
     state.avatars.forEach(a => {
       a.isSelected = a.id === payload.id;
     });
+    console.log('vatars are now', state.avatars);
   }
 };
 

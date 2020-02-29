@@ -1,13 +1,14 @@
 <template>
-  <section class="__container">
-    <slot name="default" />
+  <section>
+    <div class="__container">
+      <slot name="default" />
+    </div>
   </section>
 </template>
 
 <script>
 export default {
   name: 'container',
-  props: {},
   computed: {}
 };
 </script>

@@ -1,8 +1,18 @@
 <template>
-  <container>
-    <room />
-    <message-bar />
-  </container>
+  <div>
+    <container>
+      <div class="chat">
+        <div class="users">
+          <p>test</p>
+          <p>test</p>
+        </div>
+        <div class="chat-window">
+          <room />
+          <message-bar />
+        </div>
+      </div>
+    </container>
+  </div>
 </template>
 
 <script>
@@ -23,9 +33,33 @@ export default {
   methods: {
     handleSendMessage() {
       Chat.sendMessage();
+    },
+    handleDisconnect() {
+      Chat.disconnect();
     }
   }
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '@/assets/styles/variables';
+
+.chat {
+  background-color: $selago;
+  background-color: $oxford;
+  height: 100vh;
+  display: flex;
+
+  .users {
+    width: 250px;
+    p {
+      color: dodgerblue;
+    }
+  }
+
+  .chat-window {
+    width: 100%;
+    background-color: $selago;
+  }
+}
+</style>

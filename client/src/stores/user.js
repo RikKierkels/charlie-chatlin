@@ -11,14 +11,13 @@ const getters = {
 
 const actions = {
   [Actions.REGISTER_SUCCESS]({ commit }, user) {
-    console.log('in acxtions register', user);
+    console.log('Actions.REGISTER_SUCCESS', user);
     commit(Mutations.SET_USER, user);
   }
 };
 const mutations = {
   [Mutations.SET_USER](state, payload) {
     state.user = payload;
-    console.log('user is now', state.user);
   }
 };
 

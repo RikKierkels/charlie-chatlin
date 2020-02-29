@@ -53,13 +53,15 @@ function getRegisteredUsers() {
   socket.emit('registered-users', null, (error, success) => {
     console.log(error);
     console.log(success);
+
+    store.dispatch(Actions.USERS_RECEIVED, success);
   });
 }
 
-function register(avatar) {
+function register(username, avatar) {
   socket.emit(
     'register',
-    { username: avatar.username, avatarId: avatar.id },
+    { username: username, avatarId: avatar.id },
     (error, success) => {
       if (success != null) {
         store.dispatch(Actions.REGISTER_SUCCESS, success.user);
@@ -79,13 +81,6 @@ function sendMessage(m) {
   });
 }
 
-function sayHello() {
-  socket.emit('message', `hi this is dog! ${Date.now()}`, (error, success) => {
-    console.log('error', error);
-    console.log('success', success);
-  });
-}
-
 function pushSubscription(subscription) {
   socket.emit('push-subscription', subscription, (error, success) => {
     console.log('error', error);
@@ -93,10 +88,14 @@ function pushSubscription(subscription) {
   });
 }
 
+function disconnect() {
+  socket.emit('disconnect');
+}
+
 export default {
   getRegisteredUsers,
   register,
-  sayHello,
   pushSubscription,
-  sendMessage
+  sendMessage,
+  disconnect
 };
