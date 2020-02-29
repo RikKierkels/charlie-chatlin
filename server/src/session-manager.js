@@ -17,8 +17,7 @@ function terminateSession(sessionId) {
 }
 
 function getUserBySessionId(id) {
-  const session = sessions.get(id);
-  return (session || {}).user;
+  return (sessions.get(id) || {}).user;
 }
 
 function getActiveUsers() {
@@ -27,7 +26,7 @@ function getActiveUsers() {
     .map(s => s.user);
 }
 
-function registerUser(user, sessionId) {
+function registerUser(sessionId, user) {
   const session = sessions.get(sessionId);
   sessions.set(sessionId, { ...session, user });
 }

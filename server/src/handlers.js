@@ -17,42 +17,48 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
 
       const user = sessionManager.getUserBySessionId(sessionId);
       if (!user) {
-        return;
+        return client.emit(
+          'register-failed',
+          'There is no user for this session.'
+        );
       }
 
       io.emit('user-joined', user);
       client.join('chat room');
-      client.emit('registered', {
+      client.emit('register-success', {
         user,
         chatHistory: messageService.getChatHistory()
       });
     }
 
-    function handleUserRegister(user, callback) {
+    function handleUserRegister(user) {
       const { error } = validator.userSchema.validate(user);
 
       if (error) {
-        return callback(validator.toErrorMessage(error));
-      }
-
-      if (!sessionManager.isUsernameAvailable(user)) {
-        return callback('Username is not available.');
+        return client.emit('register-failed', validator.toErrorMessage(error));
       }
 
       const existingUser = sessionManager.getUserBySessionId(sessionId);
+      const isUsernameAvailable = sessionManager.isUsernameAvailable(user);
+
       if (existingUser) {
         io.emit('user-left', existingUser);
+      } else if (!isUsernameAvailable) {
+        return client.emit('register-failed', 'Username is not available.');
       }
 
-      sessionManager.registerUser(user, sessionId);
+      sessionManager.registerUser(sessionId, user);
       client.join('chat room');
       io.emit('user-joined', user);
 
-      callback(null, { user, chatHistory: messageService.getChatHistory() });
+      client.emit('register-success', {
+        user,
+        chatHistory: messageService.getChatHistory()
+      });
     }
 
-    async function handleMessage(message, callback) {
-      const { error } = validator.messageSchema.validate(message);
+    async function handleMessage(messageText, callback) {
+      const { error } = validator.messageSchema.validate(messageText);
 
       if (error) {
         return callback(validator.toErrorMessage(error));
@@ -63,7 +69,9 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
         return callback('No user registered for this session.');
       }
 
-      message = messageService.saveMessage(message, user);
+      const message = messageService.createMessage(messageText, user);
+      messageService.addMessage(message);
+
       io.to('chat room').emit('message', message);
       await pushService.sendNotifications(toPushMessage(message));
 
@@ -77,7 +85,7 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
         return callback(validator.toErrorMessage(error));
       }
 
-      pushService.saveSubscription(sessionId, subscription);
+      pushService.addSubscription(sessionId, subscription);
       callback(null);
     }
 
