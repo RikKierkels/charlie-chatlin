@@ -5,7 +5,6 @@ const webPush = require('web-push');
 
 module.exports = function(options = { TTL: 5 }) {
   const subscriptions = new Map();
-
   webPush.setVapidDetails(vapid.url, vapid.keys.public, vapid.keys.private);
 
   function addSubscription(sessionId, subscription) {
