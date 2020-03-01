@@ -1,5 +1,5 @@
 'use strict';
-const { generateId, getCurrentDate } = require('./utils');
+const { generateId, getCurrentDate } = require('../utils');
 let chatHistory = [];
 
 function createMessage(text, user) {

@@ -1,7 +1,12 @@
 'use strict';
-const validator = require('./validator');
+const { Container } = require('typedi');
+const validator = require('../validator');
 
-function handlerFactory(io, sessionManager, messageService, pushService) {
+function handlerFactory(io) {
+  const messageService = Container.get('messageService');
+  const sessionManager = Container.get('sessionManager');
+  const pushService = Container.get('pushService');
+
   return function make(client) {
     const { sessionId } = client.status;
     const toPushMessage = message =>

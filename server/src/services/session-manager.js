@@ -1,5 +1,5 @@
 'use strict';
-const { getCurrentDate } = require('./utils');
+const { getCurrentDate } = require('../utils');
 const CHECK_SESSION_EXPIRED_INTERVAL = 60 * 1000;
 const sessions = new Map();
 
