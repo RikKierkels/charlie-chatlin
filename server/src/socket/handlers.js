@@ -1,6 +1,5 @@
-'use strict';
 const { Container } = require('typedi');
-const validator = require('../validator');
+const validator = require('../utils/validator');
 
 function handlerFactory(io) {
   const messageService = Container.get('messageService');

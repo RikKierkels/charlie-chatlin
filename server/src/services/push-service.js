@@ -1,16 +1,12 @@
-'use strict';
 const log = console.log;
 const chalk = require('chalk');
+const { vapid } = require('../config');
 const webPush = require('web-push');
 
 module.exports = function(options = { TTL: 5 }) {
   const subscriptions = new Map();
 
-  webPush.setVapidDetails(
-    process.env.URL,
-    process.env.VAPID_KEY_PUBLIC,
-    process.env.VAPID_KEY_PRIVATE
-  );
+  webPush.setVapidDetails(vapid.url, vapid.keys.public, vapid.keys.private);
 
   function addSubscription(sessionId, subscription) {
     subscriptions.set(sessionId, subscription);

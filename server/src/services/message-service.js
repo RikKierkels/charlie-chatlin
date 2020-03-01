@@ -1,4 +1,3 @@
-'use strict';
 const { generateId, getCurrentDate } = require('../utils');
 let chatHistory = [];
 

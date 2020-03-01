@@ -1,4 +1,4 @@
-'use strict';
+const { session } = require('../config');
 const { getCurrentDate } = require('../utils');
 const CHECK_SESSION_EXPIRED_INTERVAL = 60 * 1000;
 const sessions = new Map();
@@ -59,9 +59,7 @@ function onSessionExpired(callback) {
 
 function hasSessionExpired(disconnectedAt) {
   const timeSinceDisconnect = new Date() - new Date(disconnectedAt);
-  const maxDisconnectTime = Number.parseInt(process.env.MAX_DISCONNECT_TIME);
-
-  return timeSinceDisconnect > maxDisconnectTime;
+  return timeSinceDisconnect > session.maxDisconnectTime;
 }
 
 module.exports = {
