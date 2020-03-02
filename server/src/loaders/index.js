@@ -3,7 +3,7 @@ const expressLoader = require('./express');
 const socketLoader = require('./socket');
 const jobsLoader = require('./jobs');
 
-module.exports = (app, io) => {
+module.exports = function load(app, io) {
   dependencyInjectionLoader();
   expressLoader(app);
   socketLoader(io);

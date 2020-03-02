@@ -1,24 +1,39 @@
 const { Container } = require('typedi');
 
-module.exports = ({ interval, maxDisconnectTime }) => {
-  const sessionManager = Container.get('sessionManager');
-  const pushService = Container.get('pushService');
-  const sessions = sessionManager.getSessions();
+module.exports = function checkSessionExpiry({
+  checkIntervalMs,
+  maxDisconnectTimeMs
+}) {
+  const SessionManager = Container.get('SessionManager');
+  const PushService = Container.get('PushService');
+  const sessions = SessionManager.getSessions();
+  let interval;
 
-  setInterval(() => {
-    Array.from(sessions)
-      .filter(([_, session]) => !session.isActive && session.disconnectedAt)
-      .filter(([_, session]) => hasSessionExpired(session.disconnectedAt))
-      .forEach(([id, _]) => terminateSession(id));
-  }, interval);
+  function start() {
+    interval = setInterval(() => {
+      Array.from(sessions)
+        .filter(([_, session]) => !session.isActive && session.disconnectedAt)
+        .filter(([_, session]) => hasSessionExpired(session.disconnectedAt))
+        .forEach(([id, _]) => terminateSession(id));
+    }, checkIntervalMs);
+  }
 
   function hasSessionExpired(disconnectedAt) {
     const timeSinceDisconnect = new Date() - new Date(disconnectedAt);
-    return timeSinceDisconnect > maxDisconnectTime;
+    return timeSinceDisconnect > maxDisconnectTimeMs;
   }
 
   function terminateSession(id) {
-    sessionManager.terminateSession(id);
-    pushService.removeSubscription(id);
+    SessionManager.terminateSession(id);
+    PushService.removeSubscription(id);
   }
+
+  function stop() {
+    clearInterval(interval);
+  }
+
+  return {
+    start,
+    stop
+  };
 };

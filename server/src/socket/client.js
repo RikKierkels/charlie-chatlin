@@ -1,7 +1,7 @@
 const log = console.log;
 const chalk = require('chalk');
 
-module.exports = (client, handlers) => {
+module.exports = function handleClient(client, handlers) {
   const {
     handleConnect,
     handleReconnect,
@@ -13,7 +13,7 @@ module.exports = (client, handlers) => {
   } = handlers;
 
   log(`client connected... ${chalk.red(client.id)}`);
-  client.status.isReconnected ? handleReconnect() : handleConnect();
+  client.isReconnected ? handleReconnect() : handleConnect();
 
   client.on('register', handleUserRegister);
 

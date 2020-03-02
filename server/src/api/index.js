@@ -1,9 +1,6 @@
 const { Router } = require('express');
-const vapid = require('./vapid');
+const addVapidRoutes = require('./vapid');
 
-module.exports = () => {
-  const app = Router();
-  vapid(app);
-
-  return app;
-};
+const app = Router();
+addVapidRoutes(app);
+module.exports = app;

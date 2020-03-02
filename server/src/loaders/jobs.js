@@ -1,9 +1,9 @@
 const { session } = require('../config');
 const sessionExpiryJob = require('../jobs/session-expiry');
 
-module.exports = () => {
+module.exports = function loadJobs() {
   sessionExpiryJob({
-    interval: 60 * 1000,
-    maxDisconnectTime: session.maxDisconnectTime
-  });
+    checkIntervalMs: 60 * 1000,
+    maxDisconnectTimeMs: session.maxDisconnectTime
+  }).start();
 };

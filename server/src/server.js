@@ -1,4 +1,3 @@
-'use strict';
 const log = console.log;
 const chalk = require('chalk');
 const loaders = require('./loaders');

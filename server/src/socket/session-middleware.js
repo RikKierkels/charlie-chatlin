@@ -1,15 +1,17 @@
 const { Container } = require('typedi');
 const { generateId } = require('../utils');
 
-module.exports = (client, next) => {
-  const sessionManager = Container.get('sessionManager');
+module.exports = function setSessionId(client, next) {
+  const SessionManager = Container.get('SessionManager');
   const { sessionId } = client.handshake.query;
 
-  if (sessionManager.hasSession(sessionId)) {
-    client['status'] = { sessionId, isReconnected: true };
+  const isReconnected = SessionManager.hasSession(sessionId);
+  if (isReconnected) {
+    client['sessionId'] = sessionId;
   } else {
-    client['status'] = { sessionId: generateId(), isReconnected: false };
+    client['sessionId'] = generateId();
   }
 
+  client['isReconnected'] = isReconnected;
   next();
 };
