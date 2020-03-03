@@ -1,11 +1,9 @@
 <template>
   <div
     class="avatar"
-    v-if="avatar"
     :class="{ large: large, medium: medium, small: small }"
-  >
-    <img :src="avatar.image" />
-  </div>
+    :style="getBackgroundImage()"
+  />
 </template>
 
 <script>
@@ -29,9 +27,9 @@ export default {
       required: false
     }
   },
-  computed: {
-    avatar() {
-      return this.$store.getters.avatars.find(a => a.id === this.avatarId);
+  methods: {
+    getBackgroundImage() {
+      return `background-image: url(img/avatars/${this.avatarId}.png);`;
     }
   }
 };
@@ -43,26 +41,32 @@ export default {
   position: relative;
   width: 100px;
   height: 100px;
-  border-radius: 50%;
+  border-radius: 5px;
   overflow: hidden;
 
   img {
+    position: relative;
     width: 120%;
+    height: 120%;
+    top: -10px;
   }
+
+  background-size: cover;
+  background-position: center;
 
   &.large {
-    width: 200px;
-    height: 200px;
-  }
-
-  &.medium {
     width: 100px;
     height: 100px;
   }
 
+  &.medium {
+    width: 50px;
+    height: 50px;
+  }
+
   &.small {
-    width: 65px;
-    height: 65px;
+    width: 35px;
+    height: 35px;
   }
 }
 </style>

@@ -20,4 +20,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.room {
+  overflow: scroll;
+  height: 100vh;
+}
+</style>

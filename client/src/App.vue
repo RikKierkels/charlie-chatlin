@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <connection-status-bar />
-
     <register v-if="!isRegistered" />
     <chat v-else />
   </div>
 </template>
 
 <script>
-import ConnectionStatusBar from '@/components/connection-status-bar';
+// import ConnectionStatusBar from '@/components/connection-status-bar';
 import Register from '@/views/register';
 import Chat from '@/views/chat';
 
 export default {
   name: 'App',
   components: {
-    ConnectionStatusBar,
+    // ConnectionStatusBar,
 
     Register,
     Chat

@@ -1,12 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,700,800,900&display=swap');
+
 @import './variables';
 @import './reset';
 @import './typography.scss';
 
 $border-radius: 5px;
 
+
+body,
+html {
+  font-family: 'Segoe UI';
+  font-family: 'Consolas';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  color: $oxford;
+}
+
 body {
   height: 100%;
-  color: $oxford;
 }
 
 h1 {
@@ -19,7 +32,7 @@ p {
 
 button, input {
   padding: 10px 15px;
-  background-color: $oxford;
+  background-color: $bluewood;
   color: $spindle;
 
   border-radius: $border-radius;
@@ -29,7 +42,6 @@ button, input {
   font-weight: 600;
   font-size: 1.1em;
 
-  cursor: pointer;
 
   &:disabled {
     opacity: 0.6;
@@ -39,10 +51,14 @@ button, input {
 
 input {
   background-color: $spindle;
-  color: $oxford;
+  color: $bluewood;
 
   &::placeholder {
     font-weight: 500;
-    color: lighten($oxford, 40%);
+    color: lighten($bluewood, 40%);
   }
+}
+
+button {
+  cursor: pointer;
 }

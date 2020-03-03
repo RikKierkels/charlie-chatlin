@@ -90,6 +90,7 @@ function handlerFactory(io, sessionManager, messageService, pushService) {
     }
 
     function handleGetActiveUsers(_, callback) {
+      console.log('in get active users');
       callback(null, sessionManager.getActiveUsers());
     }
 

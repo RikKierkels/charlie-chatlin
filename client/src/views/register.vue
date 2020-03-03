@@ -60,5 +60,8 @@ input {
 
 h1 {
   margin-bottom: 30px;
+  color: $bluewood;
+  font-weight: 700;
+  font-size: 2.5em;
 }
 </style>

@@ -11,6 +11,8 @@ let socket = io.connect(process.env.VUE_APP_API_URL, {
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
+
+  getRegisteredUsers();
 });
 
 socket.on('reconnect_attempt', () => {
@@ -52,16 +54,15 @@ socket.on('error', error => {
 });
 
 function getRegisteredUsers() {
-  socket.emit('registered-users', null, (error, success) => {
-    console.log(error);
-    console.log(success);
-
+  console.log('getting registered users');
+  socket.emit('active-users', null, (error, success) => {
+    console.log('received');
     store.dispatch(Actions.USERS_RECEIVED, success);
   });
 }
 
-function register(avatar) {
-  socket.emit('register', { username: avatar.username, avatarId: avatar.id });
+function register(username, avatar) {
+  socket.emit('register', { username: username, avatarId: avatar.id });
 }
 
 function sendMessage(m) {
@@ -79,6 +80,7 @@ function pushSubscription(subscription) {
 }
 
 function disconnect() {
+  Storage.set('APP_SESSION_ID', null);
   socket.emit('disconnect');
 }
 
