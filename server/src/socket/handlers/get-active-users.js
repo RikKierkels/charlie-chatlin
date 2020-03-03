@@ -1,9 +1,5 @@
-const { Container } = require('typedi');
-
-module.exports = function makeHandleGetActiveUsers() {
-  const SessionManager = Container.get('SessionManager');
-
+module.exports = function makeHandleGetActiveUsers({ sessionManager }) {
   return function handleGetActiveUsers(_, callback) {
-    callback(null, SessionManager.getActiveUsers());
+    callback(null, sessionManager.getActiveUsers());
   };
 };

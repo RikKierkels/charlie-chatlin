@@ -1,13 +1,11 @@
-const { Container } = require('typedi');
-
-module.exports = function makeHandleReconnect(io, client) {
-  const SessionManager = Container.get('SessionManager');
-  const MessageService = Container.get('MessageService');
-
+module.exports = function makeHandleReconnect(
+  { io, sessionManager, messageService },
+  client
+) {
   return function handleReconnect() {
-    SessionManager.startSession(client.sessionId);
+    sessionManager.startSession(client.sessionId);
 
-    const user = SessionManager.getUserBySessionId(client.sessionId);
+    const user = sessionManager.getUserBySessionId(client.sessionId);
     if (!user) {
       return client.emit(
         'register-failed',
@@ -19,7 +17,7 @@ module.exports = function makeHandleReconnect(io, client) {
     client.join('chat room');
     client.emit('register-success', {
       user,
-      chatHistory: MessageService.getChatHistory()
+      chatHistory: messageService.getChatHistory()
     });
   };
 };

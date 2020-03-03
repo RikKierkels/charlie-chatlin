@@ -6,10 +6,11 @@ module.exports = function checkSessionExpiry({
 }) {
   const SessionManager = Container.get('SessionManager');
   const PushService = Container.get('PushService');
-  const sessions = SessionManager.getSessions();
   let interval;
 
   function start() {
+    const sessions = SessionManager.getSessions();
+
     interval = setInterval(() => {
       Array.from(sessions)
         .filter(([_, session]) => !session.isActive && session.disconnectedAt)

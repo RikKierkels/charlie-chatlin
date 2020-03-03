@@ -1,17 +1,14 @@
-const { Container } = require('typedi');
-const validator = require('../../utils/validator');
-
-module.exports = function makeHandlePushSubscription({ sessionId }) {
-  const PushService = Container.get('PushService');
-
+module.exports = function makeHandlePushSubscription(
+  { validator, pushService },
+  { sessionId }
+) {
   return function handlePushSubscription(subscription, callback) {
-    const { error } = validator.subscriptionSchema.validate(subscription);
-
+    const { error } = validator.validateSubscription(subscription);
     if (error) {
       return callback(validator.toErrorMessage(error));
     }
 
-    PushService.addSubscription(sessionId, subscription);
+    pushService.addSubscription(sessionId, subscription);
     callback(null);
   };
 };

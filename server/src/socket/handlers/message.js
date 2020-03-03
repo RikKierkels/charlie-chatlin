@@ -1,30 +1,24 @@
-const { Container } = require('typedi');
-const validator = require('../../utils/validator');
-
-module.exports = function makeHandleMessage(io, { sessionId }) {
-  const SessionManager = Container.get('SessionManager');
-  const PushService = Container.get('PushService');
-  const MessageService = Container.get('MessageService');
-
+module.exports = function makeHandleMessage(
+  { io, sessionManager, pushService, messageService, validator },
+  { sessionId }
+) {
   return async function handleMessage(messageText, callback) {
-    const { error } = validator.messageSchema.validate(messageText);
-
+    const { error } = validator.validateMessage(messageText);
     if (error) {
       return callback(validator.toErrorMessage(error));
     }
 
-    const user = SessionManager.getUserBySessionId(sessionId);
+    const user = sessionManager.getUserBySessionId(sessionId);
     if (!user) {
       return callback('No user registered for this session.');
     }
 
-    const message = MessageService.createMessage(messageText, user);
-    MessageService.addMessage(message);
+    const message = messageService.createMessage(messageText, user);
+    messageService.addMessage(message);
     io.to('chat room').emit('message', message);
 
     const pushMessageTemplate = `${message.sender.username} - ${message.text}`;
-    await PushService.sendNotifications(pushMessageTemplate);
-
+    await pushService.sendNotifications(pushMessageTemplate);
     callback(null);
   };
 };

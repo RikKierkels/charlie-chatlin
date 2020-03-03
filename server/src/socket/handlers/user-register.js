@@ -1,33 +1,27 @@
-const { Container } = require('typedi');
-const validator = require('../../utils/validator');
-
-module.exports = function makeHandleUserRegister(io, client) {
-  const SessionManager = Container.get('SessionManager');
-  const MessageService = Container.get('MessageService');
-
+module.exports = function makeHandleUserRegister(
+  { io, sessionManager, messageService, validator },
+  client
+) {
   return function handleUserRegister(user) {
-    const { error } = validator.userSchema.validate(user);
-
+    const { error } = validator.validateUser(user);
     if (error) {
       return client.emit('register-failed', validator.toErrorMessage(error));
     }
 
-    const existingUser = SessionManager.getUserBySessionId(client.sessionId);
-    const isUsernameAvailable = SessionManager.isUsernameAvailable(user);
-
-    if (existingUser) {
-      io.emit('user-left', existingUser);
-    } else if (!isUsernameAvailable) {
+    const existingUser = sessionManager.getUserBySessionId(client.sessionId);
+    if (!existingUser && !sessionManager.isUsernameAvailable(user)) {
       return client.emit('register-failed', 'Username is not available.');
     }
+    if (existingUser) {
+      io.emit('user-left', existingUser);
+    }
 
-    SessionManager.registerUser(client.sessionId, user);
-    client.join('chat room');
+    sessionManager.registerUser(client.sessionId, user);
     io.emit('user-joined', user);
-
+    client.join('chat room');
     client.emit('register-success', {
       user,
-      chatHistory: MessageService.getChatHistory()
+      chatHistory: messageService.getChatHistory()
     });
   };
 };

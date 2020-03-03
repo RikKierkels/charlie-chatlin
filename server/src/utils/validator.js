@@ -39,8 +39,8 @@ function toErrorMessage(error) {
 }
 
 module.exports = {
-  messageSchema,
-  userSchema,
-  subscriptionSchema,
+  validateMessage: msg => messageSchema.validate(msg),
+  validateUser: user => userSchema.validate(user),
+  validateSubscription: sub => subscriptionSchema.validate(sub),
   toErrorMessage
 };

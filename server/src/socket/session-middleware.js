@@ -6,12 +6,13 @@ module.exports = function setSessionId(client, next) {
   const { sessionId } = client.handshake.query;
 
   const isReconnected = SessionManager.hasSession(sessionId);
+  client['isReconnected'] = isReconnected;
+
   if (isReconnected) {
     client['sessionId'] = sessionId;
   } else {
     client['sessionId'] = generateId();
   }
 
-  client['isReconnected'] = isReconnected;
   next();
 };
