@@ -39,18 +39,20 @@ export default {
 .my-user {
   position: relative;
   display: flex;
-  align-items: top;
+  align-items: center;
   width: 100%;
   margin-bottom: 50px;
 
   .my-user-avatar {
     position: relative;
     margin-right: 20px;
-    top: 5px;
   }
 
   svg {
     transform: rotate(180deg);
+    margin-left: 5px;
+    top: 1px;
+    position: relative;
   }
 
   h2 {
@@ -63,7 +65,7 @@ export default {
   p {
     color: lighten($oxford, 30%);
     position: relative;
-    top: 3px;
+    margin-right: 10px;
   }
 }
 

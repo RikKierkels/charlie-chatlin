@@ -60,13 +60,13 @@ export default {
   }
 
   &.medium {
-    width: 50px;
-    height: 50px;
+    width: 62px;
+    height: 62px;
   }
 
   &.small {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
   }
 }
 </style>

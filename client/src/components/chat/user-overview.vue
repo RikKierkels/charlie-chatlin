@@ -1,7 +1,7 @@
 <template>
   <div class="user-overview">
     <h2>
-      <font-awesome-icon :icon="['fas', 'users']" />
+      <!-- <font-awesome-icon :icon="['fas', 'users']" /> -->
       <span>online users</span>
       <span class="count">{{ users.length }}</span>
     </h2>
@@ -38,7 +38,7 @@ export default {
 
 h2 {
   color: $gray;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 
   font-size: 1em;
   font-weight: 400;
@@ -67,9 +67,9 @@ h2 {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  padding: 8px 10px;
+  /* padding: 8px 10px; */
   border-radius: 5px;
-  background-color: lighten($oxford, 4%);
+  /* background-color: lighten($oxford, 4%); */
 
   p {
     margin-left: 15px;

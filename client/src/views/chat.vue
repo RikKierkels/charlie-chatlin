@@ -1,17 +1,17 @@
 <template>
   <div>
-    <container class="chat-container">
-      <div class="chat">
-        <div class="side-bar">
-          <my-user />
-          <user-overview />
-        </div>
-        <div class="chat-window">
-          <room />
-          <message-bar />
-        </div>
+    <!-- <container class="chat-container"> -->
+    <div class="chat">
+      <div class="side-bar">
+        <my-user />
+        <user-overview />
       </div>
-    </container>
+      <div class="chat-window">
+        <room />
+        <message-bar />
+      </div>
+    </div>
+    <!-- </container> -->
   </div>
 </template>
 
@@ -20,7 +20,7 @@ import Room from '@/components/chat/room';
 import MessageBar from '@/components/chat/message-bar';
 import UserOverview from '@/components/chat/user-overview';
 import MyUser from '@/components/chat/my-user';
-import Container from '@/components/container';
+//import Container from '@/components/container';
 
 export default {
   name: 'Chat',
@@ -29,8 +29,8 @@ export default {
     Room,
     MessageBar,
     UserOverview,
-    MyUser,
-    Container
+    MyUser
+    //Container
   }
 };
 </script>
@@ -41,11 +41,7 @@ export default {
 .chat-container {
   background-color: $selago;
   background-color: $oxford;
-  background: linear-gradient(
-    90deg,
-    darken($oxford, 3%) 59%,
-    darken($selago, 3%) 59%
-  );
+  background: linear-gradient(90deg, darken($oxford, 1%) 59%, white 59%);
 }
 
 .chat {
@@ -55,7 +51,7 @@ export default {
   background-color: $oxford;
 
   .side-bar {
-    width: 400px;
+    width: 310px;
     padding: 35px;
   }
 
@@ -63,7 +59,7 @@ export default {
     width: 100%;
     position: relative;
     padding: 30px;
-    background-color: $back;
+    background-color: white;
   }
 }
 </style>
