@@ -35,9 +35,6 @@ export default {
       required: true
     }
   },
-  mounted() {
-    console.log('mounted with', this.message);
-  },
   data() {
     return {
       seed: Math.random()
@@ -50,7 +47,7 @@ export default {
   },
   methods: {
     getClass() {
-      let classes = ['default', 'one', 'two', 'three'];
+      let classes = ['default', 'default', 'one', 'two', 'two', 'three'];
       return classes[Math.floor(Math.random() * classes.length)];
     }
   }

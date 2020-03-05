@@ -33,6 +33,10 @@ export default {
 <style lang="scss">
 @import '@/assets/styles/index';
 
+body {
+  background-image: url('./assets/images/back-1.svg');
+}
+
 #app {
   height: 100vh;
 }

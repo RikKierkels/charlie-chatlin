@@ -2,6 +2,7 @@
   <div class="chat">
     <masonry :cols="cols" :gutter="gutter" style="width: 100%;">
       <my-user-tile class="tile" />
+      <online-users-tile class="tile" />
 
       <template v-for="tile in tiles">
         <message-tile
@@ -17,33 +18,48 @@
           :key="`tile-${tile.content.text}`"
           class="tile"
         />
-      </template>
-    </masonry>
 
-    <create-message />
+        <user-left-tile
+          v-if="tile.type === 'user-left'"
+          :message="tile.content"
+          :key="`tile-${tile.content.text}`"
+          class="tile"
+        />
+      </template>
+
+      <new-message class="tile" />
+    </masonry>
   </div>
 </template>
 
 <script>
-import CreateMessage from '@/components/chat/create-message';
-
 import MessageTile from '@/components/tiles/message';
 import UserJoinedTile from '@/components/tiles/user-joined';
+import UserLeftTile from '@/components/tiles/user-left';
 import MyUserTile from '@/components/tiles/my-user';
+import OnlineUsersTile from '@/components/tiles/online-users';
+
+import NewMessage from '@/components/tiles/new-message';
 
 export default {
   name: 'NewChat',
   components: {
-    CreateMessage,
     MessageTile,
     UserJoinedTile,
-    MyUserTile
+    UserLeftTile,
+    MyUserTile,
+    OnlineUsersTile,
+    NewMessage
   },
   data() {
     return {
       containerId: null,
       cols: {
-        default: 8,
+        default: 12,
+        4000: 11,
+        3600: 10,
+        3200: 9,
+        2800: 8,
         2400: 7,
         2000: 6,
         1700: 5,
@@ -61,31 +77,24 @@ export default {
 
       result.push({
         type: 'online-users',
-        content: this.$store.getters.otherUsers
+        content: this.$store.getters.onlineUsers
       });
 
       this.$store.getters.messages.forEach(message => {
-        if (message.id != null) {
+        if (message.type != null) {
           result.push({
-            type: 'message',
+            type: message.type,
             content: message
           });
         } else {
           result.push({
-            type: 'user-joined',
+            type: 'message',
             content: message
           });
         }
       });
 
       return result;
-      /* this represents the entire tile collection.
-         it is simply of an object:
-         {
-           type: 'theType',
-           content: an object. for isntanec: Message
-         }
-      */
     }
   }
 };
@@ -96,12 +105,7 @@ export default {
 
 .chat {
   position: relative;
-  background-color: darken($oxford, 15%);
-  background-position: center;
-  background-image: url('./../assets/images/back-1.svg');
-  background-size: 350%;
-  width: 100%;
-  height: 100%;
+
   padding: 50px;
   box-sizing: border-box;
 }

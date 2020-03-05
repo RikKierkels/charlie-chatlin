@@ -5,23 +5,25 @@ const state = {
   // our own user
   user: null,
   // the other users
-  otherUsers: null
+  onlineUsers: null
 };
 
 const getters = {
   user: state => state.user,
-  otherUsers: state => state.otherUsers
+  onlineUsers: state => state.onlineUsers
 };
 
 const actions = {
   [Actions.REGISTER_SUCCESS]({ commit }, user) {
-    console.log('Actions.REGISTER_SUCCESS', user);
     commit(Mutations.SET_USER, user);
   },
 
-  [Actions.USERS_RECEIVED]({ commit }, otherUsers) {
-    console.log('Actions.USERS_RECEIVED', otherUsers);
-    commit(Mutations.SET_USERS, otherUsers);
+  [Actions.USERS_RECEIVED]({ commit }, onlineUsers) {
+    commit(Mutations.SET_USERS, onlineUsers);
+  },
+
+  [Actions.USER_JOINED]({ commit }, user) {
+    commit(Mutations.ADD_USER, user);
   }
 };
 const mutations = {
@@ -30,7 +32,17 @@ const mutations = {
   },
 
   [Mutations.SET_USERS](state, payload) {
-    state.otherUsers = payload;
+    state.onlineUsers = payload;
+  },
+
+  [Mutations.ADD_USER](state, payload) {
+    if (state.onlineUsers) {
+      if (state.onlineUsers.find(u => u.username === payload.username)) {
+        // the user already exists
+      } else {
+        state.onlineUsers.push(payload);
+      }
+    }
   }
 };
 

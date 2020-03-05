@@ -11,7 +11,7 @@ import Giphy from '@/utils/giphy';
 import get from 'lodash/get';
 
 export default {
-  name: 'UserJoinedTile',
+  name: 'UserLeftTile',
   props: {
     message: {
       type: Object,
@@ -26,7 +26,7 @@ export default {
   beforeMount() {
     /* to-do: masonry is dismounting components, store message */
     if (this.giphy == null) {
-      Giphy.getApplauseGiphy().then(response => {
+      Giphy.getSadGiphy().then(response => {
         this.giphy = get(response, 'data.data.images.downsized_medium.url');
       });
     }

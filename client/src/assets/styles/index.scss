@@ -21,6 +21,10 @@ html {
 
 body {
   height: 100%;
+  background-color: darken($oxford, 15%);
+  background-position: center;
+
+  background-size: 350%;
 }
 
 * {
