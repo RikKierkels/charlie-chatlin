@@ -42,6 +42,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 5px;
+  border-radius: 50%;
   overflow: hidden;
 
   img {
@@ -65,8 +66,8 @@ export default {
   }
 
   &.small {
-    width: 28px;
-    height: 28px;
+    width: 50px;
+    height: 50px;
   }
 }
 </style>

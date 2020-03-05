@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,600,700,800,900&display=swap');
 
 @import './variables';
 @import './reset';
@@ -9,17 +9,22 @@ $border-radius: 5px;
 
 body,
 html {
-  font-family: 'Segoe UI';
+  font-family: 'Fira Sans';
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 24px;
   color: $oxford;
-}
+
+  box-sizing: border-box;}
 
 body {
   height: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h1 {
@@ -28,37 +33,4 @@ h1 {
 
 p {
   margin: 5px 0px;
-}
-
-button, input {
-  padding: 10px 15px;
-  background-color: $bluewood;
-  color: $spindle;
-
-  border-radius: $border-radius;
-  outline: 0;
-  border: 0;
-
-  font-weight: 600;
-  font-size: 1.1em;
-
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-input {
-  background-color: $spindle;
-  color: $bluewood;
-
-  &::placeholder {
-    font-weight: 500;
-    color: lighten($bluewood, 40%);
-  }
-}
-
-button {
-  cursor: pointer;
 }
