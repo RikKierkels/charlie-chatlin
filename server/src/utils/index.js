@@ -1,5 +1,3 @@
-'use strict';
-
 function generateId() {
   return (
     '_' +

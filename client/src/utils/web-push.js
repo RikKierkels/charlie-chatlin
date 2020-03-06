@@ -17,11 +17,12 @@ async function subscribe() {
 
   if (subscription) return subscription;
 
-  // TODO: move url to global env.
-  const key = await axios.get(`${process.env.VUE_APP_API_URL}/vapid`).then(
-    response => response.data.key,
-    () => null
-  );
+  const key = await axios
+    .get(`${process.env.VUE_APP_API_URL}/api/vapid/key`)
+    .then(
+      response => response.data.key,
+      () => null
+    );
 
   if (!key) return;
 
