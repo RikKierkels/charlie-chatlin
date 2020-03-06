@@ -1,35 +1,19 @@
 <template>
-  <container class="register">
-    <h1>Charlie Chatlin</h1>
-    <p>Welcome to the Mediaan Masterclass 2020!<br /></p>
-    <p class="mb-5">Choose your avatar below and register a username.</p>
-
+  <div class="register">
     <avatar-select v-model="avatar" />
-    <input type="text" placeholder="username" v-model="username" />
-
-    <button :disabled="!isAbleToRegister" @click="register">
-      Register
-    </button>
-  </container>
+  </div>
 </template>
 
 <script>
 import Chat from '@/utils/chat';
-import Container from '@/components/container';
 import AvatarSelect from '@/components/register/avatar-select';
 
 export default {
   name: 'Register',
   components: {
-    Container,
     AvatarSelect
   },
-  data() {
-    return {
-      avatar: null,
-      username: null
-    };
-  },
+
   computed: {
     isAbleToRegister() {
       return (
@@ -51,7 +35,10 @@ export default {
 @import '@/assets/styles/variables';
 
 .register {
-  padding-top: 100px;
+  position: relative;
+
+  padding: 50px;
+  box-sizing: border-box;
 }
 
 input {
@@ -60,8 +47,12 @@ input {
 
 h1 {
   margin-bottom: 30px;
-  color: $bluewood;
+  color: $red;
   font-weight: 700;
   font-size: 2.5em;
+}
+
+p {
+  color: $blue;
 }
 </style>

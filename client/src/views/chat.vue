@@ -1,65 +1,118 @@
 <template>
-  <div>
-    <!-- <container class="chat-container"> -->
-    <div class="chat">
-      <div class="side-bar">
-        <my-user />
-        <user-overview />
-      </div>
-      <div class="chat-window">
-        <room />
-        <message-bar />
-      </div>
-    </div>
-    <!-- </container> -->
+  <div class="chat">
+    <masonry :cols="cols" :gutter="gutter" style="width: 100%;">
+      <my-user-tile class="tile" />
+      <online-users-tile class="tile" />
+
+      <template v-for="tile in tiles">
+        <message-tile
+          v-if="tile.type === 'message'"
+          :message="tile.content"
+          :key="`tile-${tile.content.id}`"
+          class="tile"
+        />
+
+        <user-joined-tile
+          v-if="tile.type === 'user-joined'"
+          :message="tile.content"
+          :key="`tile-${tile.content.text}`"
+          class="tile"
+        />
+
+        <user-left-tile
+          v-if="tile.type === 'user-left'"
+          :message="tile.content"
+          :key="`tile-${tile.content.text}`"
+          class="tile"
+        />
+      </template>
+
+      <new-message class="tile" />
+    </masonry>
   </div>
 </template>
 
 <script>
-import Room from '@/components/chat/room';
-import MessageBar from '@/components/chat/message-bar';
-import UserOverview from '@/components/chat/user-overview';
-import MyUser from '@/components/chat/my-user';
-//import Container from '@/components/container';
+import MessageTile from '@/components/tiles/message';
+import UserJoinedTile from '@/components/tiles/user-joined';
+import UserLeftTile from '@/components/tiles/user-left';
+import MyUserTile from '@/components/tiles/my-user';
+import OnlineUsersTile from '@/components/tiles/online-users';
+
+import NewMessage from '@/components/tiles/new-message';
 
 export default {
-  name: 'Chat',
-  computed: {},
+  name: 'NewChat',
   components: {
-    Room,
-    MessageBar,
-    UserOverview,
-    MyUser
-    //Container
+    MessageTile,
+    UserJoinedTile,
+    UserLeftTile,
+    MyUserTile,
+    OnlineUsersTile,
+    NewMessage
+  },
+  data() {
+    return {
+      cols: {
+        default: 12,
+        4000: 11,
+        3600: 10,
+        3200: 9,
+        2800: 8,
+        2400: 7,
+        2000: 6,
+        1700: 5,
+        1400: 4,
+        1100: 3,
+        800: 2,
+        500: 1
+      },
+      gutter: { default: '20px' }
+    };
+  },
+  computed: {
+    tiles() {
+      const result = [];
+
+      result.push({
+        type: 'online-users',
+        content: this.$store.getters.onlineUsers
+      });
+
+      this.$store.getters.messages.forEach(message => {
+        if (message.type != null) {
+          result.push({
+            type: message.type,
+            content: message
+          });
+        } else {
+          result.push({
+            type: 'message',
+            content: message
+          });
+        }
+      });
+
+      return result;
+    }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '@/assets/styles/variables';
-
-.chat-container {
-  background-color: $selago;
-  background-color: $oxford;
-  background: linear-gradient(90deg, darken($oxford, 1%) 59%, white 59%);
-}
 
 .chat {
   position: relative;
-  height: 100vh;
-  display: flex;
-  background-color: $oxford;
 
-  .side-bar {
-    width: 310px;
-    padding: 35px;
-  }
+  padding: 50px;
+  box-sizing: border-box;
+}
 
-  .chat-window {
-    width: 100%;
-    position: relative;
-    padding: 30px;
-    background-color: white;
-  }
+.tile {
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
 }
 </style>

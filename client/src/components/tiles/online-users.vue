@@ -32,7 +32,7 @@ export default {
 
 .online-users-tile {
   background-color: $lima;
-  background-color: dodgerblue;
+  background-color: lighten($dark, 3%);
   font-weight: 500;
   line-height: 1.2em;
   padding: 30px;
@@ -42,11 +42,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 5px 0px;
+  margin: 20px 0px;
 
   p {
     margin-right: 20px;
     font-size: 0.8em;
+    color: white;
   }
 }
 </style>
