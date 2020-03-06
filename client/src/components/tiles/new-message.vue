@@ -28,6 +28,9 @@ export default {
     sendMessage(e) {
       e.preventDefault();
 
+      /*
+        om
+      */
       Chat.sendMessage(this.message);
       this.message = null;
     }
@@ -39,13 +42,13 @@ export default {
 @import '@/assets/styles/variables';
 
 .new-message {
-  background-color: darken($lima, 3%);
+  background-color: darken($electric-violet, 5%);
   color: white;
   padding: 30px;
 
   textarea {
     width: 100%;
-    background-color: darken($lima, 3%);
+    background-color: darken($electric-violet, 5%);
     color: white;
     font-size: 1.3em;
     font-family: 'Fira Sans';
@@ -55,14 +58,15 @@ export default {
     resize: none;
 
     &::placeholder {
-      color: lighten($lima, 20%);
+      color: rgba(255, 255, 255, 0.5);
+      color: cyan;
     }
   }
 
   button {
     float: right;
     border: 0;
-    background-color: $lima;
+    background-color: $electric-violet;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -73,6 +77,8 @@ export default {
     svg {
       position: relative;
       left: -2px;
+
+      color: $cyan;
     }
   }
 }
