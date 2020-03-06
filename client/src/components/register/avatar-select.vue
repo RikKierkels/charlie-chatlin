@@ -81,7 +81,9 @@ export default {
         return false;
       }
     },
-    handleRegister() {
+    handleRegister(e) {
+      e.preventDefault();
+
       if (this.isAbleToRegister) {
         Chat.register(this.username, this.avatar);
       }
