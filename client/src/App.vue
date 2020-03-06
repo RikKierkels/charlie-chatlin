@@ -1,24 +1,19 @@
 <template>
   <div id="app">
     <register v-if="!isRegistered" />
-    <!-- <chat v-else /> -->
-    <new-chat v-else />
+    <chat v-else />
   </div>
 </template>
 
 <script>
-// import ConnectionStatusBar from '@/components/connection-status-bar';
 import Register from '@/views/register';
-// import Chat from '@/views/chat';
-import NewChat from '@/views/new-chat';
+import Chat from '@/views/chat';
 
 export default {
   name: 'App',
   components: {
-    // ConnectionStatusBar,
-
     Register,
-    NewChat
+    Chat
   },
   computed: {
     user() {
@@ -32,10 +27,6 @@ export default {
 </script>
 <style lang="scss">
 @import '@/assets/styles/index';
-
-body {
-  background-image: url('./assets/images/back-1.svg');
-}
 
 #app {
   height: 100vh;

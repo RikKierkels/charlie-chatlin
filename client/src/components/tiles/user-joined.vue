@@ -24,7 +24,6 @@ export default {
     };
   },
   beforeMount() {
-    /* to-do: masonry is dismounting components, store message */
     if (this.giphy == null) {
       Giphy.getApplauseGiphy().then(response => {
         this.giphy = get(response, 'data.data.images.downsized_medium.url');

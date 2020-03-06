@@ -28,9 +28,6 @@ export default {
     sendMessage(e) {
       e.preventDefault();
 
-      /*
-        om
-      */
       Chat.sendMessage(this.message);
       this.message = null;
     }

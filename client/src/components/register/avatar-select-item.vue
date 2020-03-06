@@ -1,7 +1,7 @@
 <template>
   <div
     class="avatar-select-item"
-    :style="getBackgroundImage(avatar)"
+    :style="style"
     @click="handleSelect(avatar)"
     :class="{ selected }"
   />
@@ -21,11 +21,16 @@ export default {
     }
   },
   methods: {
-    getBackgroundImage(avatar) {
-      return `background-image: url(img/avatars/${avatar.id}.png);`;
-    },
     handleSelect() {
       this.$emit('select', this.avatar);
+    }
+  },
+  computed: {
+    height() {
+      return 200 + Math.random() * 50;
+    },
+    style() {
+      return `background-image: url(img/avatars/${this.avatar.id}.png); height: ${this.height}px;`;
     }
   }
 };
@@ -35,32 +40,34 @@ export default {
 @import '@/assets/styles/variables';
 
 .avatar-select-item {
-  display: inline-block;
   position: relative;
   box-sizing: border-box;
-
-  border-radius: 5px;
   overflow: hidden;
 
   background-position: center;
-  background-size: cover;
+  background-size: 130%;
 
-  background-blend-mode: luminosity;
-  background-color: #1c2531;
+  background-blend-mode: overlay;
+  background-color: $blue;
 
   cursor: pointer;
+
+  width: 100%;
+  height: 200px;
+
+  transition: all 100ms ease-in-out;
 
   &:hover {
     background-blend-mode: normal;
 
-    .overlay {
-      opacity: 0;
+    &.selected {
+      background-color: $lima;
+      background-blend-mode: overlay;
     }
   }
 
   &.selected {
-    background-blend-mode: unset;
-    box-shadow: 0px 0px 0px 4px $lima;
+    background-color: $lima;
   }
 }
 </style>
