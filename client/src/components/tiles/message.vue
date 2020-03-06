@@ -20,14 +20,7 @@ export default {
   components: {
     Avatar
   },
-  /*
-    id: (...)
-    text: "sdsdsd"
-    sentOn: "2020-03-04T16:21:18.287Z"
-    sender: Object
-      username: "etrrtyrt"
-      avatarId: "yelling-woman"
-  */
+
   name: 'MessageTile',
   props: {
     message: {
