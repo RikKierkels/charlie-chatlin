@@ -1,42 +1,50 @@
-import Vue from 'vue';
 import Actions from '@/constants/actions';
 import Mutations from '@/constants/mutations';
 
 const state = {
-  messages: {}
+  messages: []
 };
 
 const getters = {
   messages: state =>
-    Object.values(state.messages).sort((a, b) => {
+    state.messages.sort((a, b) => {
       return a.sentOn - b.sentOn;
     })
 };
 
 const actions = {
   [Actions.MESSAGE_RECEIVED]({ commit }, data) {
-    console.log('received single message', data);
-    commit(Mutations.UPSERT_MESSAGE, data);
+    commit(Mutations.ADD_MESSAGE, data);
   },
+
   [Actions.CHATHISTORY_RECEIVED]({ commit }, data) {
-    data.forEach(message => commit(Mutations.UPSERT_MESSAGE, message));
-    console.log('chat history received', data);
+    data.forEach(message => commit(Mutations.ADD_MESSAGE, message));
+  },
+
+  [Actions.USER_JOINED]({ commit }, user) {
+    commit(Mutations.ADD_MESSAGE, {
+      id: null,
+      text: `${user.username} joined the chat!`,
+      sentOn: new Date().toISOString(),
+      sender: null,
+      type: 'user-joined'
+    });
+  },
+
+  [Actions.USER_LEFT]({ commit }, user) {
+    commit(Mutations.ADD_MESSAGE, {
+      id: -2,
+      text: `${user.username} left the chat :(`,
+      sendOn: new Date().toISOString(),
+      sender: null,
+      type: 'user-left'
+    });
   }
 };
 
 const mutations = {
-  [Mutations.UPSERT_MESSAGE](state, payload) {
-    console.log('upserting message', state, payload);
-
-    // eslint-disable-next-line no-prototype-builtins
-    if (state.messages[payload.id] != null) {
-      console.error('message', payload, 'already exists');
-    } else {
-      Vue.set(state.messages, payload.id, payload);
-
-      console.log('MESSAGE WAS SET', state.messages[payload.id]);
-    }
-    console.log('state.messages', state.messages);
+  [Mutations.ADD_MESSAGE](state, payload) {
+    state.messages.push(payload);
   }
 };
 
