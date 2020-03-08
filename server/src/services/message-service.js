@@ -1,10 +1,11 @@
 const { generateId, getCurrentDate } = require('../utils');
 let chatHistory = [];
 
-function createMessage(text, user) {
+function createMessage(text, type, user) {
   return {
     id: generateId(),
     text,
+    type,
     sentOn: getCurrentDate(),
     sender: user
   };

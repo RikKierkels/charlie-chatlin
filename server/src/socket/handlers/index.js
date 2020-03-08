@@ -10,6 +10,7 @@ const makeHandleDisconnect = require('./disconnect');
 module.exports = function handlerFactory(io) {
   const opts = {
     io,
+    templates: Container.get('MessageTemplates'),
     validator: Container.get('Validator'),
     sessionManager: Container.get('SessionManager'),
     pushService: Container.get('PushService'),

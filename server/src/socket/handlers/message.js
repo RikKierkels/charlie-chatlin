@@ -1,5 +1,7 @@
+const MESSAGE_TYPE = require('../../utils/message-type');
+
 module.exports = function makeHandleMessage(
-  { io, sessionManager, pushService, messageService, validator },
+  { io, sessionManager, pushService, messageService, validator, templates },
   { sessionId }
 ) {
   return async function handleMessage(messageText, callback) {
@@ -13,12 +15,15 @@ module.exports = function makeHandleMessage(
       return callback('No user registered for this session.');
     }
 
-    const message = messageService.createMessage(messageText, user);
+    const message = messageService.createMessage(
+      messageText,
+      MESSAGE_TYPE.TEXT,
+      user
+    );
     messageService.addMessage(message);
     io.to('chat room').emit('message', message);
 
-    const pushMessageTemplate = `${message.sender.username} - ${message.text}`;
-    await pushService.sendNotifications(pushMessageTemplate);
+    await pushService.sendNotifications(templates.toPushMessage(message));
     callback(null);
   };
 };
