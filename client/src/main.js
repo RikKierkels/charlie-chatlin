@@ -5,6 +5,7 @@ import router from '@/router';
 import store from '@/store';
 import Chat from '@/utils/chat';
 import { subscribe, register } from './utils/web-push';
+import VueMasonry from 'vue-masonry-css';
 
 // TODO: Move to chat register handler.
 (async function() {
@@ -21,6 +22,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(fas);
 /* library.add(far); */
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+// Vue.use(VueMasonryPlugin);
+Vue.use(VueMasonry);
 
 Vue.config.productionTip = false;
 

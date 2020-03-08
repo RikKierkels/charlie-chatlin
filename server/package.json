@@ -2,7 +2,7 @@
   "name": "charlie-chatlin-server",
   "version": "0.1.0",
   "scripts": {
-    "start": "node -r dotenv/config src/server.js"
+    "start": "nodemon"
   },
   "dependencies": {
     "@hapi/joi": "17.1.0",
@@ -11,7 +11,9 @@
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "socket.io": "2.3.0",
-    "web-push": "3.4.3"
+    "typedi": "0.8.0",
+    "web-push": "3.4.3",
+    "nodemon": "2.0.2"
   },
   "devDependencies": {
     "prettier": "1.19.1"

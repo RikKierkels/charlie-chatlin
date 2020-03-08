@@ -1,86 +1,79 @@
-const avatars = [
-  { id: 'doge', username: 'Doge' },
+export default [
+  { id: 'doge', name: 'Doge' },
   {
     id: 'yelling-woman',
-    username: 'Screaming Woman'
+    name: 'Screaming Woman'
   },
   {
     id: 'cat-one',
-    username: 'Screamed At Cat'
+    name: 'Screamed At Cat'
   },
   {
     id: 'distracted-boyfriend-one',
-    username: 'Distracted Boyfriend'
+    name: 'Distracted Boyfriend'
   },
   {
     id: 'distracted-boyfriend-two',
-    username: "Distracted Boyfriend's Girlfriend"
+    name: "Distracted Boyfriend's Girlfriend"
   },
   {
     id: 'drakeposting-one',
-    username: 'Rejecting Drake'
+    name: 'Rejecting Drake'
   },
   {
     id: 'drakeposting-two',
-    username: 'Approving Drake'
+    name: 'Approving Drake'
   },
   {
     id: 'roll-safe-one',
-    username: 'Roll Safe'
+    name: 'Roll Safe'
   },
   {
     id: 'ancient-aliens',
-    username: 'Ancient Aliens Guy'
+    name: 'Ancient Aliens Guy'
   },
-
   {
     id: 'fry',
-    username: 'Fry'
+    name: 'Fry'
   },
-
   {
     id: 'good-guy-greg',
-    username: 'Good Guy Greg'
+    name: 'Good Guy Greg'
   },
-
   {
     id: 'scumbag-steve',
-    username: 'Scumbag Steve'
+    name: 'Scumbag Steve'
   },
-
   {
     id: 'harold',
-    username: 'Harold'
+    name: 'Harold'
   },
-
   {
     id: 'pigeon-guy',
-    username: 'Pigeon Guy'
+    name: 'Pigeon Guy'
   },
   {
     id: 'overly-attached-girlfriend',
-    username: 'Overly Attached Girlfriend'
+    name: 'Overly Attached Girlfriend'
   },
   {
     id: 'would-be-great-guy',
-    username: 'Would Be Great Guy'
+    name: 'Would Be Great Guy'
   },
   {
     id: 'bad-luck-brain',
-    username: 'Bad Luck Brain'
+    name: 'Bad Luck Brain'
   },
   {
     id: 'change-sponge-mind',
-    username: 'Change My Mind Sponge Bob'
+    name: 'cHaNgE mY mInD sPoNgE bOb'
   },
   {
     id: 'left-exit-car',
-    username: 'Left Exit Car'
+    name: 'Left Exit Car'
   },
   {
     id: 'facepalm-picard',
-    username: 'Facepalm Picard'
+    name: 'Facepalm Picard'
   }
 ];
-
-export default avatars;
