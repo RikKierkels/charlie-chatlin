@@ -2,6 +2,7 @@
   <div class="new-message">
     <form :submit="sendMessage">
       <textarea
+        ref="textarea"
         v-model="message"
         rows="5"
         placeholder="Start typing to create your message"
@@ -23,6 +24,9 @@ export default {
     return {
       message: null
     };
+  },
+  mounted() {
+    this.$refs.textarea.focus();
   },
   methods: {
     sendMessage(e) {
