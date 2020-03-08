@@ -6,6 +6,7 @@
         v-model="message"
         rows="5"
         placeholder="Start typing to create your message"
+        v-on:keyup.enter.exact="sendMessage"
       />
 
       <button @click="sendMessage">
@@ -30,10 +31,11 @@ export default {
   },
   methods: {
     sendMessage(e) {
-      e.preventDefault();
+      if (!this.message.trim()) return;
 
       Chat.sendMessage(this.message);
       this.message = null;
+      e.preventDefault();
     }
   }
 };
