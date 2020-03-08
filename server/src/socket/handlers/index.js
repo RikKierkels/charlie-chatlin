@@ -1,5 +1,4 @@
 const { Container } = require('typedi');
-const validator = require('../../utils/validator');
 const makeHandleConnect = require('./connect');
 const makeHandleReconnect = require('./reconnect');
 const makeHandleUserRegister = require('./user-register');
@@ -11,7 +10,7 @@ const makeHandleDisconnect = require('./disconnect');
 module.exports = function handlerFactory(io) {
   const opts = {
     io,
-    validator,
+    validator: Container.get('Validator'),
     sessionManager: Container.get('SessionManager'),
     pushService: Container.get('PushService'),
     messageService: Container.get('MessageService')

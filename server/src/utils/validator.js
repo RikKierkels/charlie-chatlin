@@ -2,15 +2,20 @@ const joi = require('@hapi/joi');
 
 const messageSchema = joi
   .string()
+  .trim()
   .max(1000)
   .required();
 
 const userSchema = joi.object({
   username: joi
     .string()
+    .trim()
     .max(100)
     .required(),
-  avatarId: joi.string().max(100)
+  avatarId: joi
+    .string()
+    .trim()
+    .max(250)
 });
 
 const subscriptionSchema = joi.object({
