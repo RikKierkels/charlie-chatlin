@@ -50,7 +50,7 @@ const mutations = {
     if (!state.onlineUsers) return;
 
     state.onlineUsers = state.onlineUsers.filter(
-      u => u.username !== payload.username()
+      u => u.username !== payload.username
     );
   }
 };
