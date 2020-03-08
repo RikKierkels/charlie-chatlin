@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     sendMessage(e) {
-      if (!this.message.trim()) return;
+      if (!this.message || !this.message.trim()) return;
 
       Chat.sendMessage(this.message);
       this.message = null;
