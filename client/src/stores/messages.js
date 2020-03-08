@@ -19,26 +19,6 @@ const actions = {
 
   [Actions.CHATHISTORY_RECEIVED]({ commit }, data) {
     data.forEach(message => commit(Mutations.ADD_MESSAGE, message));
-  },
-
-  [Actions.USER_JOINED]({ commit }, user) {
-    commit(Mutations.ADD_MESSAGE, {
-      id: null,
-      text: `${user.username} joined the chat!`,
-      sentOn: new Date().toISOString(),
-      sender: null,
-      type: 'user-joined'
-    });
-  },
-
-  [Actions.USER_LEFT]({ commit }, user) {
-    commit(Mutations.ADD_MESSAGE, {
-      id: -2,
-      text: `${user.username} left the chat :(`,
-      sendOn: new Date().toISOString(),
-      sender: null,
-      type: 'user-left'
-    });
   }
 };
 
