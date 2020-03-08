@@ -2,9 +2,11 @@
   <div class="new-message">
     <form :submit="sendMessage">
       <textarea
+        ref="textarea"
         v-model="message"
         rows="5"
         placeholder="Start typing to create your message"
+        v-on:keyup.enter.exact="sendMessage"
       />
 
       <button @click="sendMessage">
@@ -24,12 +26,16 @@ export default {
       message: null
     };
   },
+  mounted() {
+    this.$refs.textarea.focus();
+  },
   methods: {
     sendMessage(e) {
-      e.preventDefault();
+      if (!this.message || !this.message.trim()) return;
 
       Chat.sendMessage(this.message);
       this.message = null;
+      e.preventDefault();
     }
   }
 };
