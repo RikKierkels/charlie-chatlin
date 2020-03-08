@@ -24,6 +24,10 @@ const actions = {
 
   [Actions.USER_JOINED]({ commit }, user) {
     commit(Mutations.ADD_USER, user);
+  },
+
+  [Actions.USER_LEFT]({ commit }, user) {
+    commit(Mutations.REMOVE_USER, user);
   }
 };
 const mutations = {
@@ -36,13 +40,18 @@ const mutations = {
   },
 
   [Mutations.ADD_USER](state, payload) {
-    if (state.onlineUsers) {
-      if (state.onlineUsers.find(u => u.username === payload.username)) {
-        // the user already exists
-      } else {
-        state.onlineUsers.push(payload);
-      }
-    }
+    if (!state.onlineUsers) return;
+    if (state.onlineUsers.some(u => u.username === payload.username)) return;
+
+    state.onlineUsers.push(payload);
+  },
+
+  [Mutations.REMOVE_USER](state, payload) {
+    if (!state.onlineUsers) return;
+
+    state.onlineUsers = state.onlineUsers.filter(
+      u => u.username !== payload.username
+    );
   }
 };
 

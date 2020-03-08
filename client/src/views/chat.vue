@@ -6,7 +6,7 @@
 
       <template v-for="tile in tiles">
         <message-tile
-          v-if="tile.type === 'message'"
+          v-if="tile.type === 'text'"
           :message="tile.content"
           :key="`tile-${tile.content.id}`"
           class="tile"
@@ -15,14 +15,14 @@
         <user-joined-tile
           v-if="tile.type === 'user-joined'"
           :message="tile.content"
-          :key="`tile-${tile.content.text}`"
+          :key="`tile-${tile.content.id}`"
           class="tile"
         />
 
         <user-left-tile
           v-if="tile.type === 'user-left'"
           :message="tile.content"
-          :key="`tile-${tile.content.text}`"
+          :key="`tile-${tile.content.id}`"
           class="tile"
         />
       </template>

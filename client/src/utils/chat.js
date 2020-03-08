@@ -11,7 +11,6 @@ let socket = io.connect(process.env.VUE_APP_API_URL, {
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
-
   getRegisteredUsers();
 });
 

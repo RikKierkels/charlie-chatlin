@@ -1,5 +1,7 @@
+const MESSAGE_TYPE = require('../../utils/message-type');
+
 module.exports = function makeHandleReconnect(
-  { io, sessionManager, messageService },
+  { io, sessionManager, messageService, templates },
   client
 ) {
   return function handleReconnect() {
@@ -13,7 +15,15 @@ module.exports = function makeHandleReconnect(
       );
     }
 
+    const message = messageService.createMessage(
+      templates.toUserJoinedMessage(user),
+      MESSAGE_TYPE.USER_JOINED,
+      user
+    );
+    messageService.addMessage(message);
+    io.to('chat room').emit('message', message);
     io.emit('user-joined', user);
+
     client.join('chat room');
     client.emit('register-success', {
       user,
