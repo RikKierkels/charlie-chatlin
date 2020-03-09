@@ -2,6 +2,8 @@
   <div id="app">
     <register v-if="!isRegistered" />
     <chat v-else />
+
+    <img src="img/giphy-attri.gif" class="giphy" />
   </div>
 </template>
 
@@ -30,5 +32,10 @@ export default {
 
 #app {
   height: 100vh;
+}
+
+.giphy {
+  display: block;
+  margin: 0 auto;
 }
 </style>
