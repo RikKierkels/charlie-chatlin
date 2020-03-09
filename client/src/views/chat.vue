@@ -4,25 +4,25 @@
       <my-user-tile class="tile" />
       <online-users-tile class="tile" />
 
-      <template v-for="tile in tiles">
+      <template v-for="(tile, i) in tiles">
         <message-tile
           v-if="tile.type === 'text'"
           :message="tile.content"
-          :key="`tile-${tile.content.id}`"
+          :key="`tile-${tile.content.id}-${i}`"
           class="tile"
         />
 
         <user-joined-tile
           v-if="tile.type === 'user-joined'"
           :message="tile.content"
-          :key="`tile-${tile.content.id}`"
+          :key="`tile-${tile.content.text}-${i}`"
           class="tile"
         />
 
         <user-left-tile
           v-if="tile.type === 'user-left'"
           :message="tile.content"
-          :key="`tile-${tile.content.id}`"
+          :key="`tile-${tile.content.text}-${i}`"
           class="tile"
         />
       </template>

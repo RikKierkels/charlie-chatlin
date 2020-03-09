@@ -21,11 +21,6 @@ import Chat from '@/utils/chat';
 
 export default {
   name: 'NewMessage',
-  data() {
-    return {
-      message: null
-    };
-  },
   mounted() {
     this.$refs.textarea.focus();
   },
@@ -36,6 +31,16 @@ export default {
       Chat.sendMessage(this.message);
       this.message = null;
       e.preventDefault();
+    }
+  },
+  computed: {
+    message: {
+      set(v) {
+        this.$store.dispatch('compose-message', v);
+      },
+      get() {
+        return this.$store.getters.newMessage;
+      }
     }
   }
 };
