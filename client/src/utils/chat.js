@@ -65,7 +65,15 @@ function register(username, avatar) {
 }
 
 function sendMessage(m) {
-  socket.emit('message', m);
+  socket.emit('message', m, (error, success) => {
+    if (error) {
+      console.log('error when sending message', error);
+    }
+
+    if (success) {
+      console.log('success after sending message', success);
+    }
+  });
 }
 
 function pushSubscription(subscription) {
