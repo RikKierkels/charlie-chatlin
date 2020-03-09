@@ -37,7 +37,6 @@ socket.on('register-success', response => {
 socket.on('register-failed', error => console.log(error));
 
 socket.on('message', message => {
-  console.log('message received', message);
   store.dispatch(Actions.MESSAGE_RECEIVED, message);
 });
 
