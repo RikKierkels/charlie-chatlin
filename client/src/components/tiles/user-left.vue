@@ -12,9 +12,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  mounted() {
-    console.log('usef left mounted', this.message);
   }
 };
 </script>
