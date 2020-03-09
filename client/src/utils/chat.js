@@ -37,6 +37,7 @@ socket.on('register-success', response => {
 socket.on('register-failed', error => console.log(error));
 
 socket.on('message', message => {
+  console.log('message received', message);
   store.dispatch(Actions.MESSAGE_RECEIVED, message);
 });
 
@@ -65,10 +66,7 @@ function register(username, avatar) {
 }
 
 function sendMessage(m) {
-  socket.emit('message', m, (error, success) => {
-    console.log('error', error);
-    console.log('success', success);
-  });
+  socket.emit('message', m);
 }
 
 function pushSubscription(subscription) {
