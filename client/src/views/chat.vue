@@ -4,27 +4,27 @@
       <my-user-tile class="tile" />
       <online-users-tile class="tile" />
 
-      <template v-for="(tile, i) in tiles">
+      <template v-for="tile in tiles">
         <message-tile
           v-if="tile.type === 'text'"
           :message="tile.content"
-          :key="`tile-${tile.content.id}-${i}`"
+          :key="`tile-${tile.content.id}`"
           class="tile"
         />
 
         <user-joined-tile
           v-if="tile.type === 'user-joined'"
           :message="tile.content"
-          :key="`tile-${tile.content.text}-${i}`"
+          :key="`tile-${tile.content.id}`"
           class="tile"
         />
 
-        <user-left-tile
+        <!-- <user-left-tile
           v-if="tile.type === 'user-left'"
           :message="tile.content"
-          :key="`tile-${tile.content.text}-${i}`"
+          :key="`tile-${tile.content.id}`"
           class="tile"
-        />
+        /> -->
       </template>
 
       <new-message class="tile" />
@@ -35,7 +35,7 @@
 <script>
 import MessageTile from '@/components/tiles/message';
 import UserJoinedTile from '@/components/tiles/user-joined';
-import UserLeftTile from '@/components/tiles/user-left';
+// import UserLeftTile from '@/components/tiles/user-left';
 import MyUserTile from '@/components/tiles/my-user';
 import OnlineUsersTile from '@/components/tiles/online-users';
 
@@ -46,7 +46,7 @@ export default {
   components: {
     MessageTile,
     UserJoinedTile,
-    UserLeftTile,
+    // UserLeftTile,
     MyUserTile,
     OnlineUsersTile,
     NewMessage
