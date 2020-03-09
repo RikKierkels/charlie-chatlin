@@ -42,12 +42,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0px;
+  margin: 10px 0px;
 
   p {
     margin-right: 20px;
     font-size: 0.8em;
     color: white;
+  }
+
+  &:first-child {
+    margin-top: 0px;
+  }
+  &:last-child {
+    margin-bottom: 0px;
   }
 }
 </style>
