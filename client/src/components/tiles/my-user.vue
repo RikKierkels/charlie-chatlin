@@ -5,9 +5,8 @@
       <avatar large :avatar-id="user.avatarId" />
     </div>
     <p class="username">{{ user.username }}</p>
-    <p class="avatar-select-link">
-      back to avatar select
-      <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+    <p class="subtitle">
+      Mediaan Masterclass 2020
     </p>
   </div>
 </template>
@@ -45,8 +44,9 @@ export default {
     font-weight: 600;
   }
 
-  .avatar-select-link {
+  .subtitle {
     font-size: 0.8em;
+    line-height: 1.2em;
     color: $blue;
 
     svg {

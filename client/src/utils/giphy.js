@@ -1,17 +1,10 @@
 import axios from 'axios';
 
 export default {
-  getSadGiphy() {
+  getGiphyWithTag(tag) {
     const params = {
       api_key: process.env.VUE_APP_GIPHY_API_KEY,
-      tag: Math.random() > 0.49 ? 'boo' : 'sad'
-    };
-    return axios.get('https://api.giphy.com/v1/gifs/random', { params });
-  },
-  getApplauseGiphy() {
-    const params = {
-      api_key: process.env.VUE_APP_GIPHY_API_KEY,
-      tag: Math.random() > 0.49 ? 'applause' : 'party'
+      tag: tag
     };
     return axios.get('https://api.giphy.com/v1/gifs/random', { params });
   }

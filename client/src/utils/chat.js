@@ -11,7 +11,6 @@ let socket = io.connect(process.env.VUE_APP_API_URL, {
 
 socket.on('connect', () => {
   store.dispatch(Actions.CONNECTION_STATE_CHANGED, ConnectionStates.CONNECTED);
-  getRegisteredUsers();
 });
 
 socket.on('reconnect_attempt', () => {
@@ -53,9 +52,7 @@ socket.on('error', error => {
 });
 
 function getRegisteredUsers() {
-  console.log('getting registered users');
   socket.emit('active-users', null, (error, success) => {
-    console.log('received');
     store.dispatch(Actions.USERS_RECEIVED, success);
   });
 }

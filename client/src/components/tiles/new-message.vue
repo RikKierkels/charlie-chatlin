@@ -1,23 +1,21 @@
 <template>
   <div class="new-message">
-    <form :submit="sendMessage">
-      <textarea
-        ref="textarea"
-        v-model="message"
-        rows="5"
-        placeholder="Start typing to create your message"
-        v-on:keyup.enter.exact="sendMessage"
-      />
+    <textarea
+      ref="textarea"
+      v-model="message"
+      rows="5"
+      placeholder="Start typing to create your message"
+      v-on:keyup.enter.exact="sendMessage"
+    />
 
-      <button @click="sendMessage">
-        <font-awesome-icon :icon="['fas', 'paper-plane']" />
-      </button>
-    </form>
+    <button @click="sendMessage">
+      <font-awesome-icon :icon="['fas', 'paper-plane']" />
+    </button>
   </div>
 </template>
 
 <script>
-import Chat from '@/utils/chat';
+import Actions from '@/constants/actions';
 
 export default {
   name: 'NewMessage',
@@ -25,18 +23,14 @@ export default {
     this.$refs.textarea.focus();
   },
   methods: {
-    sendMessage(e) {
-      if (!this.message || !this.message.trim()) return;
-
-      Chat.sendMessage(this.message);
-      this.message = null;
-      e.preventDefault();
+    sendMessage() {
+      this.$store.dispatch(Actions.SEND_NEW_MESSAGE);
     }
   },
   computed: {
     message: {
-      set(v) {
-        this.$store.dispatch('compose-message', v);
+      set(value) {
+        this.$store.dispatch(Actions.CHANGE_NEW_MESSAGE, value);
       },
       get() {
         return this.$store.getters.newMessage;

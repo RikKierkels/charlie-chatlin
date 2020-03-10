@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <register v-if="!isRegistered" />
-    <chat v-else />
+    <chat v-if="isRegistered" />
 
-    <img src="img/giphy-attri.gif" class="giphy" />
+    <img src="img/giphy.png" class="giphy" />
   </div>
 </template>
 
@@ -27,6 +27,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 @import '@/assets/styles/index';
 
@@ -35,7 +36,8 @@ export default {
 }
 
 .giphy {
-  display: block;
-  margin: 0 auto;
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
 }
 </style>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Actions from '@/constants/actions';
 import Avatar from '@/components/avatar';
 
 export default {
@@ -23,6 +24,9 @@ export default {
     users() {
       return this.$store.getters.onlineUsers;
     }
+  },
+  mounted() {
+    this.$store.dispatch(Actions.LOAD_USERS);
   }
 };
 </script>
