@@ -26,7 +26,6 @@ export default {
   beforeMount() {
     if (this.giphy == null) {
       Giphy.getGiphyWithTag('applause').then(response => {
-        console.log('response.data.data', response.data.data);
         this.giphy = get(response, 'data.data.images.downsized_medium.url');
       });
     }

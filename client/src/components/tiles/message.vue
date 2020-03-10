@@ -1,8 +1,12 @@
 <template>
-  <div class="message-tile" :class="getClass()">
+  <div class="message-tile" :class="getRandomClass()">
     <div class="user">
-      <avatar small :avatar-id="message.sender.avatarId" />
-      <div class="user-details">
+      <avatar
+        small
+        :avatar-id="message.sender.avatarId"
+        style="margin-right: 20px;"
+      />
+      <div>
         <p class="username">{{ message.sender.username }}</p>
         <p class="timestamp">{{ timestamp }}</p>
       </div>
@@ -33,7 +37,7 @@ export default {
     }
   },
   methods: {
-    getClass() {
+    getRandomClass() {
       let classes = ['default', 'default', 'one', 'two', 'two', 'three'];
       return classes[Math.floor(Math.random() * classes.length)];
     }
@@ -74,65 +78,66 @@ export default {
   padding: 30px;
   border-radius: 10px;
   width: 100%;
+}
 
-  &.default {
-    background-color: lighten($dark, 10%);
-    .username,
-    .timestamp,
-    .text {
-      color: white;
-    }
-    .timestamp {
-      opacity: 0.3;
-    }
+.default {
+  background-color: lighten($dark, 10%);
+  .username,
+  .timestamp,
+  .text {
+    color: white;
   }
-  &.one {
-    background-color: $red;
-    .username,
-    .text,
-    .timestamp {
-      color: white;
-    }
-    .timestamp {
-      opacity: 0.6;
-    }
+  .timestamp {
+    opacity: 0.3;
   }
+}
 
-  &.two {
-    background-color: $blue;
-    .username,
-    .text,
-    .timestamp {
-      color: $cyan;
-    }
-    .timestamp {
-      opacity: 0.5;
-    }
+.one {
+  background-color: $red;
+  .username,
+  .text,
+  .timestamp {
+    color: white;
   }
+  .timestamp {
+    opacity: 0.6;
+  }
+}
 
-  &.three {
-    background-color: $cyan;
-    .username,
-    .text,
-    .timestamp {
-      color: $blue;
-    }
+.two {
+  background-color: $blue;
+  .username,
+  .text,
+  .timestamp {
+    color: $cyan;
+  }
+  .timestamp {
+    opacity: 0.5;
+  }
+}
 
-    .timestamp {
-      opacity: 0.8;
-    }
+.three {
+  background-color: $cyan;
+  .username,
+  .text,
+  .timestamp {
+    color: $blue;
   }
 
-  &.four {
-    background-color: $rose;
-    .username,
-    .text,
-    .timestamp {
-      color: white;
-    }
-    .timestamp {
-      opacity: 0.3;
-    }
+  .timestamp {
+    opacity: 0.8;
+  }
+}
+
+.four {
+  background-color: $rose;
+  .username,
+  .text,
+  .timestamp {
+    color: white;
+  }
+  .timestamp {
+    opacity: 0.3;
   }
 }
 </style>

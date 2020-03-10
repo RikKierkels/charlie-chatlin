@@ -2,10 +2,6 @@
 
 @import './variables';
 @import './reset';
-@import './typography.scss';
-
-$border-radius: 5px;
-
 
 body,
 html {
@@ -15,16 +11,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 24px;
-  color: $oxford;
-
-  box-sizing: border-box;}
+}
 
 body {
   height: 100%;
   background-color: darken($oxford, 15%);
-  background-position: center;
-
-  background-size: 350%;
 }
 
 * {

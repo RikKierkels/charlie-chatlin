@@ -1,3 +1,4 @@
+import Chat from '@/utils/chat';
 import Actions from '@/constants/actions';
 import Mutations from '@/constants/mutations';
 
@@ -23,8 +24,15 @@ const actions = {
     data.forEach(message => commit(Mutations.ADD_MESSAGE, message));
   },
 
-  'compose-message'({ commit }, data) {
-    commit('set-new-message', data);
+  [Actions.CHANGE_NEW_MESSAGE]({ commit }, data) {
+    commit(Mutations.SET_NEW_MESSAGE, data);
+  },
+
+  [Actions.SEND_NEW_MESSAGE]({ commit, getters }) {
+    if (!getters.newMessage || !getters.newMessage.trim()) return;
+
+    Chat.sendMessage(getters.newMessage.trim());
+    commit(Mutations.SET_NEW_MESSAGE, null);
   }
 };
 
@@ -33,7 +41,7 @@ const mutations = {
     state.messages.push(payload);
   },
 
-  'set-new-message'(state, payload) {
+  [Mutations.SET_NEW_MESSAGE](state, payload) {
     state.newMessage = payload;
   }
 };

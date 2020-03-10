@@ -1,10 +1,9 @@
+import Chat from '@/utils/chat';
 import Actions from '@/constants/actions';
 import Mutations from '@/constants/mutations';
 
 const state = {
-  // our own user
   user: null,
-  // the other users
   onlineUsers: null
 };
 
@@ -16,6 +15,10 @@ const getters = {
 const actions = {
   [Actions.REGISTER_SUCCESS]({ commit }, user) {
     commit(Mutations.SET_USER, user);
+  },
+
+  [Actions.LOAD_USERS]() {
+    Chat.getRegisteredUsers();
   },
 
   [Actions.USERS_RECEIVED]({ commit }, onlineUsers) {
@@ -40,14 +43,19 @@ const mutations = {
   },
 
   [Mutations.ADD_USER](state, payload) {
-    if (!state.onlineUsers) return;
-    if (state.onlineUsers.some(u => u.username === payload.username)) return;
+    if (state.onlineUsers == null) {
+      state.onlineUsers = [];
+    }
+
+    if (state.onlineUsers.some(u => u.username === payload.username)) {
+      return;
+    }
 
     state.onlineUsers.push(payload);
   },
 
   [Mutations.REMOVE_USER](state, payload) {
-    if (!state.onlineUsers) return;
+    if (state.onlineUsers == null) return;
 
     state.onlineUsers = state.onlineUsers.filter(
       u => u.username !== payload.username
