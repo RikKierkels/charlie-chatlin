@@ -20,18 +20,12 @@ export default {
   components: {
     Avatar
   },
-
   name: 'MessageTile',
   props: {
     message: {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {
-      seed: Math.random()
-    };
   },
   computed: {
     timestamp() {

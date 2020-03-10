@@ -1,6 +1,6 @@
 <template>
-  <div class="user-joined">
-    <img :src="giphy" v-if="giphy" />
+  <div class="user-joined" v-if="giphy">
+    <img :src="giphy" />
 
     <p>{{ message.text }}</p>
   </div>
@@ -25,7 +25,8 @@ export default {
   },
   beforeMount() {
     if (this.giphy == null) {
-      Giphy.getApplauseGiphy().then(response => {
+      Giphy.getGiphyWithTag('applause').then(response => {
+        console.log('response.data.data', response.data.data);
         this.giphy = get(response, 'data.data.images.downsized_medium.url');
       });
     }
@@ -34,10 +35,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/variables';
+
 .user-joined {
   position: relative;
   width: 100%;
   text-align: center;
+
+  background-color: $blue;
 
   img {
     width: 150%;
@@ -45,6 +50,10 @@ export default {
     max-width: 150%;
     top: 0px;
     left: 0px;
+    margin-bottom: -10px;
+    margin-top: -10px;
+    margin-left: -4px;
+    min-height: 200px;
   }
 
   p {

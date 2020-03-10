@@ -53,9 +53,7 @@ socket.on('error', error => {
 });
 
 function getRegisteredUsers() {
-  console.log('getting registered users');
   socket.emit('active-users', null, (error, success) => {
-    console.log('received');
     store.dispatch(Actions.USERS_RECEIVED, success);
   });
 }
