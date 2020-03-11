@@ -20,10 +20,13 @@ module.exports = function makeHandleReconnect(
       MESSAGE_TYPE.USER_JOINED,
       user
     );
-    messageService.addMessage(message);
-    io.to('chat room').emit('message', message);
-    io.emit('user-joined', user);
 
+    if (!sessionManager.isSpamReconnecting(client.sessionId)) {
+      messageService.addMessage(message);
+      io.to('chat room').emit('message', message);
+    }
+
+    io.emit('user-joined', user);
     client.join('chat room');
     client.emit('register-success', {
       user,

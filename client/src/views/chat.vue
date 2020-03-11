@@ -1,30 +1,30 @@
 <template>
   <div class="chat">
-    <masonry :cols="cols" :gutter="gutter" style="width: 100%;">
+    <masonry :cols="cols" :gutter="gutter">
       <my-user-tile class="tile" />
       <online-users-tile class="tile" />
 
-      <template v-for="tile in tiles">
+      <template v-for="message in messages">
         <message-tile
-          v-if="tile.type === 'text'"
-          :message="tile.content"
-          :key="`tile-${tile.content.id}`"
+          v-if="message.type === 'text'"
+          :message="message"
+          :key="message.id"
           class="tile"
         />
 
         <user-joined-tile
-          v-if="tile.type === 'user-joined'"
-          :message="tile.content"
-          :key="`tile-${tile.content.id}`"
+          v-if="message.type === 'user-joined'"
+          :message="message"
+          :key="message.id"
           class="tile"
         />
 
-        <user-left-tile
+        <!-- <user-left-tile
           v-if="tile.type === 'user-left'"
           :message="tile.content"
           :key="`tile-${tile.content.id}`"
           class="tile"
-        />
+        /> -->
       </template>
 
       <new-message class="tile" />
@@ -35,7 +35,7 @@
 <script>
 import MessageTile from '@/components/tiles/message';
 import UserJoinedTile from '@/components/tiles/user-joined';
-import UserLeftTile from '@/components/tiles/user-left';
+// import UserLeftTile from '@/components/tiles/user-left';
 import MyUserTile from '@/components/tiles/my-user';
 import OnlineUsersTile from '@/components/tiles/online-users';
 
@@ -46,7 +46,7 @@ export default {
   components: {
     MessageTile,
     UserJoinedTile,
-    UserLeftTile,
+    // UserLeftTile,
     MyUserTile,
     OnlineUsersTile,
     NewMessage
@@ -71,29 +71,8 @@ export default {
     };
   },
   computed: {
-    tiles() {
-      const result = [];
-
-      result.push({
-        type: 'online-users',
-        content: this.$store.getters.onlineUsers
-      });
-
-      this.$store.getters.messages.forEach(message => {
-        if (message.type != null) {
-          result.push({
-            type: message.type,
-            content: message
-          });
-        } else {
-          result.push({
-            type: 'message',
-            content: message
-          });
-        }
-      });
-
-      return result;
+    messages() {
+      return this.$store.getters.messages;
     }
   }
 };

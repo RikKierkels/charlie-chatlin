@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Actions from '@/constants/actions';
 import Avatar from '@/components/avatar';
 
 export default {
@@ -23,6 +24,9 @@ export default {
     users() {
       return this.$store.getters.onlineUsers;
     }
+  },
+  mounted() {
+    this.$store.dispatch(Actions.LOAD_USERS);
   }
 };
 </script>
@@ -42,12 +46,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0px;
+  margin: 10px 0px;
 
   p {
     margin-right: 20px;
     font-size: 0.8em;
     color: white;
+  }
+
+  &:first-child {
+    margin-top: 0px;
+  }
+  &:last-child {
+    margin-bottom: 0px;
   }
 }
 </style>

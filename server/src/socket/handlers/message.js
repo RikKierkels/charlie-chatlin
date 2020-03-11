@@ -20,6 +20,7 @@ module.exports = function makeHandleMessage(
       MESSAGE_TYPE.TEXT,
       user
     );
+
     messageService.addMessage(message);
     io.to('chat room').emit('message', message);
 

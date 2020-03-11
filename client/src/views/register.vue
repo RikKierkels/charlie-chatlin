@@ -1,32 +1,16 @@
 <template>
   <div class="register">
-    <avatar-select v-model="avatar" />
+    <avatar-select />
   </div>
 </template>
 
 <script>
-import Chat from '@/utils/chat';
 import AvatarSelect from '@/components/register/avatar-select';
 
 export default {
   name: 'Register',
   components: {
     AvatarSelect
-  },
-
-  computed: {
-    isAbleToRegister() {
-      return (
-        this.avatar != null && this.username != null && this.username.length > 0
-      );
-    }
-  },
-  methods: {
-    register() {
-      if (this.isAbleToRegister) {
-        Chat.register(this.username, this.avatar);
-      }
-    }
   }
 };
 </script>

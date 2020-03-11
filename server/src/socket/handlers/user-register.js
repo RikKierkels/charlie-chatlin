@@ -21,6 +21,7 @@ module.exports = function makeHandleUserRegister(
         MESSAGE_TYPE.USER_LEFT,
         user
       );
+
       messageService.addMessage(message);
       io.to('chat room').emit('message', message);
       io.emit('user-left', existingUser);
@@ -32,6 +33,7 @@ module.exports = function makeHandleUserRegister(
       MESSAGE_TYPE.USER_JOINED,
       user
     );
+
     messageService.addMessage(message);
     io.to('chat room').emit('message', message);
     io.emit('user-joined', user);
