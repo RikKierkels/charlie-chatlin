@@ -21,24 +21,12 @@ module.exports = function makeHandleReconnect(
       user
     );
 
-    let userMessages = messageService
-      .getChatHistory()
-      .filter(
-        m =>
-          m.sender.username === user.username &&
-          m.type !== MESSAGE_TYPE.USER_LEFT
-      );
-
-    if (
-      userMessages.length > 0 &&
-      userMessages[userMessages.length - 1].text !== message.text
-    ) {
+    if (!sessionManager.isSpamReconnecting(client.sessionId)) {
       messageService.addMessage(message);
       io.to('chat room').emit('message', message);
     }
 
     io.emit('user-joined', user);
-
     client.join('chat room');
     client.emit('register-success', {
       user,

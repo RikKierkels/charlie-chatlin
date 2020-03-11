@@ -50,6 +50,14 @@ function markSessionAsInactive(sessionId) {
   });
 }
 
+function isSpamReconnecting(sessionId) {
+  const MIN_TIME_BETWEEN_RECONNECTS = 5 * 60 * 1000;
+  const { disconnectedAt } = sessions.get(sessionId);
+  const timeSinceDisconnect = new Date() - new Date(disconnectedAt);
+
+  return timeSinceDisconnect < MIN_TIME_BETWEEN_RECONNECTS;
+}
+
 module.exports = {
   getSessions,
   hasSession,
@@ -59,5 +67,6 @@ module.exports = {
   getActiveUsers,
   registerUser,
   isUsernameAvailable,
-  markSessionAsInactive
+  markSessionAsInactive,
+  isSpamReconnecting
 };
