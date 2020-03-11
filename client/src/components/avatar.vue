@@ -41,7 +41,6 @@ export default {
   position: relative;
   width: 100px;
   height: 100px;
-  border-radius: 5px;
   border-radius: 50%;
   overflow: hidden;
 
@@ -57,16 +56,19 @@ export default {
 
   &.large {
     width: 100px;
+    min-width: 100px;
     height: 100px;
   }
 
   &.medium {
     width: 62px;
+    min-width: 62px;
     height: 62px;
   }
 
   &.small {
     width: 50px;
+    min-width: 50px;
     height: 50px;
   }
 }

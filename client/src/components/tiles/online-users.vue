@@ -5,7 +5,7 @@
       v-for="(user, i) in users"
       :key="`online-user-${i}`"
     >
-      <p>{{ user.username }}</p>
+      <p class="username">{{ user.username }}</p>
       <avatar small :avatar-id="user.avatarId" />
     </div>
   </div>
@@ -60,5 +60,9 @@ export default {
   &:last-child {
     margin-bottom: 0px;
   }
+}
+
+.username {
+  word-break: break-all;
 }
 </style>
