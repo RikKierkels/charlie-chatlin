@@ -4,7 +4,7 @@
   "description": "Chat application for the Mediaan Masterclass.",
   "husky": {
     "hooks": {
-      "pre-push": "npm run validate"
+      "pre-push": ""
     }
   },
   "scripts": {
