@@ -9,4 +9,9 @@ const Input = ({ type = 'text', value, setValue, ...props }) => {
 
 export default Input;
 
-const StyledInput = styled.input``;
+const StyledInput = styled.input`
+  font-size: 1.3rem;
+  background-color: inherit;
+  color: inherit;
+  outline: none;
+`;

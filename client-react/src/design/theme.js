@@ -12,22 +12,11 @@ const breakpoint = {
   md: '(max-width: 800px)',
 };
 
-const fontSize = {
-  xs: '12px',
-  sm: '14px',
-  md: '16px',
-  lg: '20px',
-  xlg: '24px',
-};
-
 const color = {
-  title: '#222222',
-  font: '#484848',
-  body: '#f5f7f8',
-  card: '#fff',
-  border: '#ebebeb',
-  primary: '#ff5a5f',
-  secondary: '#00a699',
+  'background': '#0c1025',
+  'deep-purple': '#5600e6',
+  'poison-green': '#62d417',
+  'white': '#fff',
 };
 
 const app = { maxWidth: '1280px' };
@@ -35,7 +24,6 @@ const app = { maxWidth: '1280px' };
 const theme = {
   spacing,
   breakpoint,
-  fontSize,
   color,
   app,
 };
