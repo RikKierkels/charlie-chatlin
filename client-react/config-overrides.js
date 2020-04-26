@@ -1,4 +1,4 @@
-const { override } = require('customize-cra')
-const { addReactRefresh } = require('customize-cra-react-refresh')
+const { override } = require('customize-cra');
+const { addReactRefresh } = require('customize-cra-react-refresh');
 
-module.exports = override(addReactRefresh({ disableRefreshCheck: true }))
+module.exports = override(addReactRefresh({ disableRefreshCheck: true }));
