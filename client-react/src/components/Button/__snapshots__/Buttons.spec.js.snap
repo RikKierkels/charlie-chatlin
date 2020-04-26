@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render it's children 1`] = `
+<button
+  class="sc-AxjAm byBuHe"
+  type="submit"
+>
+  <span>
+    Hello World!
+  </span>
+</button>
+`;
