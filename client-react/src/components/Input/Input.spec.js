@@ -9,7 +9,7 @@ const InputWrapper = () => {
   return (
     <>
       {value && <span>{value}</span>}
-      <Input value={value} setValue={setValue} />
+      <Input value={value} onValueChange={setValue} />
     </>
   );
 };

@@ -1,9 +1,5 @@
 const spacing = {
-  xs: '0.25rem',
-  sm: '0.5rem',
-  md: '1rem',
-  lg: '2rem',
-  xlg: '4rem',
+  md: '1.25rem',
 };
 
 const breakpoint = {
@@ -13,10 +9,10 @@ const breakpoint = {
 };
 
 const color = {
-  'background': '#0c1025',
-  'deep-purple': '#5600e6',
-  'poison-green': '#62d417',
-  'white': '#fff',
+  background: '#0c1025',
+  deepPurple: '#5600e6',
+  poisonGreen: '#62d417',
+  white: '#fff',
 };
 
 const app = { maxWidth: '1280px' };

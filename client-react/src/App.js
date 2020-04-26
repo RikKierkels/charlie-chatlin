@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import Input from './components/Input';
+import TileRegister from './components/TileRegister';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
           Learn React
         </a>
-        <Input value={'Test'} setValue={() => {}} />
+
+        <TileRegister onSubmit={() => {}} />
       </header>
     </div>
   );
