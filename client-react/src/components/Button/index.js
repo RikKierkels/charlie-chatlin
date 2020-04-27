@@ -18,5 +18,4 @@ const StyledButton = styled.button`
   border-radius: 50%;
   background-color: inherit;
   color: inherit;
-  cursor: pointer;
 `;

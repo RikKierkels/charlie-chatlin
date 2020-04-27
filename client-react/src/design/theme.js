@@ -10,7 +10,8 @@ const breakpoint = {
 
 const color = {
   background: '#0c1025',
-  deepPurple: '#5600e6',
+  indigo: '#5600e6',
+  midnightBlue: '#2D4897',
   poisonGreen: '#62d417',
   grassGreen: '#82ea3e',
   white: '#fff',
