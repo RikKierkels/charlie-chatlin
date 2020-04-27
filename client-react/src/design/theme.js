@@ -12,6 +12,7 @@ const color = {
   background: '#0c1025',
   deepPurple: '#5600e6',
   poisonGreen: '#62d417',
+  grassGreen: '#82ea3e',
   white: '#fff',
 };
 

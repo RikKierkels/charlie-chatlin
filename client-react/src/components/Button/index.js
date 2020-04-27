@@ -12,8 +12,8 @@ const Button = ({ type = 'submit', children, ...props }) => {
 export default Button;
 
 const StyledButton = styled.button`
-  width: 80px;
-  height: 80px;
+  width: 3.5rem;
+  height: 3.5rem;
   border: 0;
   border-radius: 50%;
   background-color: inherit;
