@@ -1,14 +1,14 @@
-const spacing = {
+export const spacing = {
   md: '1.25rem',
 };
 
-const breakpoint = {
+export const breakpoint = {
   xs: '(max-width: 500px)',
   sm: '(max-width: 600px)',
   md: '(max-width: 800px)',
 };
 
-const color = {
+export const color = {
   background: '#0c1025',
   indigo: '#5600e6',
   midnightBlue: '#2D4897',
@@ -17,7 +17,7 @@ const color = {
   white: '#fff',
 };
 
-const app = { maxWidth: '1280px' };
+export const app = { maxWidth: '1280px' };
 
 const theme = {
   spacing,

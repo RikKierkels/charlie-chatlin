@@ -33,4 +33,12 @@ export const GlobalStyle = createGlobalStyle`
   *:after {
     box-sizing: inherit;
   }
+  
+  .masonry-grid {
+  
+  }
+  
+  .masonry-grid-column {
+  
+  }
 `;
