@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { tile } from '../../design/shared-styles';
+import Tile from '../Tile';
 
-const TileAvatar = ({ avatarId, onSelect }) => {
+const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
   const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
@@ -14,13 +14,16 @@ const TileAvatar = ({ avatarId, onSelect }) => {
     loadAvatar();
   }, [avatarId]);
 
-  return <StyledAvatarButton onClick={() => onSelect(avatarId)} avatar={avatar} />;
+  return (
+    <Tile hasPadding={false}>
+      <StyledAvatarButton onClick={() => onSelect(avatarId)} avatar={avatar} />
+    </Tile>
+  );
 };
 
 export default TileAvatar;
 
 const StyledAvatarButton = styled.button`
-  ${tile};
   height: 9rem;
   width: 100%;
   outline: 0;
