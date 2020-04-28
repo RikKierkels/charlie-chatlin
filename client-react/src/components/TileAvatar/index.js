@@ -16,7 +16,7 @@ const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
 
   return (
     <Tile hasPadding={false}>
-      <StyledAvatarButton onClick={() => onSelect(avatarId)} avatar={avatar} />
+      <StyledAvatarButton onClick={() => onSelect(avatarId)} avatar={avatar} isSelected={isSelected} />
     </Tile>
   );
 };
@@ -31,11 +31,12 @@ const StyledAvatarButton = styled.button`
   background-position: center;
   background-size: 130%;
   background-blend-mode: overlay;
-  background-color: ${({ theme }) => theme.color.tile.midnightBlue};
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.color.poisonGreen : theme.color.tile.midnightBlue};
   transition: all 0.1s ease-in-out;
 
   &:focus,
   &:hover {
-    background-blend-mode: normal;
+    background-blend-mode: ${({ isSelected }) => (isSelected ? 'overlay' : 'normal')};
   }
 `;
