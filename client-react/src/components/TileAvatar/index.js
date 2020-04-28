@@ -2,13 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Tile from '../Tile';
 
-const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
-  const [avatar, setAvatar] = useState('');
+const TileAvatar = ({ avatar, isSelected, onSelect }) => {
+  const [avatarImage, setAvatarImage] = useState('');
+  const { id, name } = avatar;
 
   const loadAvatar = useCallback(async () => {
-    const avatarImage = await import(`../../assets/images/${avatarId}.png`);
-    setAvatar(avatarImage.default);
-  }, [avatarId]);
+    const avatarImage = await import(`../../assets/images/${id}.png`);
+    setAvatarImage(avatarImage.default);
+  }, [id]);
 
   useEffect(() => {
     loadAvatar();
@@ -17,10 +18,10 @@ const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
   return (
     <Tile hasPadding={false}>
       <StyledAvatarButton
-        avatar={avatar}
+        avatar={avatarImage}
         isSelected={isSelected}
-        aria-label={`Select the avatar ${avatarId}`}
-        onClick={() => onSelect(avatarId)}
+        aria-label={`Select ${name} as your avatar`}
+        onClick={() => onSelect(id)}
       />
     </Tile>
   );
