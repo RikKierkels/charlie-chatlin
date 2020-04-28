@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = ({ type = 'submit', children, ...props }) => {
-  return (
-    <StyledButton type={type} {...props}>
-      {children}
-    </StyledButton>
-  );
+const Button = ({ children, ...props }) => {
+  return <StyledButton {...props}>{children}</StyledButton>;
 };
 
 export default Button;

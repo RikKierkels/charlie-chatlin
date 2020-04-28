@@ -16,7 +16,12 @@ const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
 
   return (
     <Tile hasPadding={false}>
-      <StyledAvatarButton onClick={() => onSelect(avatarId)} avatar={avatar} isSelected={isSelected} />
+      <StyledAvatarButton
+        avatar={avatar}
+        isSelected={isSelected}
+        aria-label={`Select the avatar ${avatarId}`}
+        onClick={() => onSelect(avatarId)}
+      />
     </Tile>
   );
 };

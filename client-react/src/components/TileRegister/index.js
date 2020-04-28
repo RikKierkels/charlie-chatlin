@@ -17,7 +17,7 @@ const TileRegister = (onSubmit) => {
     <Tile backgroundColor={theme.color.poisonGreen}>
       <StyledForm onSubmit={handleSubmit}>
         <Input required value={username} onValueChange={setUsername} />
-        <SubmitButton>
+        <SubmitButton type="submit" aria-label="Register">
           <StyledRegisterIcon />
         </SubmitButton>
       </StyledForm>
