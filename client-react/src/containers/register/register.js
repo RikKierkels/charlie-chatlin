@@ -1,8 +1,8 @@
 import React from 'react';
-import MasonryGrid from '../components/MasonryGrid';
-import breakpointColumns from '../design/masonry-grid';
-import TileRegister from '../components/TileRegister';
-import TileAvatar from '../components/TileAvatar';
+import MasonryGrid from '../../components/MasonryGrid';
+import breakpointColumns from '../../design/masonry-grid';
+import TileRegister from '../../components/TileRegister';
+import TileAvatar from '../../components/TileAvatar';
 
 const Register = () => {
   return (
