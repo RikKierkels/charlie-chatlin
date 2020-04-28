@@ -1,5 +1,5 @@
 import React from 'react';
-import Masonry from 'react-masonry-grid';
+import Masonry from 'react-masonry-css';
 
 const MasonryGrid = ({ breakpointCols, children }) => {
   console.log(breakpointCols);

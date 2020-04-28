@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Tile from '../Tile';
 
 const TileAvatar = ({ avatarId, isSelected, onSelect }) => {
   const [avatar, setAvatar] = useState('');
 
-  useEffect(() => {
-    const loadAvatar = async () => {
-      const module = await import(`../../assets/images/${avatarId}.png`);
-      setAvatar(module.default);
-    };
-
-    loadAvatar();
+  const loadAvatar = useCallback(async () => {
+    const avatarImage = await import(`../../assets/images/${avatarId}.png`);
+    setAvatar(avatarImage.default);
   }, [avatarId]);
+
+  useEffect(() => {
+    loadAvatar();
+  }, [loadAvatar]);
 
   return (
     <Tile hasPadding={false}>
@@ -31,7 +31,7 @@ const StyledAvatarButton = styled.button`
   background-position: center;
   background-size: 130%;
   background-blend-mode: overlay;
-  background-color: ${({ theme }) => theme.color.midnightBlue};
+  background-color: ${({ theme }) => theme.color.tile.midnightBlue};
   transition: all 0.1s ease-in-out;
 
   &:focus,

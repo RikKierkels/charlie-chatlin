@@ -11,10 +11,15 @@ export const breakpoint = {
 export const color = {
   background: '#0c1025',
   indigo: '#5600e6',
-  midnightBlue: '#2D4897',
-  poisonGreen: '#62d417',
   grassGreen: '#82ea3e',
+  poisonGreen: '#62d417',
   white: '#fff',
+  tile: {
+    babyBlue: '#5CDFF1',
+    kingsdayOrange: '#EA6312',
+    midnightBlue: '#2D4897',
+    navy: '#223161',
+  },
 };
 
 export const app = { maxWidth: '1280px' };
