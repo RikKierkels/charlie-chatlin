@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './design/global-styles';
 import { Provider } from 'react-redux';
-import store from './shared/store';
+import store from './store/store';
 import chat from './shared/chat';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import Register from './containers/Register/register';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import Register from './register';
-import { renderWithReduxAndTheme } from '../../shared/test-utils';
+import { renderWithReduxAndTheme } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';

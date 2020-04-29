@@ -6,7 +6,7 @@ import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg
 import Tile from '../Tile';
 import theme from '../../design/theme';
 
-const TileRegister = (onSubmit) => {
+const TileRegister = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const handleSubmit = (event) => {
     event.preventDefault();
