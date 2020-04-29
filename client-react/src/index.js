@@ -1,20 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import theme from './design/theme';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './design/global-styles';
 import { Provider } from 'react-redux';
 import store from './shared/store';
 import chat from './shared/chat';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import Register from './containers/Register/register';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <App />
+        <Router>
+          <Switch>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/chat">
+              <div>Hello from chat</div>
+            </Route>
+            <Redirect to={{ pathname: '/register' }} />
+          </Switch>
+        </Router>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,
