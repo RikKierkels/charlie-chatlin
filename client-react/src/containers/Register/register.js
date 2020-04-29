@@ -10,7 +10,7 @@ const Register = () => {
     <MasonryGrid breakpointCols={breakpointColumns}>
       <TileRegister onSubmit={() => {}} />
       {avatars.map((avatar) => (
-        <TileAvatar avatar={avatar} onSelect={(id) => console.log(id)} />
+        <TileAvatar key={avatar.id} avatar={avatar} onSelect={(id) => console.log(id)} />
       ))}
     </MasonryGrid>
   );
