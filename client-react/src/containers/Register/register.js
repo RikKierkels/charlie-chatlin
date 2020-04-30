@@ -19,7 +19,7 @@ const Register = () => {
   }, [history, isLoggedIn]);
 
   const handleSubmit = (username) => {
-    if (!selectedAvatar) return;
+    if (!selectedAvatar || !username) return;
     chat.register(username, selectedAvatar);
   };
 

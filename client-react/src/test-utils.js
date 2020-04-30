@@ -8,5 +8,5 @@ import { createStore } from './store/store.js';
 export const renderWithTheme = (ui) => render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
 export const renderWithReduxAndTheme = (ui, store = createStore()) => {
-  return { ...renderWithTheme(<Provider store={store}>{ui}</Provider>), store };
+  return renderWithTheme(<Provider store={store}>{ui}</Provider>);
 };

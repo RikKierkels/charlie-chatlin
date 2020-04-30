@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^10.1.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-masonry-css": "^1.0.14",
@@ -30,7 +31,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "lint": "eslint src --ext .js ",
-    "test": "react-app-rewired test --env=jsdom"
+    "test": "react-app-rewired test --env=jest-environment-jsdom-sixteen"
   },
   "eslintConfig": {
     "extends": [

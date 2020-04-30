@@ -4,15 +4,10 @@ import { renderWithReduxAndTheme } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import chat from '../../shared/chat';
 import Register from './register';
-import { setUser } from '../../store/userSlice';
+import { waitFor } from '@testing-library/dom';
 
 jest.mock('../../shared/chat.js');
-
-beforeEach(() => {
-  chat.register.mockClear();
-});
 
 const renderRegisterContainer = () => {
   const history = createMemoryHistory();
@@ -34,16 +29,16 @@ const randomAvatar = () => {
 };
 
 test('registers a user', async () => {
-  const { history, store } = renderRegisterContainer();
+  const { history } = renderRegisterContainer();
 
   userEvent.click(randomAvatar());
   await userEvent.type(usernameInput(), 'Dog');
   userEvent.click(registerButton());
 
-  expect(history.location.pathname).toBe('/chat');
+  await waitFor(() => expect(history.location.pathname).toBe('/chat'));
 });
 
-test('cannot register without selecting an avatar and a username', () => {
+test('cannot register without selecting an avatar and a username', async () => {
   const { history } = renderRegisterContainer();
 
   userEvent.click(registerButton());
