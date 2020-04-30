@@ -1,10 +1,20 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import Register from './register';
 import { renderWithReduxAndTheme } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import store from '../../store/store';
+import { setUser } from '../../store/userSlice';
+import chat from '../../shared/chat';
+import Register from './register';
+import { wait } from '@testing-library/dom';
+
+jest.mock('../../shared/chat.js');
+
+beforeEach(() => {
+  chat.register.mockClear();
+});
 
 const renderRegisterContainer = () => {
   const history = createMemoryHistory();
@@ -25,13 +35,13 @@ const randomAvatar = () => {
   return avatars[Math.floor(Math.random() * avatars.length)];
 };
 
-test('registers a user', () => {
+test('registers a user', async () => {
   const { history } = renderRegisterContainer();
 
   userEvent.click(randomAvatar());
-  userEvent.type(usernameInput(), 'Dog');
+  await userEvent.type(usernameInput(), 'Dog');
   userEvent.click(registerButton());
-
+  store.dispatch(setUser({ username: 'Dog', avatar: 'random' }));
   expect(history.location.pathname).toBe('/chat');
 });
 
@@ -43,10 +53,10 @@ test('cannot register without selecting an avatar and a username', () => {
   expect(history.location.pathname).not.toBe('/chat');
 });
 
-test('cannot register without selecting an avatar', () => {
+test('cannot register without selecting an avatar', async () => {
   const { history } = renderRegisterContainer();
 
-  userEvent.type(usernameInput(), 'Dog');
+  await userEvent.type(usernameInput(), 'Dog');
   userEvent.click(registerButton());
 
   expect(history.location.pathname).not.toBe('/chat');

@@ -15,7 +15,7 @@ const Register = () => {
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    history.push('/chat');
+    history.replace('/chat');
   }, [history, isLoggedIn]);
 
   const handleSubmit = (username) => {
