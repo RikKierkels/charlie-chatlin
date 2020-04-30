@@ -8,7 +8,6 @@ const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      console.log(action);
       state.username = action.payload.username;
       state.avatar = action.payload.avatar;
     },

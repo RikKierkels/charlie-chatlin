@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders it's children 1`] = `
+<button
+  class="sc-AxjAm jSynDU"
+>
+  <span>
+    Hello World!
+  </span>
+</button>
+`;
