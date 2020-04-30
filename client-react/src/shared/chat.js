@@ -1,4 +1,6 @@
 import io from 'socket.io-client';
+import store from '../store/store';
+import { setUser } from '../store/userSlice';
 
 const storage = window.localStorage;
 const sessionKey = 'APP_SESSION_ID';
@@ -12,7 +14,7 @@ const connect = () => {
   socket.on('handshake', (sessionId) => storage.setItem(sessionKey, sessionId));
 
   socket.on('register-success', ({ user, chatHistory }) => {
-    console.log(user, chatHistory);
+    store.dispatch(setUser({ username: user.username, avatar: user.avatarId }));
   });
 
   socket.on('register-failed', (error) => {

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import TileAvatar from '../../components/TileAvatar';
+import TileRegister from '../../components/TileRegister';
 import MasonryGrid from '../../components/MasonryGrid';
 import breakpointColumns from '../../design/masonry-grid';
-import TileRegister from '../../components/TileRegister';
-import TileAvatar from '../../components/TileAvatar';
 import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
 
 const Register = () => {
   const [selectedAvatar, setSelectedAvatar] = useState('');
+  const isLoggedIn = useSelector((state) => !!state.user.username);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    history.push('/chat');
+  }, [history, isLoggedIn]);
 
   const handleSubmit = (username) => {
+    if (!selectedAvatar) return;
     chat.register(username, selectedAvatar);
   };
 
