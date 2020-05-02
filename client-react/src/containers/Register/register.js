@@ -27,11 +27,18 @@ const Register = () => {
     chat.registerUser(username, selectedAvatarId);
   };
 
+  // Masonry grid requires elements to be in a single array.
   const tiles = [
-    <TileImage image={Logo} alt="Mediaan" />,
-    <Tile backgroundColor={color.tile.kingsdayOrange}>Charlie Chatlin</Tile>,
-    <Tile backgroundColor={color.tile.babyBlue}>Welcome to the Mediaan Masterclass 2020!</Tile>,
-    <Tile backgroundColor={color.tile.navy}>Choose your avatar, register a username and enter the chatroom.</Tile>,
+    <TileImage key="logo" image={Logo} alt="Mediaan" />,
+    <Tile key="title" backgroundColor={color.tile.kingsdayOrange}>
+      Charlie Chatlin
+    </Tile>,
+    <Tile key="intro" backgroundColor={color.tile.babyBlue}>
+      Welcome to the Mediaan Masterclass 2020!
+    </Tile>,
+    <Tile key="instruction" backgroundColor={color.tile.navy}>
+      Choose your avatar, register a username and enter the chatroom.
+    </Tile>,
     avatars.map((avatar) => (
       <TileAvatar
         key={avatar.id}
@@ -40,7 +47,7 @@ const Register = () => {
         onSelect={(id) => setSelectedAvatarId(id)}
       />
     )),
-    <TileRegister onSubmit={handleSubmit} />,
+    <TileRegister key="register" onSubmit={handleSubmit} />,
   ].flat();
 
   return <MasonryGrid breakpointCols={breakpointColumns}>{tiles}</MasonryGrid>;
