@@ -8,7 +8,7 @@ import breakpointColumns from '../../design/masonry-grid';
 import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
 import Logo from '../../assets/images/mediaan-logo.png';
-import TileImage from '../../components/TileLogo';
+import TileImage from '../../components/TileImage';
 import Tile from '../../components/Tile';
 import { color } from '../../design/theme';
 
