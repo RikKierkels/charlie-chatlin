@@ -1,14 +1,15 @@
 import { Server, SocketIO } from 'mock-socket';
+import { SOCKET_EVENTS } from './socket-constants';
 
 let server = null;
-const defaultMocks = { onRegister: jest.fn() };
+const defaultHandlers = { onRegister: jest.fn() };
 
-function start(handlerMocks = defaultMocks) {
+function start(handlers = defaultHandlers) {
   const url = 'http://localhost:5000';
   server = new Server(url);
 
-  server.on('connection', (socket) => {
-    socket.on('register', (data) => handlerMocks.onRegister(socket, data));
+  server.on(SOCKET_EVENTS.CONNECTION, (socket) => {
+    socket.on(SOCKET_EVENTS.REGISTER, (data) => handlers.onRegister(socket, data));
   });
 
   const io = SocketIO;
@@ -21,6 +22,7 @@ function stop() {
   server.stop();
 }
 
+export const SOCKET_OPEN = 1;
 export default {
   start,
   stop,

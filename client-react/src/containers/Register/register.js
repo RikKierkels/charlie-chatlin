@@ -10,10 +10,7 @@ import chat from '../../shared/chat';
 
 const Register = () => {
   const [selectedAvatarId, setSelectedAvatarId] = useState('');
-  const isLoggedIn = useSelector((state) => {
-    console.log(state);
-    return !!state.user.username;
-  });
+  const isLoggedIn = useSelector((state) => !!state.user.username);
   const history = useHistory();
 
   useEffect(() => {

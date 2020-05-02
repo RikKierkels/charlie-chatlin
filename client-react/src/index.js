@@ -39,4 +39,4 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 const socket = io.connect(process.env.REACT_APP_API_URL, { query: { sessionId: localStorage.getItem(sessionKey) } });
-chat.connect(socket);
+chat.connect(socket, store);

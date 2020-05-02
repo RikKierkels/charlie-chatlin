@@ -1,19 +1,19 @@
-import store from '../store/store';
 import { setUser } from '../store/userSlice';
+import { SOCKET_EVENTS } from './socket-constants';
 
 const storage = window.localStorage;
 let socket = null;
 
-function connect(io) {
+function connect(io, store) {
   socket = io;
 
-  socket.on('handshake', (sessionId) => storage.setItem(sessionKey, sessionId));
+  socket.on(SOCKET_EVENTS.HANDSHAKE, (sessionId) => storage.setItem(sessionKey, sessionId));
 
-  socket.on('register-success', ({ user, chatHistory }) => {
+  socket.on(SOCKET_EVENTS.REGISTER_SUCCESS, ({ user, chatHistory }) => {
     store.dispatch(setUser({ username: user.username, avatar: user.avatarId }));
   });
 
-  socket.on('register-failed', (error) => {
+  socket.on(SOCKET_EVENTS.REGISTER_FAILED, (error) => {
     console.log(error);
   });
 }
@@ -25,7 +25,7 @@ function throwNoSocketError() {
 function registerUser(username, avatarId) {
   if (!socket) throwNoSocketError();
 
-  socket.emit('register', { username, avatarId });
+  socket.emit(SOCKET_EVENTS.REGISTER, { username, avatarId });
 }
 
 export const sessionKey = 'APP_SESSION_ID';
