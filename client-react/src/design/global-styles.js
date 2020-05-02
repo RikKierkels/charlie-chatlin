@@ -34,6 +34,13 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   
+  h1,
+  h2,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  
   .masonry-grid {
     display: -webkit-box;
     display: -ms-flexbox;
