@@ -16,7 +16,7 @@ const handleRegister = jest.fn((socket, data) => {
   socket.emit('register-success', { user: data, chatHistory: [] });
 });
 
-const usernameInput = () => screen.getByRole('textbox');
+const usernameInput = () => screen.getByLabelText(/username/i);
 const registerButton = () => screen.getByRole('button', { name: /register/i });
 const randomAvatar = () => {
   const avatars = screen.getAllByRole('button', { name: /avatar/i });
