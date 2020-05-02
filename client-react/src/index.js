@@ -6,9 +6,10 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './design/global-styles';
 import { Provider } from 'react-redux';
 import store from './store/store';
-import chat from './shared/chat';
+import chat, { sessionKey } from './shared/chat';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import Register from './containers/Register/register';
+import io from 'socket.io-client';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -36,4 +37,6 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // unregister() to register() below. Note this comes with some pitfalls.
 serviceWorker.unregister();
-chat.connect();
+
+const socket = io.connect(process.env.REACT_APP_API_URL, { query: { sessionId: localStorage.getItem(sessionKey) } });
+chat.connect(socket);

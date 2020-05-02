@@ -8,6 +8,7 @@ const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
+      console.log('updating state bois');
       state.username = action.payload.username;
       state.avatar = action.payload.avatar;
     },

@@ -9,18 +9,21 @@ import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
 
 const Register = () => {
-  const [selectedAvatar, setSelectedAvatar] = useState('');
-  const isLoggedIn = useSelector((state) => !!state.user.username);
+  const [selectedAvatarId, setSelectedAvatarId] = useState('');
+  const isLoggedIn = useSelector((state) => {
+    console.log(state);
+    return !!state.user.username;
+  });
   const history = useHistory();
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    history.replace('/chat');
+    history.push('/chat');
   }, [history, isLoggedIn]);
 
   const handleSubmit = (username) => {
-    if (!selectedAvatar || !username) return;
-    chat.register(username, selectedAvatar);
+    if (!selectedAvatarId || !username) return;
+    chat.registerUser(username, selectedAvatarId);
   };
 
   return (
@@ -30,8 +33,8 @@ const Register = () => {
         <TileAvatar
           key={avatar.id}
           avatar={avatar}
-          isSelected={avatar.id === selectedAvatar}
-          onSelect={(id) => setSelectedAvatar(id)}
+          isSelected={avatar.id === selectedAvatarId}
+          onSelect={(id) => setSelectedAvatarId(id)}
         />
       ))}
     </MasonryGrid>

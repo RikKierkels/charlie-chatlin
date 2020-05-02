@@ -1,15 +1,11 @@
-import io from 'socket.io-client';
 import store from '../store/store';
 import { setUser } from '../store/userSlice';
 
 const storage = window.localStorage;
-const sessionKey = 'APP_SESSION_ID';
 let socket = null;
 
-const connect = () => {
-  socket = io.connect(process.env.REACT_APP_API_URL, {
-    query: { sessionId: storage.getItem(sessionKey) },
-  });
+function connect(io) {
+  socket = io;
 
   socket.on('handshake', (sessionId) => storage.setItem(sessionKey, sessionId));
 
@@ -20,15 +16,20 @@ const connect = () => {
   socket.on('register-failed', (error) => {
     console.log(error);
   });
-};
+}
 
-const register = (username, avatarId) => {
-  if (!socket) throw new Error('No socket connection.');
+function throwNoSocketError() {
+  throw new Error('No socket connection. You likely forgot to connect or register.');
+}
+
+function registerUser(username, avatarId) {
+  if (!socket) throwNoSocketError();
 
   socket.emit('register', { username, avatarId });
-};
+}
 
+export const sessionKey = 'APP_SESSION_ID';
 export default {
   connect,
-  register,
+  registerUser,
 };
