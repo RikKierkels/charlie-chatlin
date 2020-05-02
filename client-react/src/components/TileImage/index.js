@@ -1,6 +1,6 @@
 import React from 'react';
 import Tile from '../Tile';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { color } from '../../design/theme';
 
 const TileImage = ({ image, alt }) => {

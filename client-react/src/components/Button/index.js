@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const Button = ({ children, ...props }) => {
   return <StyledButton {...props}>{children}</StyledButton>;

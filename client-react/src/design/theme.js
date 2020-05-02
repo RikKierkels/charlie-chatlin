@@ -1,11 +1,6 @@
 export const spacing = {
-  md: '1.25rem',
-};
-
-export const breakpoint = {
-  xs: '(max-width: 500px)',
-  sm: '(max-width: 600px)',
-  md: '(max-width: 800px)',
+  md: '1rem',
+  lg: '2rem',
 };
 
 export const color = {
@@ -22,13 +17,9 @@ export const color = {
   },
 };
 
-export const app = { maxWidth: '1280px' };
-
 const theme = {
   spacing,
-  breakpoint,
   color,
-  app,
 };
 
 export default theme;

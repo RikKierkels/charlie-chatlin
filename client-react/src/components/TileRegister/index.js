@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Input from '../Input';
 import Button from '../Button';
 import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg';

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Tile from '../Tile';
 
 const TileAvatar = ({ avatar, isSelected, onSelect }) => {
@@ -22,6 +22,7 @@ export default TileAvatar;
 const StyledAvatarButton = styled.button`
   height: 9rem;
   width: 100%;
+  border-radius: inherit;
   outline: 0;
   background-image: ${({ avatar }) => `url(${avatar})`};
   background-position: center;

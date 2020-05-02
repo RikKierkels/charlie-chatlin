@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import theme from './design/theme';
 import * as serviceWorker from './serviceWorker';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'emotion-theming';
 import { GlobalStyle } from './design/global-styles';
 import { Provider } from 'react-redux';
 import store from './store/store';
