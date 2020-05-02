@@ -7,6 +7,10 @@ import MasonryGrid from '../../components/MasonryGrid';
 import breakpointColumns from '../../design/masonry-grid';
 import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
+import Logo from '../../assets/images/mediaan-logo.png';
+import TileImage from '../../components/TileLogo';
+import Tile from '../../components/Tile';
+import { color } from '../../design/theme';
 
 const Register = () => {
   const [selectedAvatarId, setSelectedAvatarId] = useState('');
@@ -23,19 +27,23 @@ const Register = () => {
     chat.registerUser(username, selectedAvatarId);
   };
 
-  return (
-    <MasonryGrid breakpointCols={breakpointColumns}>
-      <TileRegister onSubmit={handleSubmit} />
-      {avatars.map((avatar) => (
-        <TileAvatar
-          key={avatar.id}
-          avatar={avatar}
-          isSelected={avatar.id === selectedAvatarId}
-          onSelect={(id) => setSelectedAvatarId(id)}
-        />
-      ))}
-    </MasonryGrid>
-  );
+  const tiles = [
+    <TileImage image={Logo} alt="Mediaan" />,
+    <Tile backgroundColor={color.tile.kingsdayOrange}>Charlie Chatlin</Tile>,
+    <Tile backgroundColor={color.tile.babyBlue}>Welcome to the Mediaan Masterclass 2020!</Tile>,
+    <Tile backgroundColor={color.tile.navy}>Choose your avatar, register a username and enter the chatroom.</Tile>,
+    avatars.map((avatar) => (
+      <TileAvatar
+        key={avatar.id}
+        avatar={avatar}
+        isSelected={avatar.id === selectedAvatarId}
+        onSelect={(id) => setSelectedAvatarId(id)}
+      />
+    )),
+    <TileRegister onSubmit={handleSubmit} />,
+  ].flat();
+
+  return <MasonryGrid breakpointCols={breakpointColumns}>{tiles}</MasonryGrid>;
 };
 
 export default Register;

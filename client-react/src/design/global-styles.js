@@ -38,12 +38,16 @@ export const GlobalStyle = createGlobalStyle`
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-left: -30px;
+    padding: 50px 50px 30px 30px;
     width: auto;
   }
   
   .masonry-grid-column {
-    padding-left: 30px;
+    padding-left: 20px;
     background-clip: padding-box;
+  }
+  
+  .masonry-grid-column > * {
+    margin-bottom: 20px;
   }
 `;
