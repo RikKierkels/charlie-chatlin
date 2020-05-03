@@ -16,8 +16,9 @@ test('sets the provided appearance', () => {
 });
 
 test('sets an appearance when none is provided', () => {
+  const hasValueRegex = /#.+/;
   const { container } = renderWithTheme(<Tile />);
 
-  expect(container.firstElementChild).toHaveStyleRule('color', /#.+/);
-  expect(container.firstElementChild).toHaveStyleRule('background-color', /#.+/);
+  expect(container.firstElementChild).toHaveStyleRule('color', hasValueRegex);
+  expect(container.firstElementChild).toHaveStyleRule('background-color', hasValueRegex);
 });

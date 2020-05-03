@@ -1,10 +1,10 @@
-export const spacing = {
+const spacing = {
   sm: '0.5rem',
   md: '1rem',
   lg: '2rem',
 };
 
-export const color = {
+const color = {
   background: '#0c1025',
   electricViolet: '#5600e6',
   conifer: '#82ea3e',
