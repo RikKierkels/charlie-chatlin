@@ -15,4 +15,14 @@ const StyledInput = styled.input`
   font-size: 1.3rem;
   background-color: inherit;
   color: inherit;
+
+  ::placeholder {
+    opacity: 1;
+  }
+
+  ::placeholder,
+  :-ms-input-placeholder,
+  ::-ms-input-placeholder {
+    color: inherit;
+  }
 `;

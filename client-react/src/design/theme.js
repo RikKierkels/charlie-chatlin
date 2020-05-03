@@ -5,15 +5,15 @@ export const spacing = {
 
 export const color = {
   background: '#0c1025',
-  indigo: '#5600e6',
-  grassGreen: '#82ea3e',
-  poisonGreen: '#62d417',
+  electricViolet: '#5600e6',
+  conifer: '#82ea3e',
+  lima: '#62d417',
   white: '#fff',
   tile: {
-    babyBlue: '#5CDFF1',
-    kingsdayOrange: '#EA6312',
-    midnightBlue: '#2D4897',
-    navy: '#223161',
+    cyan: '#5CDFF1',
+    chocolate: '#EA6312',
+    sapphire: '#2D4897',
+    biscay: '#2F3855',
   },
 };
 

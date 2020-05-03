@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import theme from '../../design/theme';
+import { biscay, chocolate, cyan, sapphire } from '../../design/shared-styles';
 
-const randomColor = () => {
-  const colors = theme.color.tile;
-  const colorCount = Object.keys(colors).length;
-  return colors[Math.floor(Math.random() * colorCount)];
+const randomAppearance = () => {
+  const styles = [biscay, chocolate, sapphire, cyan];
+  return styles[Math.floor(Math.random() * styles.length)];
 };
 
-const Tile = ({ hasPadding = true, backgroundColor = randomColor(), children }) => {
+const Tile = ({ hasPadding = true, appearance = randomAppearance(), children }) => {
   return (
-    <StyledTile hasPadding={hasPadding} backgroundColor={backgroundColor}>
+    <StyledTile hasPadding={hasPadding} appearance={appearance}>
       {children}
     </StyledTile>
   );
@@ -21,6 +20,6 @@ export default Tile;
 const StyledTile = styled.div`
   padding: ${(props) => (props.hasPadding ? props.theme.spacing.md : 0)};
   border-radius: 10px;
-  background-color: ${({ backgroundColor }) => backgroundColor};
   overflow: hidden;
+  ${({ appearance }) => appearance}
 `;

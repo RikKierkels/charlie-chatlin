@@ -1,11 +1,11 @@
 import React from 'react';
 import Tile from '../Tile';
 import styled from '@emotion/styled';
-import { color } from '../../design/theme';
+import { biscay } from '../../design/shared-styles';
 
 const TileImage = ({ image, alt }) => {
   return (
-    <Tile backgroundColor={color.tile.navy}>
+    <Tile appearance={biscay}>
       <StyledImage src={image} alt={alt} />
     </Tile>
   );

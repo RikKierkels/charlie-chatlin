@@ -4,7 +4,7 @@ import Input from '../Input';
 import Button from '../Button';
 import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg';
 import Tile from '../Tile';
-import theme from '../../design/theme';
+import { lima } from '../../design/shared-styles';
 
 const TileRegister = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
@@ -14,7 +14,7 @@ const TileRegister = ({ onSubmit }) => {
   };
 
   return (
-    <Tile backgroundColor={theme.color.poisonGreen}>
+    <Tile appearance={lima}>
       <StyledForm onSubmit={handleSubmit}>
         <Input
           required

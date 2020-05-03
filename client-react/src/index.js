@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import chat, { sessionKey } from './shared/chat';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import Register from './containers/Register/register';
+import Register from './containers/Register';
 import io from 'socket.io-client';
 
 ReactDOM.render(

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 export const StyledTitle = styled.h1`
   color: ${({ theme }) => theme.color.white};
@@ -11,4 +12,34 @@ export const StyledText = styled.p`
   font-size: 1.3em;
   font-weight: 500;
   line-height: 1.2em;
+`;
+
+export const transparent = css`
+  background-color: transparent;
+  color: transparent;
+`;
+
+export const biscay = ({ theme }) => css`
+  background-color: ${theme.color.tile.biscay};
+  color: ${theme.color.white};
+`;
+
+export const chocolate = ({ theme }) => css`
+  background-color: ${theme.color.tile.chocolate};
+  color: ${theme.color.white};
+`;
+
+export const sapphire = ({ theme }) => css`
+  background-color: ${theme.color.tile.sapphire};
+  color: ${theme.color.tile.cyan};
+`;
+
+export const cyan = ({ theme }) => css`
+  background-color: ${theme.color.tile.cyan};
+  color: ${theme.color.tile.biscay};
+`;
+
+export const lima = ({ theme }) => css`
+  background-color: ${theme.color.lima};
+  color: ${theme.color.white};
 `;

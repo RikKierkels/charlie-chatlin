@@ -1,7 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-css';
 
-const MasonryGrid = ({ breakpointCols, children }) => {
+const Grid = ({ breakpointCols, children }) => {
   return (
     <Masonry breakpointCols={breakpointCols} className="masonry-grid" columnClassName="masonry-grid-column">
       {children}
@@ -9,4 +9,4 @@ const MasonryGrid = ({ breakpointCols, children }) => {
   );
 };
 
-export default MasonryGrid;
+export default Grid;

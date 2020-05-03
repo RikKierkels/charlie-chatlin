@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { renderContainer } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
-import Register from './register';
+import Register from './index';
 import { waitFor } from '@testing-library/dom';
 import chat from '../../shared/chat';
 import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';

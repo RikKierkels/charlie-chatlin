@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Tile from '../Tile';
+import { transparent } from '../../design/shared-styles';
 
 const TileAvatar = ({ avatar, isSelected, onSelect }) => {
   const { id, name, image } = avatar;
 
   return (
-    <Tile hasPadding={false}>
+    <Tile hasPadding={false} appearance={transparent}>
       <StyledAvatarButton
         avatar={image}
         isSelected={isSelected}
@@ -28,8 +29,7 @@ const StyledAvatarButton = styled.button`
   background-position: center;
   background-size: 130%;
   background-blend-mode: overlay;
-  background-color: ${({ isSelected, theme }) =>
-    isSelected ? theme.color.poisonGreen : theme.color.tile.midnightBlue};
+  background-color: ${({ isSelected, theme }) => (isSelected ? theme.color.lima : theme.color.tile.sapphire)};
   transition: all 0.1s ease-in-out;
 
   &:focus,
