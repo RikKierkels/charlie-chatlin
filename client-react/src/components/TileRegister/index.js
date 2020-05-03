@@ -34,11 +34,15 @@ const TileRegister = ({ onSubmit }) => {
 export default TileRegister;
 
 const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
   color: ${({ theme }) => theme.color.white};
 `;
 
 const SubmitButton = styled(Button)`
-  background-color: ${({ theme }) => theme.color.grassGreen};
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  align-self: flex-end;
+  background-color: ${({ theme }) => theme.color.conifer};
 `;
 
 const StyledRegisterIcon = styled(RegisterIcon)`

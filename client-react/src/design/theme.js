@@ -1,4 +1,5 @@
 export const spacing = {
+  sm: '0.5rem',
   md: '1rem',
   lg: '2rem',
 };
