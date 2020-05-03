@@ -1,4 +1,4 @@
-export const SOCKET_EVENTS = {
+export const SOCKET_EVENT = {
   CONNECTION: 'connection',
   HANDSHAKE: 'handshake',
   REGISTER: 'register',
