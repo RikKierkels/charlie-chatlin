@@ -1,19 +1,39 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
 import { renderContainer } from '../../test-utils';
+import chat from '../../shared/chat';
+import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import App from './index';
-import { createStore } from '../../store/store';
 
-test('shows the register page if the user has not registered', () => {
-  renderContainer(<App />, createStore());
-
-  screen.getByRole('button', { name: /register/i });
+const handleRegister = jest.fn((socket, data) => {
+  socket.emit('register-success', { user: data, chatHistory: [] });
 });
 
-test('shows the chat page if the user has registered', () => {
-  const user = { username: 'Dog', avatarId: 'dog' };
+const messageInput = () => screen.getByLabelText(/message/i);
+const usernameInput = () => screen.getByLabelText(/username/i);
+const registerButton = () => screen.getByRole('button', { name: /register/i });
+const randomAvatar = () => {
+  const avatars = screen.getAllByRole('button', { name: /avatar/i });
+  return avatars[Math.floor(Math.random() * avatars.length)];
+};
 
-  renderContainer(<App />, createStore({ user: { ...user } }));
+test('shows the register container initially ', () => {
+  renderContainer(<App />);
+  usernameInput();
+});
 
-  screen.getByRole('button', { name: /send message/i });
+test('shows the chat after registering as a user', async () => {
+  const { store } = renderContainer(<App />);
+  const socket = mockServer.start({ onRegister: handleRegister });
+  chat.connect(socket, store);
+  await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
+
+  userEvent.click(randomAvatar());
+  await userEvent.type(usernameInput(), 'Dog');
+  userEvent.click(registerButton());
+
+  await waitFor(() => messageInput());
+  mockServer.stop();
 });

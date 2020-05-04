@@ -23,22 +23,8 @@ const randomAvatar = () => {
   return avatars[Math.floor(Math.random() * avatars.length)];
 };
 
-test('registers a user', async () => {
-  const { history, store } = renderContainer(<Register />);
-  const socket = mockServer.start({ onRegister: handleRegister });
-  chat.connect(socket, store);
-  await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
-
-  userEvent.click(randomAvatar());
-  await userEvent.type(usernameInput(), 'Dog');
-  userEvent.click(registerButton());
-
-  expect(handleRegister).toHaveBeenCalledTimes(1);
-  await waitFor(() => expect(history.location.pathname).toBe('/chat'));
-});
-
 test('cannot register without selecting an avatar and a username', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderContainer(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -46,11 +32,10 @@ test('cannot register without selecting an avatar and a username', async () => {
   userEvent.click(registerButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });
 
 test('cannot register without selecting an avatar', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderContainer(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -59,11 +44,10 @@ test('cannot register without selecting an avatar', async () => {
   userEvent.click(registerButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });
 
 test('cannot register without entering a username', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderContainer(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -72,5 +56,4 @@ test('cannot register without entering a username', async () => {
   userEvent.click(registerButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });

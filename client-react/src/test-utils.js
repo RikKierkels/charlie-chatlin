@@ -4,19 +4,12 @@ import { ThemeProvider } from 'emotion-theming';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from './store/store.js';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 
 export const renderWithTheme = (ui) => render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
-export const renderContainer = (ui, store = createStore(), history = createMemoryHistory()) => {
+export const renderContainer = (ui, store = createStore()) => {
   return {
-    ...renderWithTheme(
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>,
-    ),
+    ...renderWithTheme(<Provider store={store}>{ui}</Provider>),
     store,
-    history,
   };
 };
