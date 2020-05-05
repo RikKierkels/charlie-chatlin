@@ -7,7 +7,7 @@ import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import App from './index';
 
-const handleRegister = jest.fn((socket, data) => {
+const handleRegister = jest.fn(({ data, socket }) => {
   socket.emit('register-success', { user: data, chatHistory: [] });
 });
 

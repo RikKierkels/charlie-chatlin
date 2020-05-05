@@ -9,10 +9,10 @@ import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
 
 beforeEach(() => {
   mockServer.stop();
-  handleRegister.mockClear();
+  mockServer.reset();
 });
 
-const handleRegister = jest.fn((socket, data) => {
+const handleRegister = jest.fn(({ data, socket }) => {
   socket.emit('register-success', { user: data, chatHistory: [] });
 });
 
