@@ -7,8 +7,8 @@ import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import App from './index';
 
-const handleRegister = jest.fn(({ data, socket }) => {
-  socket.emit('register-success', { user: data, chatHistory: [] });
+const handleRegister = jest.fn(({ data: user, socket }) => {
+  socket.emit('register-success', { user, chatHistory: [] });
 });
 
 const messageInput = () => screen.getByLabelText(/message/i);
@@ -24,14 +24,15 @@ test('shows the register container initially ', () => {
   usernameInput();
 });
 
-test('shows the chat after registering as a user', async () => {
+test('shows the chat container after registering as a user', async () => {
   const { store } = renderContainer(<App />);
   const socket = mockServer.start({ onRegister: handleRegister });
+
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
   userEvent.click(randomAvatar());
-  await userEvent.type(usernameInput(), 'Dog');
+  await userEvent.type(usernameInput(), 'L33tK1ll4r');
   userEvent.click(registerButton());
 
   await waitFor(() => messageInput());
