@@ -20,23 +20,23 @@ export const transparent = css`
 `;
 
 export const biscay = ({ theme }) => css`
-  background-color: ${theme.color.tile.biscay};
+  background-color: ${theme.color.biscay};
   color: ${theme.color.white};
 `;
 
 export const chocolate = ({ theme }) => css`
-  background-color: ${theme.color.tile.chocolate};
+  background-color: ${theme.color.chocolate};
   color: ${theme.color.white};
 `;
 
 export const sapphire = ({ theme }) => css`
-  background-color: ${theme.color.tile.sapphire};
-  color: ${theme.color.tile.cyan};
+  background-color: ${theme.color.sapphire};
+  color: ${theme.color.cyan};
 `;
 
 export const cyan = ({ theme }) => css`
-  background-color: ${theme.color.tile.cyan};
-  color: ${theme.color.tile.biscay};
+  background-color: ${theme.color.cyan};
+  color: ${theme.color.biscay};
 `;
 
 export const lima = ({ theme }) => css`

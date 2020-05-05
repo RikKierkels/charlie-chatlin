@@ -10,12 +10,10 @@ const color = {
   conifer: '#82ea3e',
   lima: '#62d417',
   white: '#fff',
-  tile: {
-    cyan: '#5CDFF1',
-    chocolate: '#EA6312',
-    sapphire: '#2D4897',
-    biscay: '#2F3855',
-  },
+  cyan: '#5CDFF1',
+  chocolate: '#EA6312',
+  sapphire: '#2D4897',
+  biscay: '#2F3855',
 };
 
 const theme = {

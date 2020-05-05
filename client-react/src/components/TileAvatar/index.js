@@ -29,7 +29,7 @@ const StyledAvatarButton = styled.button`
   background-position: center;
   background-size: 130%;
   background-blend-mode: overlay;
-  background-color: ${({ isSelected, theme }) => (isSelected ? theme.color.lima : theme.color.tile.sapphire)};
+  background-color: ${({ isSelected, theme }) => (isSelected ? theme.color.lima : theme.color.sapphire)};
   transition: all 0.1s ease-in-out;
 
   &:focus,

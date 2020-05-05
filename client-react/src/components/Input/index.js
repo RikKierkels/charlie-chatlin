@@ -17,6 +17,7 @@ const StyledInput = styled.input`
   color: inherit;
 
   ::placeholder {
+    color: inherit;
     opacity: 1;
   }
 
