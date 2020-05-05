@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderContainer } from '../../test-utils';
+import { renderWithThemeAndRedux } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import Register from './index';
 import { waitFor } from '@testing-library/dom';
@@ -24,7 +24,7 @@ const randomAvatar = () => {
 };
 
 test('cannot register without selecting an avatar and a username', async () => {
-  const { store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
 
   chat.connect(socket, store);
@@ -36,7 +36,7 @@ test('cannot register without selecting an avatar and a username', async () => {
 });
 
 test('cannot register without selecting an avatar', async () => {
-  const { store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
 
   chat.connect(socket, store);
@@ -49,7 +49,7 @@ test('cannot register without selecting an avatar', async () => {
 });
 
 test('cannot register without entering a username', async () => {
-  const { store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
 
   chat.connect(socket, store);

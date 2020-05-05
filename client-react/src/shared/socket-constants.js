@@ -1,5 +1,7 @@
 export const SOCKET_EVENT = {
-  CONNECTION: 'connection',
+  CONNECT: 'connect',
+  DISCONNECT: 'disconnect',
+  RECONNECT: 'reconnect_attempt',
   HANDSHAKE: 'handshake',
   REGISTER: 'register',
   REGISTER_SUCCESS: 'register-success',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { createMessage, createUser, renderContainer } from '../../test-utils';
+import { createMessage, createUser, renderWithThemeAndRedux } from '../../test-utils';
 import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
 import chat from '../../shared/chat';
 import { waitFor } from '@testing-library/dom';
@@ -33,7 +33,7 @@ const sendMessageButton = () => screen.getByRole('button', { name: /send/i });
 test('shows chat history', async () => {
   const history = [createMessage(), createMessage()];
   const socket = mockServer.start({ onConnect: handleConnect(history) });
-  const { store } = renderContainer(<Chat />);
+  const { store } = renderWithThemeAndRedux(<Chat />);
 
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -46,7 +46,7 @@ test('shows chat history', async () => {
 test('shows a list of active users', async () => {
   const users = [createUser(), createUser()];
   const socket = mockServer.start({ onGetActiveUsers: handleGetActiveUsers(users) });
-  const { store } = renderContainer(<Chat />);
+  const { store } = renderWithThemeAndRedux(<Chat />);
 
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -58,7 +58,7 @@ test('shows a list of active users', async () => {
 
 test('send message appears in the chat', async () => {
   const socket = mockServer.start({ onMessage: handleMessage });
-  const { store } = renderContainer(<Chat />, createStore({ user: createUser() }));
+  const { store } = renderWithThemeAndRedux(<Chat />, createStore({ user: createUser() }));
 
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
@@ -72,7 +72,7 @@ test('send message appears in the chat', async () => {
 test('shows a user joined message when a new user joins', async () => {
   const user = createUser();
   const socket = mockServer.start();
-  const { store } = renderContainer(<Chat />);
+  const { store } = renderWithThemeAndRedux(<Chat />);
 
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));

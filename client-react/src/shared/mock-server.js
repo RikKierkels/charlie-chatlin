@@ -16,8 +16,8 @@ function start(handlers = defaultHandlers) {
   server = new Server(url);
   mockHandlers = handlers;
 
-  server.on(SOCKET_EVENT.CONNECTION, (socket) => {
-    socket.on(SOCKET_EVENT.CONNECTION, (data) => handlers.onConnect({ data, socket }));
+  server.on(SOCKET_EVENT.CONNECT, (socket) => {
+    socket.on(SOCKET_EVENT.CONNECT, (data) => handlers.onConnect({ data, socket }));
     socket.on(SOCKET_EVENT.REGISTER, (data) => handlers.onRegister({ data, socket }));
     socket.on(SOCKET_EVENT.MESSAGE, (data) => handlers.onMessage({ data, socket }));
     socket.on(SOCKET_EVENT.ACTIVE_USERS, (data, callback) => handlers.onGetActiveUsers({ data, socket, callback }));

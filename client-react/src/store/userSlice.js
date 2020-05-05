@@ -4,12 +4,12 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     username: '',
-    avatar: '',
+    avatarId: '',
   },
   reducers: {
     setUser: (state, action) => {
       state.username = action.payload.username;
-      state.avatar = action.payload.avatar;
+      state.avatarId = action.payload.avatarId;
     },
   },
 });

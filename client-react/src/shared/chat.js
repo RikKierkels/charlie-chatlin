@@ -1,5 +1,6 @@
 import { setUser } from '../store/userSlice';
 import { SOCKET_EVENT } from './socket-constants';
+import { setIsConnected } from '../store/chatSlice';
 
 const storage = window.localStorage;
 let socket = null;
@@ -7,10 +8,16 @@ let socket = null;
 function connect(io, store) {
   socket = io;
 
+  socket.on(SOCKET_EVENT.CONNECT, () => store.dispatch(setIsConnected({ isConnected: true })));
+  socket.on(SOCKET_EVENT.DISCONNECT, () => store.dispatch(setIsConnected({ isConnected: false })));
   socket.on(SOCKET_EVENT.HANDSHAKE, (sessionId) => storage.setItem(sessionKey, sessionId));
+  socket.on(SOCKET_EVENT.RECONNECT, () => {
+    store.dispatch(setIsConnected({ isConnected: false }));
+    socket.io.opts.query = { sessionId: storage.getItem(sessionKey) };
+  });
 
   socket.on(SOCKET_EVENT.REGISTER_SUCCESS, ({ user, chatHistory }) => {
-    store.dispatch(setUser({ username: user.username, avatar: user.avatarId }));
+    store.dispatch(setUser({ username: user.username, avatarId: user.avatarId }));
   });
 
   socket.on(SOCKET_EVENT.REGISTER_FAILED, (error) => {

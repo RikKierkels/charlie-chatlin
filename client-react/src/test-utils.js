@@ -10,7 +10,7 @@ import { MESSAGE_TYPE } from './shared/socket-constants';
 
 export const renderWithTheme = (ui) => render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
-export const renderContainer = (ui, store = createStore()) => {
+export const renderWithThemeAndRedux = (ui, store = createStore()) => {
   return {
     ...renderWithTheme(<Provider store={store}>{ui}</Provider>),
     store,

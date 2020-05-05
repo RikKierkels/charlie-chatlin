@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
-import { renderContainer } from '../../test-utils';
+import { renderWithThemeAndRedux } from '../../test-utils';
 import chat from '../../shared/chat';
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
@@ -20,12 +20,12 @@ const randomAvatar = () => {
 };
 
 test('shows the register container initially ', () => {
-  renderContainer(<App />);
+  renderWithThemeAndRedux(<App />);
   usernameInput();
 });
 
 test('shows the chat container after registering as a user', async () => {
-  const { store } = renderContainer(<App />);
+  const { store } = renderWithThemeAndRedux(<App />);
   const socket = mockServer.start({ onRegister: handleRegister });
 
   chat.connect(socket, store);
