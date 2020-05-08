@@ -42,12 +42,14 @@ const UserListItem = styled.li`
 
 const Username = styled.p`
   font-size: 0.8rem;
+  word-break: break-all;
   color: white;
 `;
 
 const Avatar = styled.img`
   width: 50px;
   height: 50px;
+  margin-left: ${({ theme }) => theme.spacing.xs};
   border-radius: 50%;
   object-fit: cover;
 `;
