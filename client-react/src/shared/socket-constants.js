@@ -9,6 +9,7 @@ export const SOCKET_EVENT = {
   MESSAGE: 'message',
   ACTIVE_USERS: 'active-users',
   USER_JOINED: 'user-joined',
+  USER_LEFT: 'user-left',
 };
 
 export const MESSAGE_TYPE = {

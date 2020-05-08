@@ -1,18 +1,20 @@
 import { setUser } from '../store/userSlice';
 import { SOCKET_EVENT } from './socket-constants';
-import { setIsConnected } from '../store/chatSlice';
+import { addUser, removeUser, setIsConnected, setUsers } from '../store/chatSlice';
 
+let _socket = null;
+let _store = null;
 const storage = window.localStorage;
-let socket = null;
 
-function connect(io, store) {
-  socket = io;
+function connect(socket, store) {
+  _socket = socket;
+  _store = store;
 
-  socket.on(SOCKET_EVENT.CONNECT, () => store.dispatch(setIsConnected({ isConnected: true })));
-  socket.on(SOCKET_EVENT.DISCONNECT, () => store.dispatch(setIsConnected({ isConnected: false })));
+  socket.on(SOCKET_EVENT.CONNECT, () => store.dispatch(setIsConnected(true)));
+  socket.on(SOCKET_EVENT.DISCONNECT, () => store.dispatch(setIsConnected(true)));
   socket.on(SOCKET_EVENT.HANDSHAKE, (sessionId) => storage.setItem(sessionKey, sessionId));
   socket.on(SOCKET_EVENT.RECONNECT, () => {
-    store.dispatch(setIsConnected({ isConnected: false }));
+    store.dispatch(setIsConnected(false));
     socket.io.opts.query = { sessionId: storage.getItem(sessionKey) };
   });
 
@@ -23,20 +25,32 @@ function connect(io, store) {
   socket.on(SOCKET_EVENT.REGISTER_FAILED, (error) => {
     console.log(error);
   });
+
+  socket.on(SOCKET_EVENT.USER_JOINED, (user) => store.dispatch(addUser(user)));
+  socket.on(SOCKET_EVENT.USER_LEFT, (user) => store.dispatch(removeUser(user)));
 }
 
 function throwNoSocketError() {
-  throw new Error('No socket connection. You likely forgot to connect or register.');
+  throw new Error('No socket connection. You likely forgot to connect.');
 }
 
 function registerUser(username, avatarId) {
-  if (!socket) throwNoSocketError();
+  if (!_socket) throwNoSocketError();
 
-  socket.emit(SOCKET_EVENT.REGISTER, { username, avatarId });
+  _socket.emit(SOCKET_EVENT.REGISTER, { username, avatarId });
+}
+
+function getUsers() {
+  if (!_socket) throwNoSocketError();
+
+  _socket.emit('active-users', null, (error, users) => {
+    _store.dispatch(setUsers(users));
+  });
 }
 
 export const sessionKey = 'APP_SESSION_ID';
 export default {
   connect,
   registerUser,
+  getUsers,
 };

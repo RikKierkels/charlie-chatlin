@@ -88,7 +88,7 @@ const avatars = [
   },
   {
     id: 'overly-attached-girlfriend',
-    name: 'Overly Attaczed Girlfriend',
+    name: 'Overly Attached Girlfriend',
     image: OverlyAttachedGirlfriendImg,
   },
   {
