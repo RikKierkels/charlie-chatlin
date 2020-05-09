@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TileAvatar from '../../components/TileAvatar';
 import TileRegister from '../../components/TileRegister';
 import Grid from '../../components/Grid';
-import breakpointColumns from '../../design/masonry-grid';
+import breakpointColumns from '../../design/breakpoint-columns';
 import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
 import Logo from '../../assets/images/mediaan-logo.png';

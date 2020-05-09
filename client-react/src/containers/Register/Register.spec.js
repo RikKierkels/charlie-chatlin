@@ -6,6 +6,7 @@ import Register from './index';
 import { waitFor } from '@testing-library/dom';
 import chat from '../../shared/chat';
 import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
+import { random } from '../../shared/utils';
 
 beforeEach(() => {
   mockServer.stop();
@@ -18,10 +19,7 @@ const handleRegister = jest.fn(({ data: user, socket }) => {
 
 const usernameInput = () => screen.getByLabelText(/username/i);
 const registerButton = () => screen.getByRole('button', { name: /register/i });
-const randomAvatar = () => {
-  const avatars = screen.getAllByRole('button', { name: /avatar/i });
-  return avatars[Math.floor(Math.random() * avatars.length)];
-};
+const randomAvatar = () => random(screen.getAllByRole('button', { name: /avatar/i }));
 
 test('cannot register without selecting an avatar and a username', async () => {
   const { store } = renderWithThemeAndRedux(<Register />);

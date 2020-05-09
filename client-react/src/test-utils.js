@@ -7,6 +7,7 @@ import { createStore } from './store/store.js';
 import * as faker from 'faker';
 import avatars from './shared/avatars';
 import { MESSAGE_TYPE } from './shared/socket-constants';
+import { random } from './shared/utils';
 
 export const renderWithTheme = (ui) => render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
@@ -31,7 +32,7 @@ export const createMessage = ({
 
 const randomAvatarId = () => {
   const ids = avatars.map(({ id }) => id);
-  return ids[Math.floor(Math.random() * ids.length)];
+  return random(ids);
 };
 
 export const createUser = () => ({

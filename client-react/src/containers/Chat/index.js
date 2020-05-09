@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Input from '../../components/Input';
 import Grid from '../../components/Grid';
-import breakpointCols from '../../design/masonry-grid';
+import breakpointCols from '../../design/breakpoint-columns';
 import TileUserProfile from '../../components/TileUserProfile';
 import TileUserList from '../../components/TileUserList';
 import chat from '../../shared/chat';
