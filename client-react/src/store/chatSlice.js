@@ -5,6 +5,7 @@ const chatSlice = createSlice({
   initialState: {
     isConnected: false,
     users: [],
+    messages: [],
   },
   // TODO: Check naming convention actions
   reducers: {
@@ -22,9 +23,15 @@ const chatSlice = createSlice({
     removeUser: (state, action) => {
       state.users = state.users.filter((user) => user.username !== action.payload.username);
     },
+    setMessages: (state, action) => {
+      state.messages = action.payload;
+    },
+    addMessage: (state, action) => {
+      state.messages = [...state.messages, action.payload];
+    },
   },
 });
 
-export const { setIsConnected, setUsers, removeUser, addUser } = chatSlice.actions;
+export const { setIsConnected, setUsers, removeUser, addUser, setMessages, addMessage } = chatSlice.actions;
 
 export default chatSlice.reducer;

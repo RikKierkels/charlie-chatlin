@@ -1,6 +1,6 @@
 import { setUser } from '../store/userSlice';
 import { SOCKET_EVENT } from './socket-constants';
-import { addUser, removeUser, setIsConnected, setUsers } from '../store/chatSlice';
+import { addMessage, addUser, removeUser, setIsConnected, setMessages, setUsers } from '../store/chatSlice';
 
 let _socket = null;
 let _store = null;
@@ -20,11 +20,13 @@ function connect(socket, store) {
 
   socket.on(SOCKET_EVENT.REGISTER_SUCCESS, ({ user, chatHistory }) => {
     store.dispatch(setUser({ username: user.username, avatarId: user.avatarId }));
+    store.dispatch(setMessages(chatHistory));
   });
-
   socket.on(SOCKET_EVENT.REGISTER_FAILED, (error) => {
     console.log(error);
   });
+
+  socket.on(SOCKET_EVENT.MESSAGE, (message) => store.dispatch(addMessage(message)));
 
   socket.on(SOCKET_EVENT.USER_JOINED, (user) => store.dispatch(addUser(user)));
   socket.on(SOCKET_EVENT.USER_LEFT, (user) => store.dispatch(removeUser(user)));
@@ -43,8 +45,16 @@ function registerUser(username, avatarId) {
 function getUsers() {
   if (!_socket) throwNoSocketError();
 
-  _socket.emit('active-users', null, (error, users) => {
+  _socket.emit(SOCKET_EVENT.ACTIVE_USERS, null, (error, users) => {
     _store.dispatch(setUsers(users));
+  });
+}
+
+function sendMessage(message) {
+  if (!_socket) throwNoSocketError();
+
+  _socket.emit(SOCKET_EVENT.MESSAGE, message, (error, _) => {
+    console.log(error);
   });
 }
 
@@ -53,4 +63,5 @@ export default {
   connect,
   registerUser,
   getUsers,
+  sendMessage,
 };

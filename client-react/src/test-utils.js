@@ -17,11 +17,15 @@ export const renderWithThemeAndRedux = (ui, store = createStore()) => {
   };
 };
 
-export const createMessage = ({ type = MESSAGE_TYPE.TEXT, text = faker.lorem.sentences() } = {}) => ({
+export const createMessage = ({
+  type = MESSAGE_TYPE.TEXT,
+  text = faker.lorem.sentences(),
+  sentOn = new Date().toISOString(),
+} = {}) => ({
   id: faker.random.uuid(),
   text,
   type,
-  sentOn: new Date().toISOString(),
+  sentOn,
   sender: createUser(),
 });
 

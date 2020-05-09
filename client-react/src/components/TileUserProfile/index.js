@@ -5,7 +5,7 @@ import avatars from '../../shared/avatars';
 import { StyledText, transparent } from '../../design/shared-styles';
 import { useSelector } from 'react-redux';
 
-const TileProfile = () => {
+const TileUserProfile = () => {
   const user = useSelector((state) => state.user);
   const isConnected = useSelector((state) => state.chat.isConnected);
   const avatar = avatars.find((avatar) => avatar.id === user.avatarId);
@@ -21,7 +21,7 @@ const TileProfile = () => {
   );
 };
 
-export default TileProfile;
+export default TileUserProfile;
 
 const AvatarWrapper = styled.div`
   display: flex;
