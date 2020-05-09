@@ -21,6 +21,34 @@ export const AvatarSmall = styled.img`
   object-fit: cover;
 `;
 
+export const StyledButton = styled.button`
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: 50%;
+  background-color: inherit;
+  color: inherit;
+`;
+
+export const StyledInput = styled.input`
+  border: 0;
+  outline: none;
+  font-size: 1.3rem;
+  background-color: inherit;
+  color: inherit;
+
+  ::placeholder {
+    color: inherit;
+    opacity: 1;
+  }
+
+  ::placeholder,
+  :-ms-input-placeholder,
+  ::-ms-input-placeholder {
+    color: inherit;
+  }
+`;
+
 export const transparent = css`
   background-color: transparent;
   color: transparent;

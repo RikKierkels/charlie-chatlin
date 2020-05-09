@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import Input from '../Input';
-import Button from '../Button';
 import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg';
 import Tile from '../Tile';
-import { lima } from '../../design/shared-styles';
+import { lima, StyledButton, StyledInput } from '../../design/shared-styles';
 
 const TileRegister = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
@@ -16,12 +14,13 @@ const TileRegister = ({ onSubmit }) => {
   return (
     <Tile appearance={lima}>
       <StyledForm onSubmit={handleSubmit}>
-        <Input
+        <StyledInput
+          type="text"
           required
-          value={username}
           placeholder="Your username"
           aria-label="username"
-          onValueChange={setUsername}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
         />
         <SubmitButton type="submit" aria-label="Register">
           <StyledRegisterIcon />
@@ -37,9 +36,9 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   color: ${({ theme }) => theme.color.white};
-`;
+Ø`;
 
-const SubmitButton = styled(Button)`
+const SubmitButton = styled(StyledButton)`
   margin-top: ${({ theme }) => theme.spacing.sm};
   align-self: flex-end;
   background-color: ${({ theme }) => theme.color.conifer};
