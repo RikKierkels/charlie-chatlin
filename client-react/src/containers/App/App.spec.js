@@ -26,7 +26,7 @@ test('shows the register container initially ', () => {
 
 test('shows the chat container after registering as a user', async () => {
   const { store } = renderWithThemeAndRedux(<App />);
-  const socket = mockServer.start({ onRegister: handleRegister });
+  const socket = mockServer.start({ onRegister: handleRegister, onGetUsers: () => {} });
 
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));

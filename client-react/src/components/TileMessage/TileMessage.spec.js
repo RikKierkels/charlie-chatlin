@@ -19,7 +19,7 @@ test('shows the message', () => {
   screen.getByText(message.text);
 });
 
-test('shows the formatted sent on date', () => {
+test('shows the formatted time that the message was sent on', () => {
   const sentOn = new Date(2020, 5, 9, 20, 20);
   const message = createMessage({ sentOn });
 

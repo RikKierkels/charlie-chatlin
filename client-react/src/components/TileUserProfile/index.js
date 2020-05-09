@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Tile from '../Tile';
-import avatars from '../../shared/avatars';
+import { getAvatarById } from '../../shared/avatars';
 import { StyledText, transparent } from '../../design/shared-styles';
 import { useSelector } from 'react-redux';
 
 const TileUserProfile = () => {
   const user = useSelector((state) => state.user);
   const isConnected = useSelector((state) => state.chat.isConnected);
-  const avatar = avatars.find((avatar) => avatar.id === user.avatarId);
+  const avatar = getAvatarById(user.avatarId);
 
   return (
     <Tile appearance={transparent}>
       <AvatarWrapper>
-        <Avatar image={avatar.image} isConnected={isConnected} role="img" aria-label={`${avatar.name}`} />
+        <Avatar image={avatar.image} isConnected={isConnected} role="img" aria-label={avatar.name} />
       </AvatarWrapper>
       <Username>{user.username}</Username>
       <Brand>Mediaan Masterclass 2020</Brand>

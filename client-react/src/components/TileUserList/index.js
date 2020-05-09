@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { biscay } from '../../design/shared-styles';
-import avatars from '../../shared/avatars';
+import { AvatarSmall, biscay } from '../../design/shared-styles';
+import { getAvatarById } from '../../shared/avatars';
 import Tile from '../Tile';
 
 const toUserListItem = (user) => {
-  const avatar = avatars.find((avatar) => user.avatarId === avatar.id);
+  const avatar = getAvatarById(user.avatarId);
 
   return (
     <UserListItem key={user.username}>
@@ -43,10 +43,6 @@ const Username = styled.p`
   color: white;
 `;
 
-const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
+const Avatar = styled(AvatarSmall)`
   margin-left: ${({ theme }) => theme.spacing.xs};
-  border-radius: 50%;
-  object-fit: cover;
 `;

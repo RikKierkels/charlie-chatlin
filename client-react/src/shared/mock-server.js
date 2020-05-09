@@ -7,7 +7,7 @@ const defaultHandlers = {
   onRegister: jest.fn(),
   onConnect: jest.fn(),
   onMessage: jest.fn(),
-  onGetActiveUsers: jest.fn(),
+  onGetUsers: jest.fn(),
   onUserJoined: jest.fn(),
 };
 
@@ -20,7 +20,7 @@ function start(handlers = defaultHandlers) {
     socket.on(SOCKET_EVENT.CONNECT, (data) => handlers.onConnect({ data, socket }));
     socket.on(SOCKET_EVENT.REGISTER, (data) => handlers.onRegister({ data, socket }));
     socket.on(SOCKET_EVENT.MESSAGE, (data) => handlers.onMessage({ data, socket }));
-    socket.on(SOCKET_EVENT.ACTIVE_USERS, (data, callback) => handlers.onGetActiveUsers({ data, socket, callback }));
+    socket.on(SOCKET_EVENT.ACTIVE_USERS, (data, callback) => handlers.onGetUsers({ data, socket, callback }));
     socket.on(SOCKET_EVENT.USER_JOINED, (data, callback) => handlers.onUserJoined({ data, socket, callback }));
   });
 

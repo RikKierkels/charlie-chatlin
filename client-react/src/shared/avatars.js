@@ -118,4 +118,7 @@ const avatars = [
   },
 ];
 
+const getAvatarById = (id) => avatars.find((avatar) => avatar.id === id);
+
+export { getAvatarById };
 export default avatars;
