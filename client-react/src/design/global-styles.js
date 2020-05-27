@@ -45,6 +45,14 @@ export const GlobalStyle = withTheme(({ theme }) => (
         padding: 0;
       }
 
+      ul,
+      ol,
+      li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
       .masonry-grid {
         display: -webkit-box;
         display: -ms-flexbox;

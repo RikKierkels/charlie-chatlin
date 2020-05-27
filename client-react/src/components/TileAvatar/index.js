@@ -9,7 +9,7 @@ const TileAvatar = ({ avatar, isSelected, onSelect }) => {
   return (
     <Tile hasPadding={false} appearance={transparent}>
       <StyledAvatarButton
-        avatar={image}
+        image={image}
         isSelected={isSelected}
         aria-label={`Select ${name} as your avatar`}
         onClick={() => onSelect(id)}
@@ -25,11 +25,11 @@ const StyledAvatarButton = styled.button`
   width: 100%;
   border-radius: inherit;
   outline: 0;
-  background-image: ${({ avatar }) => `url(${avatar})`};
+  background-image: ${({ image }) => `url('${image}')`};
   background-position: center;
   background-size: 130%;
   background-blend-mode: overlay;
-  background-color: ${({ isSelected, theme }) => (isSelected ? theme.color.lima : theme.color.tile.sapphire)};
+  background-color: ${({ isSelected, theme }) => (isSelected ? theme.color.lima : theme.color.sapphire)};
   transition: all 0.1s ease-in-out;
 
   &:focus,

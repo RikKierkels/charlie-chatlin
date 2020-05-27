@@ -1,76 +1,60 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderContainer } from '../../test-utils';
+import { renderWithThemeAndRedux } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import Register from './index';
 import { waitFor } from '@testing-library/dom';
 import chat from '../../shared/chat';
 import mockServer, { SOCKET_OPEN } from '../../shared/mock-server';
+import { random } from '../../shared/utils';
 
 beforeEach(() => {
   mockServer.stop();
-  handleRegister.mockClear();
+  mockServer.reset();
 });
 
-const handleRegister = jest.fn((socket, data) => {
-  socket.emit('register-success', { user: data, chatHistory: [] });
+const handleRegister = jest.fn(({ data: user, socket }) => {
+  socket.emit('register-success', { user, chatHistory: [] });
 });
 
-const usernameInput = () => screen.getByLabelText(/username/i);
-const registerButton = () => screen.getByRole('button', { name: /register/i });
-const randomAvatar = () => {
-  const avatars = screen.getAllByRole('button', { name: /avatar/i });
-  return avatars[Math.floor(Math.random() * avatars.length)];
-};
-
-test('registers a user', async () => {
-  const { history, store } = renderContainer(<Register />);
-  const socket = mockServer.start({ onRegister: handleRegister });
-  chat.connect(socket, store);
-  await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
-
-  userEvent.click(randomAvatar());
-  await userEvent.type(usernameInput(), 'Dog');
-  userEvent.click(registerButton());
-
-  expect(handleRegister).toHaveBeenCalledTimes(1);
-  await waitFor(() => expect(history.location.pathname).toBe('/chat'));
-});
+const getUsernameInput = () => screen.getByLabelText(/username/i);
+const getRegisterButton = () => screen.getByRole('button', { name: /register/i });
+const getRandomAvatar = () => random(screen.getAllByRole('button', { name: /avatar/i }));
 
 test('cannot register without selecting an avatar and a username', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
+
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  userEvent.click(registerButton());
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });
 
 test('cannot register without selecting an avatar', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
+
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  await userEvent.type(usernameInput(), 'Dog');
-  userEvent.click(registerButton());
+  await userEvent.type(getUsernameInput(), 'L33tK1ll4r');
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });
 
 test('cannot register without entering a username', async () => {
-  const { history, store } = renderContainer(<Register />);
+  const { store } = renderWithThemeAndRedux(<Register />);
   const socket = mockServer.start({ onRegister: handleRegister });
+
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  userEvent.click(randomAvatar());
-  userEvent.click(registerButton());
+  userEvent.click(getRandomAvatar());
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
-  expect(history.location.pathname).not.toBe('/chat');
 });

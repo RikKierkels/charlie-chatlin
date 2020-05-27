@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { biscay, chocolate, cyan, sapphire } from '../../design/shared-styles';
+import { random } from '../../shared/utils';
 
-const randomAppearance = () => {
-  const styles = [biscay, chocolate, sapphire, cyan];
-  return styles[Math.floor(Math.random() * styles.length)];
-};
+const randomAppearance = () => random([biscay, chocolate, sapphire, cyan]);
 
 const Tile = ({ hasPadding = true, appearance = randomAppearance(), children }) => {
   return (
