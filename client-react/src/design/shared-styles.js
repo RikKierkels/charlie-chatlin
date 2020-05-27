@@ -78,3 +78,8 @@ export const lima = ({ theme }) => css`
   background-color: ${theme.color.lima};
   color: ${theme.color.white};
 `;
+
+export const violet = ({ theme }) => css`
+  background-color: ${theme.color.electricViolet};
+  color: ${theme.color.white};
+`;

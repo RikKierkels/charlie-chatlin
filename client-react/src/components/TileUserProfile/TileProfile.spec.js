@@ -9,5 +9,5 @@ test('shows the registered users username', () => {
 
   renderWithThemeAndRedux(<TileUserProfile />, store);
 
-  screen.getByText('L33tK1ll4r');
+  expect(screen.getByText('L33tK1ll4r')).toBeInTheDocument();
 });

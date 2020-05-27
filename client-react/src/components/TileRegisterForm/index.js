@@ -4,7 +4,7 @@ import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg
 import Tile from '../Tile';
 import { lima, StyledButton, StyledInput } from '../../design/shared-styles';
 
-const TileRegister = ({ onSubmit }) => {
+const TileRegisterForm = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ const TileRegister = ({ onSubmit }) => {
   );
 };
 
-export default TileRegister;
+export default TileRegisterForm;
 
 const StyledForm = styled.form`
   display: flex;

@@ -12,14 +12,11 @@ const handleRegister = jest.fn(({ data: user, socket }) => {
   socket.emit('register-success', { user, chatHistory: [] });
 });
 
-const messageInput = () => screen.getByLabelText(/message/i);
 const usernameInput = () => screen.getByLabelText(/username/i);
-const registerButton = () => screen.getByRole('button', { name: /register/i });
-const randomAvatar = () => random(screen.getAllByRole('button', { name: /avatar/i }));
 
 test('shows the register container initially ', () => {
   renderWithThemeAndRedux(<App />);
-  usernameInput();
+  expect(usernameInput()).toBeInTheDocument();
 });
 
 test('shows the chat container after registering as a user', async () => {
@@ -29,10 +26,12 @@ test('shows the chat container after registering as a user', async () => {
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  userEvent.click(randomAvatar());
+  const randomAvatar = random(screen.getAllByRole('button', { name: /avatar/i }));
+  userEvent.click(randomAvatar);
   await userEvent.type(usernameInput(), 'L33tK1ll4r');
-  userEvent.click(registerButton());
+  userEvent.click(screen.getByRole('button', { name: /register/i }));
 
-  await waitFor(() => messageInput());
+  const messageInput = await screen.findByLabelText(/message/i);
+  expect(messageInput).toBeInTheDocument();
   mockServer.stop();
 });

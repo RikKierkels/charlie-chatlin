@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TileAvatar from '../../components/TileAvatar';
-import TileRegister from '../../components/TileRegister';
+import TileRegisterForm from '../../components/TileRegisterForm';
 import Grid from '../../components/Grid';
 import breakpointColumns from '../../design/breakpoint-columns';
 import avatars from '../../shared/avatars';
@@ -38,7 +38,7 @@ const Register = () => {
           onSelect={(id) => setSelectedAvatarId(id)}
         />
       ))}
-      <TileRegister onSubmit={handleSubmit} />
+      <TileRegisterForm onSubmit={handleSubmit} />
     </Grid>
   );
 };

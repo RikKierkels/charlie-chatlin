@@ -3,27 +3,13 @@ import { screen } from '@testing-library/react';
 import { createMessage, renderWithTheme } from '../../test-utils';
 import TileMessage from './index';
 
-test('shows the username', () => {
-  const message = createMessage();
-
-  renderWithTheme(<TileMessage message={message} />);
-
-  screen.getByText(message.sender.username);
-});
-
-test('shows the message', () => {
-  const message = createMessage();
-
-  renderWithTheme(<TileMessage message={message} />);
-
-  screen.getByText(message.text);
-});
-
-test('shows the formatted time that the message was sent on', () => {
+test('renders the message details', () => {
   const sentOn = new Date(2020, 5, 9, 20, 20);
   const message = createMessage({ sentOn });
 
   renderWithTheme(<TileMessage message={message} />);
 
-  screen.getByText('20:20');
+  expect(screen.getByText(message.sender.username)).toBeInTheDocument();
+  expect(screen.getByText(message.text)).toBeInTheDocument();
+  expect(screen.getByText('20:20')).toBeInTheDocument();
 });

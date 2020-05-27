@@ -5,8 +5,8 @@ import Tile from './index';
 
 test('sets the provided appearance', () => {
   const appearance = css`
-    color: red;
     background-color: green;
+    color: red;
   `;
 
   const { container } = renderWithTheme(<Tile appearance={appearance} />);

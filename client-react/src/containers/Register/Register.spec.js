@@ -17,9 +17,9 @@ const handleRegister = jest.fn(({ data: user, socket }) => {
   socket.emit('register-success', { user, chatHistory: [] });
 });
 
-const usernameInput = () => screen.getByLabelText(/username/i);
-const registerButton = () => screen.getByRole('button', { name: /register/i });
-const randomAvatar = () => random(screen.getAllByRole('button', { name: /avatar/i }));
+const getUsernameInput = () => screen.getByLabelText(/username/i);
+const getRegisterButton = () => screen.getByRole('button', { name: /register/i });
+const getRandomAvatar = () => random(screen.getAllByRole('button', { name: /avatar/i }));
 
 test('cannot register without selecting an avatar and a username', async () => {
   const { store } = renderWithThemeAndRedux(<Register />);
@@ -28,7 +28,7 @@ test('cannot register without selecting an avatar and a username', async () => {
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  userEvent.click(registerButton());
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
 });
@@ -40,8 +40,8 @@ test('cannot register without selecting an avatar', async () => {
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  await userEvent.type(usernameInput(), 'L33tK1ll4r');
-  userEvent.click(registerButton());
+  await userEvent.type(getUsernameInput(), 'L33tK1ll4r');
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
 });
@@ -53,8 +53,8 @@ test('cannot register without entering a username', async () => {
   chat.connect(socket, store);
   await waitFor(() => expect(socket.readyState).toBe(SOCKET_OPEN));
 
-  userEvent.click(randomAvatar());
-  userEvent.click(registerButton());
+  userEvent.click(getRandomAvatar());
+  userEvent.click(getRegisterButton());
 
   expect(handleRegister).toHaveBeenCalledTimes(0);
 });
