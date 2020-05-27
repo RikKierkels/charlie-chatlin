@@ -14,16 +14,7 @@ module.exports = function makeHandleUserRegister(
     if (!existingUser && !sessionManager.isUsernameAvailable(user)) {
       return client.emit('register-failed', 'Username is not available.');
     }
-
     if (existingUser) {
-      const message = messageService.createMessage(
-        templates.toUserLeftMessage(user),
-        MESSAGE_TYPE.USER_LEFT,
-        user
-      );
-
-      messageService.addMessage(message);
-      io.to('chat room').emit('message', message);
       io.emit('user-left', existingUser);
     }
 
