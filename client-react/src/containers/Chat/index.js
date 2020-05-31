@@ -10,14 +10,7 @@ import TileMessage from '../../components/TileMessage';
 import TileUserJoined from '../../components/TileUserJoined';
 import { StyledInput } from '../../design/shared-styles';
 
-const toMessageTile = (message) => {
-  return message.type === MESSAGE_TYPE.TEXT ? <TileMessage message={message} /> : <TileUserJoined message={message} />;
-};
-
 const Chat = () => {
-  const users = useSelector((state) => state.chat.users);
-  const messages = useSelector((state) => state.chat.messages);
-
   useEffect(() => {
     chat.getUsers();
   }, []);
@@ -25,8 +18,8 @@ const Chat = () => {
   return (
     <Grid breakpointCols={breakpointCols}>
       <TileUserProfile />
-      <TileUserList users={users} />
-      {messages.map(toMessageTile)}
+      <TileUserList />
+      <Messages />
       <>
         <span>I am chat.</span>
         <StyledInput
@@ -39,6 +32,18 @@ const Chat = () => {
         />
       </>
     </Grid>
+  );
+};
+
+const Messages = () => {
+  const messages = useSelector((state) => state.chat.messages);
+
+  return (
+    <>
+      {messages.map((message) =>
+        message.type === MESSAGE_TYPE.TEXT ? <TileMessage message={message} /> : <TileUserJoined message={message} />,
+      )}
+    </>
   );
 };
 

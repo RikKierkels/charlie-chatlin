@@ -3,23 +3,30 @@ import styled from '@emotion/styled';
 import { AvatarSmall, biscay } from '../../design/shared-styles';
 import { getAvatarById } from '../../shared/avatars';
 import Tile from '../Tile';
+import { useSelector } from 'react-redux';
 
-const toUserListItem = (user) => {
-  const avatar = getAvatarById(user.avatarId);
+const TileUserList = () => {
+  const users = useSelector((state) => state.chat.users);
 
   return (
-    <UserListItem key={user.username}>
-      <Username>{user.username}</Username>
-      <Avatar src={avatar.image} alt={avatar.name} />
-    </UserListItem>
+    <Tile appearance={biscay}>
+      <UserList>
+        {users.map((user) => (
+          <UserListItem user={user} />
+        ))}
+      </UserList>
+    </Tile>
   );
 };
 
-const TileUserList = ({ users }) => {
+const UserListItem = ({ user }) => {
+  const avatar = getAvatarById(user.avatarId);
+
   return (
-    <Tile appearance={biscay}>
-      <UserList>{users.map(toUserListItem)}</UserList>
-    </Tile>
+    <UserContainer key={user.username}>
+      <Username>{user.username}</Username>
+      <Avatar src={avatar.image} alt={avatar.name} />
+    </UserContainer>
   );
 };
 
@@ -31,7 +38,7 @@ const UserList = styled.ul`
   }
 `;
 
-const UserListItem = styled.li`
+const UserContainer = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;

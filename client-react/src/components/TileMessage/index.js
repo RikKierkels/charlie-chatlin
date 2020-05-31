@@ -1,25 +1,29 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { formatMessageTime } from '../../shared/utils';
-import { getAvatarById } from '../../shared/avatars';
-import { AvatarSmall, StyledText } from '../../design/shared-styles';
+import {getAvatarById} from '../../shared/avatars';
+import {AvatarSmall, StyledText} from '../../design/shared-styles';
 import Tile from '../Tile';
 
-const TileMessage = ({ message }) => {
-  const avatar = getAvatarById(message.sender.avatarId);
+const formatDate = (dateISO) => {
+    const date = new Date(dateISO);
+    return `${date.getHours()}:${date.getMinutes()}`;
+};
 
-  return (
-    <Tile>
-      <MessageDetailsWrapper>
-        <Avatar src={avatar.image} alt={avatar.name} />
-        <div>
-          <Username>{message.sender.username}</Username>
-          <SentOnTime>{formatMessageTime(message.sentOn)}</SentOnTime>
-        </div>
-      </MessageDetailsWrapper>
-      <StyledText>{message.text}</StyledText>
-    </Tile>
-  );
+const TileMessage = ({message}) => {
+    const avatar = getAvatarById(message.sender.avatarId);
+
+    return (
+        <Tile>
+            <MessageDetailsWrapper>
+                <Avatar src={avatar.image} alt={avatar.name}/>
+                <div>
+                    <Username>{message.sender.username}</Username>
+                    <SentOnTime>{formatDate(message.sentOn)}</SentOnTime>
+                </div>
+            </MessageDetailsWrapper>
+            <StyledText>{message.text}</StyledText>
+        </Tile>
+    );
 };
 
 export default TileMessage;
@@ -27,11 +31,11 @@ export default TileMessage;
 const MessageDetailsWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({theme}) => theme.spacing.sm};
 `;
 
 const Avatar = styled(AvatarSmall)`
-  margin-right: ${({ theme }) => theme.spacing.sm};
+  margin-right: ${({theme}) => theme.spacing.sm};
 `;
 
 const Username = styled.p`
