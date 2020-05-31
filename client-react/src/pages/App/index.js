@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Chat from '../../pages/Chat';
-import Register from '../../pages/Register';
+import Chat from '../Chat';
+import Register from '../Register';
 
 const App = () => {
   const isRegistered = useSelector((state) => !!state.user.username);
