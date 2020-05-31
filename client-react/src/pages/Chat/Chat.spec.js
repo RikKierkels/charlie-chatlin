@@ -9,8 +9,8 @@ import Chat from './index';
 
 jest.mock('../../shared/chat');
 
-const messageTextArea = () => screen.getByLabelText('');
-const submitButton = () => screen.getByRole('button', { name: '' });
+const messageTextArea = () => screen.getByLabelText(/message/i);
+const submitButton = () => screen.getByRole('button', { name: /send/i });
 
 test('renders different types of messages', () => {
   const messages = [
