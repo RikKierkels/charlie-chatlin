@@ -4,10 +4,10 @@ import { renderWithThemeAndRedux } from '../../test-utils';
 import TileUserProfile from './index';
 import { createStore } from '../../store/store';
 
-test('shows the registered users username', () => {
-  const store = createStore({ user: { username: 'L33tK1ll4r', avatarId: 'cat-one' } });
+test('renders the users username', () => {
+  const store = createStore({ user: { username: 'Tabs', avatarId: 'doge' } });
 
   renderWithThemeAndRedux(<TileUserProfile />, store);
 
-  expect(screen.getByText('L33tK1ll4r')).toBeInTheDocument();
+  expect(screen.getByText(/tabs/i)).toBeInTheDocument();
 });

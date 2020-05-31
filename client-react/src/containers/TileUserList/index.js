@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { AvatarSmall, biscay } from '../../design/shared-styles';
 import { getAvatarById } from '../../shared/avatars';
-import Tile from '../Tile';
+import Tile from '../../components/Tile';
 import { useSelector } from 'react-redux';
+import chat from '../../shared/chat';
 
 const TileUserList = () => {
   const users = useSelector((state) => state.chat.users);
+
+  useEffect(() => {
+    chat.getUsers();
+  }, []);
 
   return (
     <Tile appearance={biscay}>
       <UserList>
         {users.map((user) => (
-          <UserListItem user={user} />
+          <UserListItem key={user.username} user={user} />
         ))}
       </UserList>
     </Tile>
@@ -23,7 +28,7 @@ const UserListItem = ({ user }) => {
   const avatar = getAvatarById(user.avatarId);
 
   return (
-    <UserContainer key={user.username}>
+    <UserContainer>
       <Username>{user.username}</Username>
       <Avatar src={avatar.image} alt={avatar.name} />
     </UserContainer>

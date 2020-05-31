@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Grid from '../../components/Grid';
 import breakpointCols from '../../design/breakpoint-columns';
-import TileUserProfile from '../../components/TileUserProfile';
-import TileUserList from '../../components/TileUserList';
-import chat from '../../shared/chat';
+import TileUserProfile from '../../containers/TileUserProfile';
+import TileUserList from '../../containers/TileUserList';
 import { useSelector } from 'react-redux';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 import TileMessage from '../../components/TileMessage';
@@ -11,15 +10,20 @@ import TileUserJoined from '../../components/TileUserJoined';
 import { StyledInput } from '../../design/shared-styles';
 
 const Chat = () => {
-  useEffect(() => {
-    chat.getUsers();
-  }, []);
+  // State can't be co-located because messages need to be in the root of the grid.
+  const messages = useSelector((state) => state.chat.messages);
 
   return (
     <Grid breakpointCols={breakpointCols}>
       <TileUserProfile />
       <TileUserList />
-      <Messages />
+      {messages.map((message) =>
+        message.type === MESSAGE_TYPE.TEXT ? (
+          <TileMessage key={message.id} message={message} />
+        ) : (
+          <TileUserJoined key={message.id} message={message} />
+        ),
+      )}
       <>
         <span>I am chat.</span>
         <StyledInput
@@ -32,18 +36,6 @@ const Chat = () => {
         />
       </>
     </Grid>
-  );
-};
-
-const Messages = () => {
-  const messages = useSelector((state) => state.chat.messages);
-
-  return (
-    <>
-      {messages.map((message) =>
-        message.type === MESSAGE_TYPE.TEXT ? <TileMessage message={message} /> : <TileUserJoined message={message} />,
-      )}
-    </>
   );
 };
 

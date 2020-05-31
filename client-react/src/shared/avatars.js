@@ -1,12 +1,12 @@
 import DogeImg from '../assets/images/doge.png';
 import YellingWomanImg from '../assets/images/yelling-woman.png';
 import CatOneImg from '../assets/images/cat-one.png';
-import DistactedBoyFriendOneImg from '../assets/images/distracted-boyfriend-one.png';
-import DistactedBoyFriendTwoImg from '../assets/images/distracted-boyfriend-two.png';
+import DistractedBoyFriendOneImg from '../assets/images/distracted-boyfriend-one.png';
+import DistractedBoyFriendTwoImg from '../assets/images/distracted-boyfriend-two.png';
 import DrakePostingOneImg from '../assets/images/drakeposting-one.png';
 import DrakePostingTwoImg from '../assets/images/drakeposting-two.png';
 import RollSafeOneImg from '../assets/images/roll-safe-one.png';
-import AncientAliansImg from '../assets/images/ancient-aliens.png';
+import AncientAliensImg from '../assets/images/ancient-aliens.png';
 import FryImg from '../assets/images/fry.png';
 import GoodGuyGregImg from '../assets/images/good-guy-greg.png';
 import ScumbagSteveImg from '../assets/images/scumbag-steve.png';
@@ -34,12 +34,12 @@ const avatars = [
   {
     id: 'distracted-boyfriend-one',
     name: 'Distracted Boyfriend',
-    image: DistactedBoyFriendOneImg,
+    image: DistractedBoyFriendOneImg,
   },
   {
     id: 'distracted-boyfriend-two',
     name: "Distracted Boyfriend's Girlfriend",
-    image: DistactedBoyFriendTwoImg,
+    image: DistractedBoyFriendTwoImg,
   },
   {
     id: 'drakeposting-one',
@@ -59,7 +59,7 @@ const avatars = [
   {
     id: 'ancient-aliens',
     name: 'Ancient Aliens Guy',
-    image: AncientAliansImg,
+    image: AncientAliensImg,
   },
   {
     id: 'fry',
@@ -118,7 +118,5 @@ const avatars = [
   },
 ];
 
-const getAvatarById = (id) => avatars.find((avatar) => avatar.id === id);
-
-export { getAvatarById };
+export const getAvatarById = (id) => avatars.find((avatar) => avatar.id === id);
 export default avatars;

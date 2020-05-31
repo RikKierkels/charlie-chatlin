@@ -27,7 +27,6 @@
     "history": "^4.10.1",
     "jest-emotion": "^10.0.32",
     "jest-environment-jsdom-sixteen": "^1.0.3",
-    "mock-socket": "https://github.com/RikKierkels/mock-socket",
     "prettier": "^2.0.5",
     "react-app-rewired": "^2.1.5"
   },
