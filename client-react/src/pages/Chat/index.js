@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import Grid from '../../components/Grid';
 import breakpointCols from '../../design/breakpoint-columns';
-import TileUserProfile from '../../components/TileUserProfile';
-import TileUserList from '../../components/TileUserList';
+import TileUserProfile from '../../containers/TileUserProfile';
+import TileUserList from '../../containers/TileUserList';
 import chat from '../../shared/chat';
 import { useSelector } from 'react-redux';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';

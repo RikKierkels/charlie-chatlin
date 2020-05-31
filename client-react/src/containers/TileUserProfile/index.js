@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Tile from '../Tile';
+import Tile from '../../components/Tile';
 import { getAvatarById } from '../../shared/avatars';
 import { StyledText, transparent } from '../../design/shared-styles';
 import { useSelector } from 'react-redux';
