@@ -9,7 +9,13 @@ const TileMessageForm = ({ onSubmit }) => {
     onSubmit(message);
   };
 
-  return <Tile appearance={violet}></Tile>;
+  return (
+    <Tile appearance={violet}>
+      <form action="">
+        <textarea name="" id="" rows="5" />
+      </form>
+    </Tile>
+  );
 };
 
 export default TileMessageForm;
