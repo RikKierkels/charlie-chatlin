@@ -15,11 +15,7 @@ const TileUserList = () => {
 
   return (
     <Tile appearance={biscay}>
-      <UserList>
-        {users.map((user) => (
-          <UserListItem key={user.username} user={user} />
-        ))}
-      </UserList>
+      <UserList>{users && users.map((user) => <UserListItem key={user.username} user={user} />)}</UserList>
     </Tile>
   );
 };

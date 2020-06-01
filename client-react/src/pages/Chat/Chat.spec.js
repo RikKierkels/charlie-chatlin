@@ -9,10 +9,11 @@ import Chat from './index';
 
 jest.mock('../../shared/chat');
 
+const user = { username: 'Tabs', avatarId: 'doge' };
 const messageTextArea = () => screen.getByLabelText(/message/i);
 const submitButton = () => screen.getByRole('button', { name: /send/i });
 
-xtest('renders different types of messages', () => {
+test('renders different types of messages', () => {
   const messages = [
     {
       id: '1',
@@ -36,16 +37,16 @@ xtest('renders different types of messages', () => {
       sender: { username: 'Darrow', avatarId: 'yelling-woman' },
     },
   ];
-  const store = createStore({ chat: messages });
+  const store = createStore({ chat: { messages }, user });
 
   renderWithThemeAndRedux(<Chat />, store);
 
   messages.forEach((message) => expect(screen.getByText(message.text)).toBeInTheDocument());
 });
 
-xtest('can send a new message', async () => {
+test('can send a new message', async () => {
   const messageText = 'Hey guys!';
-  renderWithThemeAndRedux(<Chat />);
+  renderWithThemeAndRedux(<Chat />, createStore({ user }));
 
   await userEvent.type(messageTextArea(), messageText);
   userEvent.click(submitButton());
@@ -54,8 +55,8 @@ xtest('can send a new message', async () => {
   expect(chat.sendMessage).toHaveBeenCalledWith(messageText);
 });
 
-xtest('cannot send message when the message is empty', async () => {
-  renderWithThemeAndRedux(<Chat />);
+test('cannot send message when the message is empty', async () => {
+  renderWithThemeAndRedux(<Chat />, createStore({ user }));
 
   await userEvent.type(messageTextArea(), '');
   userEvent.click(submitButton());

@@ -8,10 +8,6 @@ import avatars from '../../shared/avatars';
 
 jest.mock('../../shared/chat.js');
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 const usernameInput = () => screen.getByLabelText(/username/i);
 const registerButton = () => screen.getByRole('button', { name: /register/i });
 const avatar = () => screen.getByRole('button', { name: /doge/i });
