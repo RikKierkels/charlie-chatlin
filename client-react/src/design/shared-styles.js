@@ -30,12 +30,10 @@ export const StyledButton = styled.button`
   color: inherit;
 `;
 
-export const StyledInput = styled.input`
-  border: 0;
+const StyledControl = css`
   outline: none;
   font-size: 1.3rem;
   background-color: inherit;
-  color: inherit;
 
   ::placeholder {
     color: inherit;
@@ -47,6 +45,16 @@ export const StyledInput = styled.input`
   ::-ms-input-placeholder {
     color: inherit;
   }
+`;
+
+export const StyledInput = styled.input`
+  ${StyledControl};
+  color: inherit;
+`;
+export const StyledTextarea = styled.textarea`
+  ${StyledControl};
+  color: ${({ theme }) => theme.color.cyan};
+  resize: none;
 `;
 
 export const transparent = css`
@@ -80,6 +88,6 @@ export const lima = ({ theme }) => css`
 `;
 
 export const violet = ({ theme }) => css`
-  background-color: ${theme.color.electricViolet};
+  background-color: ${theme.color.electricVioletDark};
   color: ${theme.color.white};
 `;

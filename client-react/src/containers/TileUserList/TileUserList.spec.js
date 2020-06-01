@@ -5,6 +5,8 @@ import { createStore } from '../../store/store';
 import TileUserList from './index';
 import avatars from '../../shared/avatars';
 
+jest.mock('../../shared/chat');
+
 test('renders a list of users', () => {
   const users = [
     { username: 'Tabs', avatarId: avatars[0].id },

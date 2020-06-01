@@ -12,7 +12,7 @@ jest.mock('../../shared/chat');
 const messageTextArea = () => screen.getByLabelText(/message/i);
 const submitButton = () => screen.getByRole('button', { name: /send/i });
 
-test('renders different types of messages', () => {
+xtest('renders different types of messages', () => {
   const messages = [
     {
       id: '1',
@@ -43,7 +43,7 @@ test('renders different types of messages', () => {
   messages.forEach((message) => expect(screen.getByText(message.text)).toBeInTheDocument());
 });
 
-test('can send a new message', async () => {
+xtest('can send a new message', async () => {
   const messageText = 'Hey guys!';
   renderWithThemeAndRedux(<Chat />);
 
@@ -54,7 +54,7 @@ test('can send a new message', async () => {
   expect(chat.sendMessage).toHaveBeenCalledWith(messageText);
 });
 
-test('cannot send message when the message is empty', async () => {
+xtest('cannot send message when the message is empty', async () => {
   renderWithThemeAndRedux(<Chat />);
 
   await userEvent.type(messageTextArea(), '');

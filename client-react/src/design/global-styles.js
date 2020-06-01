@@ -12,11 +12,13 @@ export const GlobalStyle = withTheme(({ theme }) => (
 
       html,
       input,
+      textarea,
       button {
         font-family: 'Fira Sans', 'Helvetica Neue', sans-serif;
       }
 
       input,
+      textarea,
       button {
         margin: 0;
         padding: 0;
