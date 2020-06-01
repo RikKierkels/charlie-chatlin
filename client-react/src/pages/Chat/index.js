@@ -7,11 +7,13 @@ import { useSelector } from 'react-redux';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 import TileMessage from '../../components/TileMessage';
 import TileUserJoined from '../../components/TileUserJoined';
-import { StyledInput } from '../../design/shared-styles';
+import TileFormMessage from '../../components/TileFormMessage';
+import chat from '../../shared/chat';
 
 const Chat = () => {
   // State can't be co-located because messages need to be in the root of the grid.
   const messages = useSelector((state) => state.chat.messages);
+  const handleSubmit = (message) => message && chat.sendMessage(message);
 
   return (
     <Grid breakpointCols={breakpointCols}>
@@ -24,17 +26,7 @@ const Chat = () => {
           <TileUserJoined key={message.id} message={message} />
         ),
       )}
-      <>
-        <span>I am chat.</span>
-        <StyledInput
-          type="text"
-          required
-          placeholder="Your message"
-          aria-label="message"
-          value={''}
-          onChange={() => {}}
-        />
-      </>
+      <TileFormMessage onSubmit={handleSubmit} />
     </Grid>
   );
 };
