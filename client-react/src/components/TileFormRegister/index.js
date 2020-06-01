@@ -8,7 +8,7 @@ const TileFormRegister = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
 
   return (
-    <TileForm appearance={lima} onSubmit={() => onSubmit(username)}>
+    <TileForm appearance={lima} onSubmit={() => onSubmit(username.trim())}>
       <StyledInput
         type="text"
         required

@@ -5,10 +5,20 @@ import TileFormMessage from './index';
 import userEvent from '@testing-library/user-event';
 
 const textarea = () => screen.getByLabelText(/message/i);
+const submitButton = () => screen.getByRole('button', { name: /send/i });
 
 test('should focus the textarea', async () => {
   renderWithTheme(<TileFormMessage onSubmit={() => {}} />);
   expect(textarea()).toHaveFocus();
+});
+
+test('trims the message before submitting it', async () => {
+  const onSubmitSpy = jest.fn();
+  renderWithTheme(<TileFormMessage onSubmit={onSubmitSpy} />);
+
+  await userEvent.type(textarea(), "     I've got some whitespace     ");
+  userEvent.click(submitButton());
+  expect(onSubmitSpy).toHaveBeenCalledWith("I've got some whitespace");
 });
 
 test('submits the form when the enter key is pressed', async () => {

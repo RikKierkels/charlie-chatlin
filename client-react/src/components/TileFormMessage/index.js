@@ -7,14 +7,15 @@ import { ReactComponent as SendIcon } from '../../assets/icons/paper-plane.svg';
 const TileFormMessage = ({ onSubmit }) => {
   const [message, setMessage] = useState('');
 
+  const handleSubmit = () => onSubmit(message.trim());
   const handleKeyDown = (event) => {
     if (event.key !== 'Enter' || event.shiftKey) return;
     event.preventDefault();
-    onSubmit(message);
+    handleSubmit();
   };
 
   return (
-    <TileForm appearance={violet} onSubmit={() => onSubmit(message)}>
+    <TileForm appearance={violet} onSubmit={handleSubmit}>
       <StyledTextarea
         rows={5}
         required
