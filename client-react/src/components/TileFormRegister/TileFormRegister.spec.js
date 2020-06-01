@@ -11,11 +11,11 @@ test('should focus the input', () => {
   expect(username()).toHaveFocus();
 });
 
-test('should trim the username before submitting it', () => {
+test('should trim the username before submitting it', async () => {
   const onSubmitSpy = jest.fn();
   renderWithTheme(<TileFormRegister onSubmit={onSubmitSpy} />);
 
-  userEvent.type(username(), '     Tabs      ');
+  await userEvent.type(username(), '     Tabs      ');
   userEvent.click(screen.getByRole('button', { name: /register/i }));
 
   expect(onSubmitSpy).toHaveBeenCalledWith('Tabs');

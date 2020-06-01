@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 const textarea = () => screen.getByLabelText(/message/i);
 const submitButton = () => screen.getByRole('button', { name: /send/i });
 
-test('should focus the textarea', async () => {
+test('should focus the textarea', () => {
   renderWithTheme(<TileFormMessage onSubmit={() => {}} />);
   expect(textarea()).toHaveFocus();
 });
