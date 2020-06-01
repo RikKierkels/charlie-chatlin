@@ -19,14 +19,13 @@ const Chat = () => {
     <Grid breakpointCols={breakpointCols}>
       <TileUserProfile />
       <TileUserList />
-      {messages &&
-        messages.map((message) =>
-          message.type === MESSAGE_TYPE.TEXT ? (
-            <TileMessage key={message.id} message={message} />
-          ) : (
-            <TileUserJoined key={message.id} message={message} />
-          ),
-        )}
+      {messages.map((message) =>
+        message.type === MESSAGE_TYPE.TEXT ? (
+          <TileMessage key={message.id} message={message} />
+        ) : (
+          <TileUserJoined key={message.id} message={message} />
+        ),
+      )}
       <TileFormMessage onSubmit={handleSubmit} />
     </Grid>
   );

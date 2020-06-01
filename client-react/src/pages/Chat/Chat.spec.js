@@ -37,7 +37,7 @@ test('renders different types of messages', () => {
       sender: { username: 'Darrow', avatarId: 'yelling-woman' },
     },
   ];
-  const store = createStore({ chat: { messages }, user });
+  const store = createStore({ chat: { messages, users: [] }, user });
 
   renderWithThemeAndRedux(<Chat />, store);
 
