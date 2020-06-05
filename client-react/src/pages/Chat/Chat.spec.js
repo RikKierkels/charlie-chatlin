@@ -8,6 +8,11 @@ import { renderWithThemeAndRedux } from '../../test-utils';
 import Chat from './index';
 
 jest.mock('../../shared/chat');
+fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ data: {} }),
+  }),
+);
 
 const user = { username: 'Tabs', avatarId: 'doge' };
 const messageTextArea = () => screen.getByLabelText(/message/i);

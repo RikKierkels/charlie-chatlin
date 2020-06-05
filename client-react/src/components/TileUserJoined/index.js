@@ -1,24 +1,36 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Tile from '../Tile';
+import useGiphy from './useGiphy';
+import { StyledTitle } from '../../design/shared-styles';
 
 const TileUserJoined = ({ message }) => {
-  const fetchGif = useCallback(async () => {
-    const url = new URL('https://api.giphy.com/v1/gifs/random');
-    url.searchParams.append('api_key', process.env.REACT_APP_GIPHY_API_KEY);
-    url.searchParams.append('tag', 'applause');
+  const gif = useGiphy({ tag: 'applause' });
+  console.log(gif);
 
-    const data = await fetch(url);
-    console.log(data);
-  }, []);
-
-  useEffect(() => fetchGif, [fetchGif]);
-
-  return <StyledTile>{message.text}</StyledTile>;
+  return (
+    <StyledTile gif={gif}>
+      <StyledText>{message.text}</StyledText>
+    </StyledTile>
+  );
 };
 
-export default TileUserJoined;
+TileUserJoined.propTypes = { message: PropTypes.object.isRequired };
+
+export default memo(TileUserJoined);
 
 const StyledTile = styled(Tile)`
-  position: absolute;
+  display: flex;
+  align-items: center;
+  min-height: 200px;
+  background-color: transparent;
+  background-image: ${({ gif }) => `url("${gif}")`};
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const StyledText = styled(StyledTitle)`
+  font-size: 1.3rem;
+  text-align: center;
 `;

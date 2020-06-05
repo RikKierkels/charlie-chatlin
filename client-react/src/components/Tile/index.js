@@ -5,9 +5,9 @@ import { random } from '../../shared/utils';
 
 const randomAppearance = () => random([biscay, chocolate, sapphire, cyan]);
 
-const Tile = ({ hasPadding = true, appearance = randomAppearance(), children }) => {
+const Tile = ({ hasPadding = true, appearance = randomAppearance(), children, className }) => {
   return (
-    <StyledTile hasPadding={hasPadding} appearance={appearance}>
+    <StyledTile hasPadding={hasPadding} appearance={appearance} className={className}>
       {children}
     </StyledTile>
   );
