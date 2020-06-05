@@ -24,7 +24,6 @@
     "customize-cra": "^0.9.1",
     "customize-cra-react-refresh": "^1.0.1",
     "eslint-config-prettier": "^6.11.0",
-    "faker": "^4.1.0",
     "history": "^4.10.1",
     "jest-emotion": "^10.0.32",
     "jest-environment-jsdom-sixteen": "^1.0.3",
