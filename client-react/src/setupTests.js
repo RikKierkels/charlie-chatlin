@@ -1,7 +1,6 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
+
 import '@testing-library/jest-dom/extend-expect';
 import { matchers } from 'jest-emotion';
 expect.extend(matchers);
@@ -9,3 +8,6 @@ expect.extend(matchers);
 beforeEach(() => {
   jest.clearAllMocks();
 });
+
+process.env.REACT_APP_GIPHY_API_URL = 'api';
+process.env.REACT_APP_GIPHY_API_KEY = 'key';

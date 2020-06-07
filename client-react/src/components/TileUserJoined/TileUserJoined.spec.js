@@ -3,22 +3,20 @@ import { screen, waitFor } from '@testing-library/dom';
 import { renderWithTheme } from '../../test-utils';
 import TileUserJoined from './index';
 
-test('renders the message text', () => {
+test('has message text', () => {
   const text = 'Tabs has joined the room!';
+  fetch.mockResponse(JSON.stringify({ data: {} }));
+
   renderWithTheme(<TileUserJoined message={{ text }} />);
 
   expect(screen.getByText(text)).toBeInTheDocument();
 });
 
-test('shows a gif as the background image', async () => {
-  const gif = 'http://mock.giphy.com/tabs.gif';
-  window.fetch = jest.fn(() =>
-    Promise.resolve({
-      json: () => Promise.resolve({ data: { images: { ['downsized_medium']: gif } } }),
-    }),
-  );
+test('has a gif as background', async () => {
+  const gif = 'https://www.giphy.com/applause.gif';
+  fetch.mockResponse(JSON.stringify({ data: { images: { ['downsized_medium']: { url: gif } } } }));
 
-  const { container } = renderWithTheme(<TileUserJoined message={{ text: 'Tabs has joined the room!' }} />);
+  const { container } = renderWithTheme(<TileUserJoined message={{ text: '' }} />);
 
-  expect(container.firstElementChild).toHaveStyleRule('background-image', `url("${gif}")`);
+  await waitFor(() => expect(container.firstElementChild).toHaveStyleRule('background-image', `url("${gif}")`));
 });

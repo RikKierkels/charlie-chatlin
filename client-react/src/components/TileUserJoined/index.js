@@ -6,8 +6,11 @@ import useGiphy from './useGiphy';
 import { StyledTitle } from '../../design/shared-styles';
 
 const TileUserJoined = ({ message }) => {
-  const gif = useGiphy({ tag: 'applause' });
-  console.log(gif);
+  const { gif } = useGiphy({
+    tag: 'applause',
+    key: process.env.REACT_APP_GIPHY_API_KEY,
+    url: process.env.REACT_APP_GIPHY_API_URL,
+  });
 
   return (
     <StyledTile gif={gif}>
