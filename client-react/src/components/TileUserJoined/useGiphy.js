@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
 const useGiphy = ({ tag, key, url }) => {
-  if (!tag) throw new Error('You need to provide a giphy tag.');
-  if (!key) throw new Error('You need to provide a giphy api key.');
-  if (!url) throw new Error('You need to provide a giphy url.');
+  if (!tag) throw Error('No giphy tag provided.');
+  if (!key) throw Error('No API key provided.');
+  if (!url) throw Error('No API url provided.');
 
   const [gif, setGif] = useState('');
 
