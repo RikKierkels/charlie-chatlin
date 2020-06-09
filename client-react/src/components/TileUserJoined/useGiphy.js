@@ -1,16 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useGiphy = ({ tag, key, url }) => {
-  if (!tag) throw Error('No giphy tag provided.');
-  if (!key) throw Error('No API key provided.');
-  if (!url) throw Error('No API url provided.');
+const throwIfNotProvided = (property) => throw new Error(`No ${property} provided.`);
 
+const useGiphy = ({
+  tag = throwIfNotProvided('tag'),
+  key = throwIfNotProvided('API key'),
+  url = throwIfNotProvided('API url'),
+}) => {
   const [gif, setGif] = useState('');
 
   const fetchGif = useCallback(async () => {
-    const { data } = await fetch(`${url}?tag=${tag}&api_key=${key}`).then((response) => response.json());
-    const gifUrl = data?.images?.['downsized_medium']?.url;
-    setGif(gifUrl || '');
+    const gif = await fetch(`${url}?tag=${tag}&api_key=${key}`)
+      .catch()
+      .then(
+        (response) => response.json(),
+        () => ({ data: null }),
+      )
+      .then(({ data }) => data?.images?.['downsized_medium']?.url);
+
+    setGif(gif || '');
   }, [tag, url, key]);
 
   useEffect(() => {
