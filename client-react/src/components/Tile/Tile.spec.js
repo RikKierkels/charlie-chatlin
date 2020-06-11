@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { renderWithTheme } from '../../test-utils';
+import { renderWithTheme } from '../../test/test-utils';
 import Tile from './index';
 
 test('sets the provided appearance', () => {

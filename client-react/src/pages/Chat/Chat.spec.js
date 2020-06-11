@@ -4,19 +4,16 @@ import userEvent from '@testing-library/user-event';
 import chat from '../../shared/chat';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 import { createStore } from '../../store/store';
-import { renderWithThemeAndRedux } from '../../test-utils';
+import { renderWithThemeAndRedux } from '../../test/test-utils';
 import Chat from './index';
 
 jest.mock('../../shared/chat');
-beforeEach(() => {
-  fetch.mockResponseOnce(JSON.stringify({ data: {} }));
-});
 
 const user = { username: 'Tabs', avatarId: 'doge' };
 const messageTextArea = () => screen.getByLabelText(/message/i);
 const submitButton = () => screen.getByRole('button', { name: /send/i });
 
-test('renders different types of messages', () => {
+test('renders different types of messages', async () => {
   const messages = [
     {
       id: '1',
@@ -44,7 +41,9 @@ test('renders different types of messages', () => {
 
   renderWithThemeAndRedux(<Chat />, store);
 
-  messages.forEach((message) => expect(screen.getByText(message.text)).toBeInTheDocument());
+  for (const { text } of messages) {
+    expect(await screen.findByText(text)).toBeInTheDocument();
+  }
 });
 
 test('can send a new message', async () => {
