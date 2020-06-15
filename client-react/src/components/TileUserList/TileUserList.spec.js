@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderWithThemeAndRedux } from '../../test/test-utils';
+import { renderWithThemeAndRedux } from '../../test/utils';
 import { createStore } from '../../store/store';
 import TileUserList from './index';
 import avatars from '../../shared/avatars';

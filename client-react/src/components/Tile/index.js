@@ -16,7 +16,7 @@ const Tile = ({ appearance = randomAppearance(), children, className, hasPadding
 
 Tile.propTypes = {
   appearance: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
   hasPadding: PropTypes.bool,
 };

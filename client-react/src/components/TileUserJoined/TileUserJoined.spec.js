@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/dom';
-import { renderWithTheme } from '../../test/test-utils';
+import { renderWithTheme } from '../../test/utils';
 import TileUserJoined from './index';
 
 test('has message text', () => {

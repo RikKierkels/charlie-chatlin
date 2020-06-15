@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithTheme } from '../../test/test-utils';
+import { renderWithTheme } from '../../test/utils';
 import TileFormMessage from './index';
 import userEvent from '@testing-library/user-event';
 

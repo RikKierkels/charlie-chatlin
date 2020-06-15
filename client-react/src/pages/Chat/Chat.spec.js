@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import chat from '../../shared/chat';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 import { createStore } from '../../store/store';
-import { renderWithThemeAndRedux } from '../../test/test-utils';
+import { renderWithThemeAndRedux } from '../../test/utils';
 import Chat from './index';
 
 jest.mock('../../shared/chat');

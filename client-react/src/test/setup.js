@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { matchers } from 'jest-emotion';
-import { server } from './test/server';
+import { server } from './server';
 expect.extend(matchers);
 
 process.env.REACT_APP_GIPHY_API_URL = 'https://api.giphy.com/v1/gifs/random';

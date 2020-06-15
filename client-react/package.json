@@ -1,7 +1,7 @@
 {
   "name": "client-react",
-  "version": "0.1.0",
-  "private": true,
+  "description": "Chat application for the Mediaan Masterclass.",
+  "version": "1.0.0",
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
@@ -49,6 +49,9 @@
       "jsx-a11y"
     ]
   },
+  "jest": {
+    "setupFilesAfterEnv": ["./src/test/setup"]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -60,5 +63,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "contributors": [
+    {
+      "name": "Rik Kierkels"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RikKierkels/charlie-chatlin"
+  },
+  "bugs": {
+    "url": "https://github.com/RikKierkels/charlie-chatlin/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/RikKierkels/charlie-chatlin"
 }
