@@ -12,7 +12,6 @@ export const StyledText = styled.p`
   font-size: 1.3em;
   font-weight: 500;
   line-height: 1.2em;
-  word-break: break-all;
 `;
 
 export const AvatarSmall = styled.img`
