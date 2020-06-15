@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const TileUserProfile = () => {
   const isConnected = useSelector((state) => state.chat.isConnected);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.chat.user);
   const avatar = getAvatarById(user.avatarId);
 
   return (

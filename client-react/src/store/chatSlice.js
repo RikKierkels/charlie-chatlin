@@ -1,37 +1,47 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  user: null,
+  isConnected: false,
+  users: [],
+  messages: [],
+};
+
 const chatSlice = createSlice({
   name: 'chat',
-  initialState: {
-    isConnected: false,
-    users: [],
-    messages: [],
-  },
-  // TODO: Check naming convention actions
+  initialState,
   reducers: {
-    setIsConnected: (state, action) => {
-      state.isConnected = action.payload;
-    },
-    setUsers: (state, action) => {
+    activeUsersRetrieved: (state, action) => {
       state.users = action.payload;
     },
-    addUser: (state, action) => {
+    connectivityChanged: (state, action) => {
+      state.isConnected = action.payload;
+    },
+    messageReceived: (state, action) => {
+      state.messages = [...state.messages, action.payload];
+    },
+    userJoined: (state, action) => {
       const newUser = action.payload;
       if (state.users.some((user) => user.username === newUser.username)) return;
       state.users = [...state.users, newUser];
     },
-    removeUser: (state, action) => {
+    userLeft: (state, action) => {
       state.users = state.users.filter((user) => user.username !== action.payload.username);
     },
-    setMessages: (state, action) => {
-      state.messages = action.payload;
-    },
-    addMessage: (state, action) => {
-      state.messages = [...state.messages, action.payload];
+    userRegistered: (state, action) => {
+      state.messages = action.payload.messages;
+      state.user = action.payload.user;
     },
   },
 });
 
-export const { setIsConnected, setUsers, removeUser, addUser, setMessages, addMessage } = chatSlice.actions;
+export const {
+  connectivityChanged,
+  activeUsersRetrieved,
+  userJoined,
+  userLeft,
+  userRegistered,
+  messageReceived,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

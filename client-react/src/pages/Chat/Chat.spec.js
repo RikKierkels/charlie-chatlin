@@ -37,9 +37,8 @@ test('renders different types of messages', async () => {
       sender: { username: 'Darrow', avatarId: 'yelling-woman' },
     },
   ];
-  const store = createStore({ chat: { messages, users: [] }, user });
 
-  renderWithThemeAndRedux(<Chat />, store);
+  renderWithThemeAndRedux(<Chat />, createStore({ user, messages }));
 
   for (const { text } of messages) {
     expect(await screen.findByText(text)).toBeInTheDocument();
