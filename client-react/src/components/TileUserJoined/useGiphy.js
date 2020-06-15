@@ -4,11 +4,13 @@ const throwIfNotProvided = (property) => throw new Error(`No ${property} provide
 
 const useGiphy = ({ tag = throwIfNotProvided('tag') }) => {
   const [gif, setGif] = useState('');
+  const controller = new AbortController();
+  const signal = controller.signal;
   const url = process.env.REACT_APP_GIPHY_API_URL;
   const key = process.env.REACT_APP_GIPHY_API_KEY;
 
   const fetchGif = useCallback(async () => {
-    const gif = await fetch(`${url}?tag=${tag}&api_key=${key}`)
+    const gif = await fetch(`${url}?tag=${tag}&api_key=${key}`, { signal })
       .catch()
       .then(
         (response) => response.json(),
@@ -21,6 +23,7 @@ const useGiphy = ({ tag = throwIfNotProvided('tag') }) => {
 
   useEffect(() => {
     fetchGif();
+    return () => controller.abort();
   }, [fetchGif]);
 
   return { fetchGif, gif };
