@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { getAvatarById } from '../../shared/avatars';
 import { AvatarSmall, StyledText } from '../../design/shared-styles';
 import Tile from '../Tile';
@@ -25,6 +26,8 @@ const TileMessage = ({ message }) => {
     </Tile>
   );
 };
+
+TileMessage.propTypes = { message: PropTypes.object.isRequired };
 
 export default TileMessage;
 

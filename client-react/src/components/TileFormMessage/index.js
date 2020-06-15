@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { StyledButton, StyledTextarea, violet } from '../../design/shared-styles';
 import TileForm from '../TileForm';
-import styled from '@emotion/styled';
 import { ReactComponent as SendIcon } from '../../assets/icons/paper-plane.svg';
 
 const TileFormMessage = ({ onSubmit }) => {
@@ -32,6 +33,8 @@ const TileFormMessage = ({ onSubmit }) => {
     </TileForm>
   );
 };
+
+TileFormMessage.propTypes = { onSubmit: PropTypes.func.isRequired };
 
 export default TileFormMessage;
 

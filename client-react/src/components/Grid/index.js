@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-css';
 
 const breakpoints = {
@@ -24,5 +25,7 @@ const Grid = ({ children }) => {
     </Masonry>
   );
 };
+
+Grid.propTypes = { children: PropTypes.node.isRequired };
 
 export default Grid;

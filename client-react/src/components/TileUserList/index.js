@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { AvatarSmall, biscay } from '../../design/shared-styles';
 import { getAvatarById } from '../../shared/avatars';
 import Tile from '../Tile';
@@ -34,6 +35,8 @@ const UserListItem = ({ user }) => {
     </UserContainer>
   );
 };
+
+UserListItem.propTypes = { user: PropTypes.object.isRequired };
 
 export default TileUserList;
 
