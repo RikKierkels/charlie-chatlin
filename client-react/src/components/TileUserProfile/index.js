@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Tile from '../../components/Tile';
+import Tile from '../Tile';
 import { getAvatarById } from '../../shared/avatars';
 import { StyledText, transparent } from '../../design/shared-styles';
 import { useSelector } from 'react-redux';
 
 const TileUserProfile = () => {
   const isConnected = useSelector((state) => state.chat.isConnected);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.chat.user);
   const avatar = getAvatarById(user.avatarId);
 
   return (

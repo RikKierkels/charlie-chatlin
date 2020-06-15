@@ -20,9 +20,7 @@ const color = {
   white: '#fff',
 };
 
-const theme = {
+export default {
   spacing,
   color,
 };
-
-export default theme;

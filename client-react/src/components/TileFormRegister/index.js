@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { ReactComponent as RegisterIcon } from '../../assets/icons/door-open.svg';
 import { lima, StyledButton, StyledInput } from '../../design/shared-styles';
 import TileForm from '../TileForm';
@@ -24,6 +25,8 @@ const TileFormRegister = ({ onSubmit }) => {
     </TileForm>
   );
 };
+
+TileFormRegister.propTypes = { onSubmit: PropTypes.func.isRequired };
 
 export default TileFormRegister;
 

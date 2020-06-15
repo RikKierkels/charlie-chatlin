@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '../../test-utils';
+import { renderWithTheme } from '../../test/utils';
 import TileMessage from './index';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import Grid from '../../components/Grid';
-import breakpointCols from '../../design/breakpoint-columns';
-import TileUserProfile from '../../containers/TileUserProfile';
-import TileUserList from '../../containers/TileUserList';
+import TileUserProfile from '../../components/TileUserProfile';
+import TileUserList from '../../components/TileUserList';
 import { useSelector } from 'react-redux';
 import { MESSAGE_TYPE } from '../../shared/socket-constants';
 import TileMessage from '../../components/TileMessage';
@@ -16,7 +15,7 @@ const Chat = () => {
   const handleSubmit = (message) => message && chat.sendMessage(message);
 
   return (
-    <Grid breakpointCols={breakpointCols}>
+    <Grid>
       <TileUserProfile />
       <TileUserList />
       {messages.map((message) =>
