@@ -6,8 +6,8 @@ import { StyledText, transparent } from '../../design/shared-styles';
 import { useSelector } from 'react-redux';
 
 const TileUserProfile = () => {
-  const user = useSelector((state) => state.user);
   const isConnected = useSelector((state) => state.chat.isConnected);
+  const user = useSelector((state) => state.chat.user);
   const avatar = getAvatarById(user.avatarId);
 
   return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import Tile from '../Tile';
 import { transparent } from '../../design/shared-styles';
 
@@ -16,6 +17,12 @@ const TileAvatar = ({ avatar, isSelected, onSelect }) => {
       />
     </Tile>
   );
+};
+
+TileAvatar.propTypes = {
+  avatar: PropTypes.object.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default TileAvatar;

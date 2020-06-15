@@ -1,11 +1,17 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { createMessage, renderWithTheme } from '../../test-utils';
+import { renderWithTheme } from '../../test/utils';
 import TileMessage from './index';
+import { MESSAGE_TYPE } from '../../shared/socket-constants';
 
 test('renders the message details', () => {
-  const sentOn = new Date(2020, 5, 9, 20, 20);
-  const message = createMessage({ sentOn });
+  const message = {
+    id: '1',
+    text: "I'm a message",
+    type: MESSAGE_TYPE.TEXT,
+    sentOn: new Date(2020, 5, 9, 20, 20),
+    sender: { username: 'Tabs', avatarId: 'doge' },
+  };
 
   renderWithTheme(<TileMessage message={message} />);
 

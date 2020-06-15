@@ -11,7 +11,8 @@ const color = {
   chocolate: '#EA6312',
   conifer: '#82ea3e',
   cyan: '#5CDFF1',
-  electricViolet: '#5600e6',
+  electricVioletLight: '#6000ff',
+  electricVioletDark: '#5600e6',
   lima: '#62d417',
   rose: '#ff0062',
   sapphire: '#2D4897',
@@ -19,9 +20,7 @@ const color = {
   white: '#fff',
 };
 
-const theme = {
+export default {
   spacing,
   color,
 };
-
-export default theme;

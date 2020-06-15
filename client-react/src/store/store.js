@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
 import chatReducer from './chatSlice';
+import { initialState } from './chatSlice';
 
-export const createStore = (initialState = {}) => {
+const merge = (initialState, state) => ({ chat: { ...initialState, ...state } });
+
+export const createStore = (state = {}) => {
   return configureStore({
     reducer: {
-      user: userReducer,
       chat: chatReducer,
     },
-    preloadedState: initialState,
+    preloadedState: merge(initialState, state),
   });
 };
 

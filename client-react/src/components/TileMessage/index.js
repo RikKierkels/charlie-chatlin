@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { formatMessageTime } from '../../shared/utils';
+import PropTypes from 'prop-types';
 import { getAvatarById } from '../../shared/avatars';
 import { AvatarSmall, StyledText } from '../../design/shared-styles';
 import Tile from '../Tile';
+
+const formatDate = (dateISO) => {
+  const date = new Date(dateISO);
+  return `${date.getHours()}:${date.getMinutes()}`;
+};
 
 const TileMessage = ({ message }) => {
   const avatar = getAvatarById(message.sender.avatarId);
@@ -14,13 +19,15 @@ const TileMessage = ({ message }) => {
         <Avatar src={avatar.image} alt={avatar.name} />
         <div>
           <Username>{message.sender.username}</Username>
-          <SentOnTime>{formatMessageTime(message.sentOn)}</SentOnTime>
+          <SentOnTime>{formatDate(message.sentOn)}</SentOnTime>
         </div>
       </MessageDetailsWrapper>
       <StyledText>{message.text}</StyledText>
     </Tile>
   );
 };
+
+TileMessage.propTypes = { message: PropTypes.object.isRequired };
 
 export default TileMessage;
 

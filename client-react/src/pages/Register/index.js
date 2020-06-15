@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import TileAvatar from '../../components/TileAvatar';
-import TileRegisterForm from '../../components/TileRegisterForm';
+import TileFormRegister from '../../components/TileFormRegister';
 import Grid from '../../components/Grid';
-import breakpointColumns from '../../design/breakpoint-columns';
 import avatars from '../../shared/avatars';
 import chat from '../../shared/chat';
 import Logo from '../../assets/images/mediaan-logo.png';
@@ -19,7 +18,7 @@ const Register = () => {
   };
 
   return (
-    <Grid breakpointCols={breakpointColumns}>
+    <Grid>
       <TileImage image={Logo} alt="Mediaan" />
       <Tile appearance={chocolate}>
         <StyledTitle>Charlie Chatlin</StyledTitle>
@@ -38,7 +37,7 @@ const Register = () => {
           onSelect={(id) => setSelectedAvatarId(id)}
         />
       ))}
-      <TileRegisterForm onSubmit={handleSubmit} />
+      <TileFormRegister onSubmit={handleSubmit} />
     </Grid>
   );
 };

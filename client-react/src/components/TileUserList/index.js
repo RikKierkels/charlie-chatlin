@@ -1,27 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { AvatarSmall, biscay } from '../../design/shared-styles';
 import { getAvatarById } from '../../shared/avatars';
 import Tile from '../Tile';
+import { useSelector } from 'react-redux';
+import chat from '../../shared/chat';
 
-const toUserListItem = (user) => {
-  const avatar = getAvatarById(user.avatarId);
+const TileUserList = () => {
+  const users = useSelector((state) => state.chat.users);
 
-  return (
-    <UserListItem key={user.username}>
-      <Username>{user.username}</Username>
-      <Avatar src={avatar.image} alt={avatar.name} />
-    </UserListItem>
-  );
-};
+  useEffect(() => {
+    chat.getUsers();
+  }, []);
 
-const TileUserList = ({ users }) => {
   return (
     <Tile appearance={biscay}>
-      <UserList>{users.map(toUserListItem)}</UserList>
+      <UserList>
+        {users.map((user) => (
+          <UserListItem key={user.username} user={user} />
+        ))}
+      </UserList>
     </Tile>
   );
 };
+
+const UserListItem = ({ user }) => {
+  const avatar = getAvatarById(user.avatarId);
+
+  return (
+    <UserContainer>
+      <Username>{user.username}</Username>
+      <Avatar src={avatar.image} alt={avatar.name} />
+    </UserContainer>
+  );
+};
+
+UserListItem.propTypes = { user: PropTypes.object.isRequired };
 
 export default TileUserList;
 
@@ -31,7 +46,7 @@ const UserList = styled.ul`
   }
 `;
 
-const UserListItem = styled.li`
+const UserContainer = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
