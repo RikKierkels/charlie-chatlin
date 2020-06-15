@@ -11,6 +11,7 @@ import {
 let _socket = null;
 let _store = null;
 const storage = window.localStorage;
+const log = (message) => message && console.log(message);
 
 function connect(socket, store) {
   _socket = socket;
@@ -23,16 +24,11 @@ function connect(socket, store) {
     store.dispatch(connectivityChanged(false));
     socket.io.opts.query = { sessionId: storage.getItem(sessionKey) };
   });
-
   socket.on(SOCKET_EVENT.REGISTER_SUCCESS, ({ user, chatHistory }) => {
     store.dispatch(userRegistered({ user, messages: chatHistory }));
   });
-  socket.on(SOCKET_EVENT.REGISTER_FAILED, (error) => {
-    console.log(error);
-  });
-
+  socket.on(SOCKET_EVENT.REGISTER_FAILED, (error) => log(error));
   socket.on(SOCKET_EVENT.MESSAGE, (message) => store.dispatch(messageReceived(message)));
-
   socket.on(SOCKET_EVENT.USER_JOINED, (user) => store.dispatch(userJoined(user)));
   socket.on(SOCKET_EVENT.USER_LEFT, (user) => store.dispatch(userLeft(user)));
 }
@@ -51,16 +47,14 @@ function getUsers() {
   if (!_socket) throwNoSocketError();
 
   _socket.emit(SOCKET_EVENT.ACTIVE_USERS, null, (error, users) => {
-    _store.dispatch(activeUsersRetrieved(users));
+    error ? log(error) : _store.dispatch(activeUsersRetrieved(users));
   });
 }
 
 function sendMessage(message) {
   if (!_socket) throwNoSocketError();
 
-  _socket.emit(SOCKET_EVENT.MESSAGE, message, (error, _) => {
-    console.log(error);
-  });
+  _socket.emit(SOCKET_EVENT.MESSAGE, message, (error, _) => log(error));
 }
 
 export const sessionKey = 'APP_SESSION_ID';

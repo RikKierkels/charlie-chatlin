@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '../../components/Grid';
-import breakpointCols from '../../design/breakpoint-columns';
 import TileUserProfile from '../../components/TileUserProfile';
 import TileUserList from '../../components/TileUserList';
 import { useSelector } from 'react-redux';
@@ -16,7 +15,7 @@ const Chat = () => {
   const handleSubmit = (message) => message && chat.sendMessage(message);
 
   return (
-    <Grid breakpointCols={breakpointCols}>
+    <Grid>
       <TileUserProfile />
       <TileUserList />
       {messages.map((message) =>
